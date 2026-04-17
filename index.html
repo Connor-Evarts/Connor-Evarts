@@ -392,6 +392,18 @@
       justify-content: center;
       max-width: 82vw;
       max-height: 80vh;
+      position: relative;
+    }
+    .lb-loading {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #e83535;
+      font-size: 0.85rem;
+      letter-spacing: 0.18em;
+      pointer-events: none;
     }
     .lb-media-wrap img, .lb-media-wrap video {
       max-width: 82vw;
@@ -995,14 +1007,22 @@
       const item = lbItems[lbIndex];
       lbMedia.innerHTML = '';
 
+      const loadingEl = document.createElement('div');
+      loadingEl.className = 'lb-loading';
+      loadingEl.textContent = 'LOADING...';
+      lbMedia.appendChild(loadingEl);
+      const removeLoading = () => loadingEl.remove();
+
       if (item.type === 'img') {
         const el = document.createElement('img');
         el.src = item.src;
+        el.addEventListener('load',  removeLoading, { once: true });
+        el.addEventListener('error', removeLoading, { once: true });
         lbMedia.appendChild(el);
       } else if (item.type === 'trio') {
         const wrap = document.createElement('div');
         wrap.className = 'lb-trio';
-        item.srcs.forEach(src => {
+        item.srcs.forEach((src, i) => {
           const el       = document.createElement('video');
           el.src         = src;
           el.muted       = true;
@@ -1010,6 +1030,10 @@
           el.playsinline = true;
           el.style.cursor = 'default';
           el.addEventListener('click', () => el.paused ? el.play() : el.pause());
+          if (i === 0) {
+            el.addEventListener('canplay', removeLoading, { once: true });
+            el.addEventListener('error',   removeLoading, { once: true });
+          }
           wrap.appendChild(el);
         });
         lbMedia.appendChild(wrap);
@@ -1024,6 +1048,8 @@
         el.playsinline = true;
         el.style.cursor = 'default';
         el.addEventListener('click', () => el.paused ? el.play() : el.pause());
+        el.addEventListener('canplay', removeLoading, { once: true });
+        el.addEventListener('error',   removeLoading, { once: true });
         lbMedia.appendChild(el);
       }
 
@@ -1064,6 +1090,11 @@
 
     document.querySelectorAll('.work-item[data-work]').forEach(item => {
       item.addEventListener('click', () => openLightbox(workFiles[item.dataset.work], 0, item.dataset.work));
+    });
+
+    // ── Title card autoplay reliability ─────────────────────────────
+    document.querySelectorAll('.work-item video').forEach(v => {
+      v.addEventListener('canplay', () => v.play().catch(() => {}), { once: true });
     });
 
     // ── BLISS video click to pause/play ─────────────────────────────
