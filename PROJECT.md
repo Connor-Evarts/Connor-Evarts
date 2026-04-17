@@ -1,7 +1,7 @@
 # Connor Andree Evarts — Portfolio Website
 ## Project Notes
 
-Live URL: https://connor-evarts.github.io
+Live URL: https://connor-evarts.github.io/Connor-Evarts/
 GitHub Repo: https://github.com/Connor-Evarts/Connor-Evarts.git
 Local files: /Users/conr/Documents/website/
 
@@ -17,6 +17,7 @@ A single-file art portfolio website (index.html) with:
 - Bloom/glow effect on active text (SVG filter, two-layer: wide halo + mid glow)
 - Scroll-spy navigation (active link updates as you scroll)
 - Default cursor everywhere; pointer only on Email/Instagram; red crosshair on profile photo
+- LOADING... overlay (animated cycling dots, desynced) on title card videos and lightbox media
 
 ---
 
@@ -41,31 +42,38 @@ website/
 ├── index.html              ← entire website (HTML + CSS + JS)
 ├── PROJECT.md              ← this file
 ├── .gitignore
-├── audio/
-│   └── Website Loop.wav    ← easter egg ambient loop
+├── .nojekyll               ← disables Jekyll on GitHub Pages (required for _ filenames)
+├── Audio/
+│   ├── Website Loop.m4a    ← easter egg ambient loop (compressed from WAV, 1.1MB)
+│   └── Website Loop.wav    ← original (NOT in git)
 ├── CV/
 │   └── Connor Andree-Evarts Artist CV.pdf
 ├── Exhibitions/
 │   ├── BLISS/
-│   │   ├── BLISS Documentation/    ← 42 JPGs (signal assembly 5_4_25-30 to 73)
+│   │   ├── BLISS Documentation/    ← 42 JPGs
 │   │   └── Vis Files/
 │   │       └── Bliss.mp4
-│   └── THEREMONIC/                 ← 20 JPGs (_66Axxxx, _MG_xxxx)
-├── profile photo/
-│   └── Scan 25.jpeg
+│   └── THEREMONIC/                 ← 20 JPGs (_66Axxxx, _MG_xxxx) + promo video
+├── Profile Photo/
+│   ├── Scan 25.jpeg        ← slideshow photo 1
+│   ├── Scan 2.jpeg         ← slideshow photo 2
+│   ├── Scan 23.jpeg        ← slideshow photo 3
+│   └── Scan 4.jpeg         ← slideshow photo 4
 ├── Selected Works/
 │   ├── Anti Shadow/                ← 8 PNGs
 │   ├── Aranea_Daemon/              ← 3 PNGs
 │   ├── Cthonic Mechanisim/         ← 2 PNGs + 1 MP4
 │   ├── encoded topography/         ← 1 MP4
+│   ├── Fantasy Island/             ← 1 MP4 (starts at 13s)
 │   ├── FarCry Simulation/          ← 3 MP4s + 1 MOV
 │   ├── Iris Agate/                 ← 1 MP4
 │   ├── Nyctophobia/                ← 1 MP4
-│   ├── touch grass/                ← 1 MOV + 3 JPGs
+│   ├── Touch Grass/                ← 1 MOV + 3 JPGs
 │   └── Vein/
 │       ├── 1. Vein.mp4             ← compressed for web (was 212MB, now 14MB)
 │       └── 1. Vein_original.mp4    ← original full quality (NOT in git)
-├── Public Programs/                ← empty, ready for future photos
+├── Public Programs/
+│   └── Tectonic Noise/             ← 33 JPGs (IMG_2747 = hero)
 └── ORIGINAL PHOTOS/                ← full-res masters, DO NOT TOUCH, NOT in git
 ```
 
@@ -74,25 +82,25 @@ website/
 ## Sections
 
 ### Selected Works
-- 9 works in a grid (order): Anti Shadow, FarCry Simulation, Aranea Daemon, Cthonic Mechanism, Encoded Topography, Iris Agate, Nyctophobia, Vein, touch grass
-- All video works autoplay looping on load (muted)
-- Image works (Anti Shadow, Aranea Daemon) auto-slideshow: instant cut, 2.8s interval, desynced offsets, 2s first interval
+- 10 works in a grid (order): Anti Shadow, FarCry Simulation, touch grass, Aranea Daemon, Cthonic Mechanism, Encoded Topography, Iris Agate, Nyctophobia, Vein, Fantasy Island
+- All video works autoplay looping on load (muted); LOADING... shown until canplay fires
+- Image works (Anti Shadow, Aranea Daemon) auto-slideshow: instant cut, 2.8s interval, desynced offsets
 - Clicking any work opens a lightbox with all images/videos for that work
 - Lightbox: next/prev arrows flanking the content, keyboard nav (arrows + escape), item counter, close button
 - Lightbox videos: no controls, click to pause/play, default cursor
-- Vein and Nyctophobia play with sound in lightbox; all others muted
+- Vein, Nyctophobia, Fantasy Island play with sound in lightbox; all others muted
 - FarCry Simulation: first lightbox slide = FC1 + FC2 + FC3 side by side (trio layout), then MVI_3069.MOV
+- Background music ducks to 0 when sound-on works play in lightbox, restores after
 
 ### Exhibitions
 - **BLISS (2025)**: featured video (autoplay, muted, loop, click to pause) + 42 documentation photos (8 shown, expandable). Photos open in lightbox.
-- **Theremonic (2023)**: featured hero image (_66A9060) + 19 documentation photos (8 shown, expandable). Photos open in lightbox.
+- **Theremonic (2023)**: featured hero image (_66A9060) + 19 documentation photos + promo video (8 shown, expandable). Photos open in lightbox.
 - Documentation grids always collapse to exactly one row
-- Remaining exhibitions (inFORM, Sentient, Emergence x2) are text-only — no photos yet
+- show-more button sits above the docs grid, below "Installation Documentation" header
 
 ### Public Programs
-- 2025: Rīgorabana, The Balawaia | An Extended Sound Performance: Dean Ansell — Fish Lane Town Square, Southbank
-- 2024: Tectonic Noise | Sound response to Hannah Hallam-Eames' exhibition Time Tunnels — Outer Space, Fortitude Valley
-- Ready to add photos/media when available
+- **2025**: Rīgorabana, The Balawaia | An Extended Sound Performance: Dean Ansell — Fish Lane Town Square, Southbank (text only)
+- **2024**: Tectonic Noise | Sound response to Hannah Hallam-Eames' exhibition Time Tunnels — Outer Space, Fortitude Valley. Hero: IMG_2747, + 32 docs photos in expandable grid. Photos open in lightbox.
 
 ### CV
 - PDF download link (CV/Connor Andree-Evarts Artist CV.pdf)
@@ -109,29 +117,35 @@ website/
 - Dots attracted toward cursor within 40px radius, spring back on mouseleave
 - Image tiles warp toward cursor (same spring displacement applied to photo pixels)
 - Trail: last 7 frames of dot positions fade out behind movement
-- Click imprints: clicking leaves a red crosshair at that position, fades over ~45 frames
+- Click imprints: clicking leaves a red crosshair at that position, fades over ~9s (0.007/frame at 15fps)
 - Custom red crosshair cursor (SVG data URL) on the profile wrap
+- Profile photo cycles through 4 photos every 45s with 6s crossfade
 
 ### Easter egg
-- 6 clicks on profile photo → red speaker icon appears bottom-right
-- Hover speaker → volume slider slides up
-- Slider controls volume of ambient audio loop (audio/Website Loop.wav)
+- Audio loop (Audio/Website Loop.m4a) loads silently at volume 0 on page load
+  - Fallback: starts on first user interaction if autoplay was blocked
+- 6 clicks on profile photo → red speaker icon appears bottom-right, volume animates 0→66% over 6s, auto-closes after 1.5s
+- Hover speaker → volume slider slides up (stays open while hovering)
+- Slider: 1px red track, solid 4-point star thumb (bottom point stretched); scroll on profile image also controls volume
+- Click speaker icon to mute/unmute
 - Loop uses 15-second crossfade: two audio instances alternate, fading in/out seamlessly
+- Background music ducks when sound-on lightbox items play
 
 ---
 
 ## Lightbox
 
-- Generic `openLightbox(items, startIndex, title)` handles both works and exhibition docs
+- Generic `openLightbox(items, startIndex, title)` handles works, exhibitions, and public program docs
 - Backdrop: frosted blur with gradient — transparent on left (menu glows through), dark on right
 - Arrows sit on either side of the media (not screen edges)
 - Special `trio` item type renders 3 videos side by side (used by FarCry Simulation)
+- LOADING... indicator (animated cycling dots) shown until media fires canplay/load
 
 ---
 
 ## Image compression
 
-All images in Exhibitions/ and Selected Works/ have been resized to max 2000px on the long edge using macOS `sips`. Average file size ~841KB. Originals stored in ORIGINAL PHOTOS/ (not in git).
+All images have been resized to max 2000px on the long edge using macOS `sips`. Originals stored in ORIGINAL PHOTOS/ (not in git).
 
 To compress new images added in future, run in Terminal:
 ```
@@ -155,7 +169,7 @@ git add .
 git commit -m "describe what you changed"
 git push
 ```
-4. Site updates at https://connor-evarts.github.io within ~1 minute
+4. Site updates at https://connor-evarts.github.io/Connor-Evarts/ within ~1 minute
 
 ---
 
@@ -174,14 +188,20 @@ git push
 3. Add `.ex-entry` block in the HTML (Exhibitions section)
 4. Add JS block for the docs grid (copy the Theremonic pattern)
 
-### New public program event
+### New public program event with photos
 1. Add `.prog-item` to the Public Programs section in HTML
-2. Add photos/media to Public Programs/ folder when available
+2. Add hero image and docs grid markup (copy the Tectonic Noise pattern)
+3. Add photos to Public Programs/[name]/ folder and compress
+4. Add JS block (copy the Tectonic Noise pattern)
 
 ---
 
 ## Known future tasks
-- Add photos/media to Public Program events when available
-- GitHub Pages is live — future updates just need git push
+- Add photos/media to Rīgorabana public program when available
 - Consider TV turn-on intro animation (static resolves into page on load)
 - The repo is named Connor-Evarts (not Connor-Evarts.github.io) — this is fine, GitHub Pages still works via Settings → Pages
+
+## Important notes
+- `.nojekyll` file in repo root is critical — without it GitHub Pages (Jekyll) silently blocks all files whose names start with `_` (affects all THEREMONIC photos)
+- Audio is M4A not WAV — WAV original is gitignored
+- All case-sensitive paths must match exactly (GitHub Pages runs on Linux): `Profile Photo/`, `Audio/`, `Touch Grass/`, `THEREMONIC/`
