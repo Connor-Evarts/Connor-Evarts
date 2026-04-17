@@ -9,15 +9,20 @@ Local files: /Users/conr/Documents/website/
 
 ## What's been built
 
-A single-file art portfolio website (index.html) with:
+Two versions exist. `index.html` (live) = index-1. Active development is on `versions/index-2.html`.
+
+**index-2 features:**
 - Animated TV static background (canvas-based, 15fps, brighter in content area)
-- Red border frame around the whole page
-- MingLiU serif font in red throughout
-- Sidebar: name + nav links + profile photo (centred between CV and email) + email/instagram
-- Bloom/glow effect on active text (SVG filter, two-layer: wide halo + mid glow)
+- Full-page background photos that crossfade based on active scroll section
+- Baunk + Cinzel + Cormorant Garamond font stack (all red)
+- Sidebar: name + nav links + profile photo + email/instagram
+- Bloom/glow SVG filter on active/hovered text (two-layer: wide halo + mid glow)
 - Scroll-spy navigation (active link updates as you scroll)
 - Default cursor everywhere; pointer only on Email/Instagram; red crosshair on profile photo
 - LOADING... overlay (animated cycling dots, desynced) on title card videos and lightbox media
+- Contact panel: slides down over sidebar on Email click, menu fades out, transparent bg; Cancel or second Email click slides it back up (Formspree-ready, see future tasks)
+- Easter egg: 6 clicks on profile photo → ambient audio loop with volume slider
+- Easter egg: hover right screen edge 350ms → background photos revealed, scroll to change
 
 ---
 
@@ -48,7 +53,7 @@ website/
 │   ├── index-1.html        ← backup of original, do not touch (all paths use ../ prefix)
 │   ├── index-2.html        ← active iteration with friend's feedback applied
 │   └── index-2-backup.html ← snapshot before easter egg / bg photo work (do not touch)
-├── fonts/
+├── Fonts/
 │   └── BAUNK FILE/
 │       ├── Baunk.otf
 │       ├── Baunk.ttf
@@ -71,7 +76,7 @@ website/
 │   │   ├── Scan 23.jpeg
 │   │   ├── Scan 33.jpeg
 │   │   └── Scan 4.jpeg
-│   └── horizontal/         ← full-page background photos (index-2 only), crossfade by active section
+│   └── Horizontal/         ← full-page background photos (index-2 only), crossfade by active section
 │       ├── Scan 29.jpeg
 │       ├── Scan 30.jpeg
 │       ├── Scan 34.jpeg
@@ -99,7 +104,7 @@ website/
 ## Sections
 
 ### Selected Works
-- 10 works in a grid (order): Anti Shadow, FarCry Simulation, touch grass, Aranea Daemon, Cthonic Mechanism, Encoded Topography, Iris Agate, Nyctophobia, Vein, Fantasy Island
+- 10 works in a grid (order): Anti Shadow, Vein, touch grass, Aranea Daemon, Cthonic Mechanism, Encoded Topography, Iris Agate, Nyctophobia, FarCry Simulation, Fantasy Island
 - All video works autoplay looping on load (muted); LOADING... shown until canplay fires
 - Image works (Anti Shadow, Aranea Daemon) auto-slideshow: instant cut, 2.8s interval, desynced offsets
 - Clicking any work opens a lightbox with all images/videos for that work
@@ -136,7 +141,7 @@ website/
 - Trail: last 7 frames of dot positions fade out behind movement
 - Click imprints: clicking leaves a red crosshair at that position, fades over ~9s (0.007/frame at 15fps)
 - Custom red crosshair cursor (SVG data URL) on the profile wrap
-- Profile photo cycles through 4 photos every 45s with 6s crossfade
+- Profile photo cycles through 5 photos every 45s with 6s crossfade
 
 ### Easter egg (audio)
 - Audio loop (Audio/Website Loop.m4a) loads silently at volume 0 on page load
@@ -184,7 +189,8 @@ find "/Users/conr/Documents/website/Exhibitions/NEWFOLDER" -type f \( -iname "*.
 
 ## How to update the site
 
-1. Edit index.html (or add files to the relevant folders)
+1. Edit `versions/index-2.html` (active version) or add files to relevant folders
+   - When ready to go live: copy index-2.html contents into index.html
 2. Compress any new images with sips (see above)
 3. In Terminal:
 ```
