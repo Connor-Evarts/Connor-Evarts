@@ -1,0 +1,1713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Connor Andree Evarts</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --red: #e83535;
+      --red-mid: rgba(232,53,53,0.45);
+      --red-dim: rgba(232,53,53,0.18);
+    }
+
+    html, body { width: 100%; height: 100%; background: #000; overflow: hidden; }
+
+    #static { position: fixed; inset: 0; z-index: 0; }
+
+    .frame {
+      position: fixed; inset: 10px;
+      border: 1px solid var(--red);
+      pointer-events: none; z-index: 200;
+    }
+
+    .layout {
+      position: fixed; inset: 10px;
+      display: flex; z-index: 10; overflow: hidden;
+    }
+
+    /* ── Sidebar ───────────────────────────────────── */
+    .sidebar {
+      width: 275px;
+      flex-shrink: 0;
+      padding: 38px 22px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border-right: 1px solid var(--red-dim);
+    }
+
+    .site-name {
+      font-family: 'MingLiU', 'PMingLiU', 'MingLiU-ExtB', 'STSong', 'Songti TC', 'Noto Serif', serif;
+      color: var(--red);
+      line-height: 1.55;
+      margin-bottom: 38px;
+      letter-spacing: 0.1em;
+      text-align: center;
+      text-transform: uppercase;
+      filter: url(#bloom);
+    }
+
+    nav {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 16px;
+      flex: 1;
+      width: 100%;
+    }
+
+    nav a {
+      font-family: 'MingLiU', 'PMingLiU', 'MingLiU-ExtB', 'STSong', 'Songti TC', 'Noto Serif', serif;
+      color: var(--red);
+      text-decoration: none;
+      font-size: 1.04rem;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      opacity: 0.72;
+      transition: opacity 0.12s ease, filter 0.12s ease, font-size 0.12s ease;
+      cursor: default;
+      user-select: none;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    nav a:hover  { font-size: 1.18rem; opacity: 0.98; filter: url(#bloom); }
+    nav a.active { font-size: 1.14rem; opacity: 1;    filter: url(#bloom); }
+
+    nav a.external { opacity: 0.65; cursor: pointer; }
+    nav a.external:hover { opacity: 0.96; filter: url(#bloom); }
+    .nav-bottom { display: flex; flex-direction: column; align-items: center; gap: 14px; }
+
+    /* ── Content ───────────────────────────────────── */
+    .content {
+      flex: 1;
+      overflow-y: scroll;
+      scrollbar-width: none;
+      padding: 38px 40px;
+    }
+    .content::-webkit-scrollbar { display: none; }
+
+    .section { margin-bottom: 90px; }
+    .section:last-child { padding-bottom: 60px; margin-bottom: 0; }
+
+    .section-label {
+      font-family: 'MingLiU', 'PMingLiU', 'STSong', 'Noto Serif', serif;
+      color: var(--red);
+      font-size: 1.04rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      opacity: 1;
+      margin-bottom: 28px;
+      filter: url(#bloom);
+    }
+
+    /* ── Works grid ────────────────────────────────── */
+    .works-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+      gap: 12px;
+    }
+
+    .work-item {
+      aspect-ratio: 4/3;
+      border: 1px solid var(--red-dim);
+      overflow: hidden;
+      cursor: default;
+      transition: border-color 0.2s;
+      position: relative;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: #000;
+    }
+    .work-item:hover { border-color: var(--red-mid); }
+
+    .work-item img, .work-item video {
+      width: 100%; height: 100%; object-fit: cover; display: block;
+    }
+    .work-item img { transition: none; }
+    .work-loading {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #e83535;
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      pointer-events: none;
+    }
+
+    .work-label {
+      position: absolute;
+      bottom: 0; left: 0; right: 0;
+      padding: 22px 12px 11px;
+      background: linear-gradient(transparent, rgba(0,0,0,0.72));
+      font-family: 'MingLiU', 'PMingLiU', serif;
+      font-size: 0.80rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--red);
+      filter: url(#bloom);
+      opacity: 0;
+      transition: opacity 0.25s;
+      pointer-events: none;
+    }
+    .work-item:hover .work-label { opacity: 1; }
+
+    /* ── Exhibitions ───────────────────────────────── */
+    .ex-entry { margin-bottom: 60px; }
+    .ex-entry:last-child { margin-bottom: 0; }
+
+    .ex-meta {
+      display: block;
+      margin-bottom: 20px;
+    }
+
+    .ex-year {
+      font-family: 'MingLiU', 'PMingLiU', serif;
+      color: var(--red);
+      font-size: 0.90rem;
+      opacity: 0.78;
+      margin-bottom: 7px;
+      letter-spacing: 0.08em;
+    }
+
+    .ex-title {
+      font-family: 'MingLiU', 'PMingLiU', 'STSong', serif;
+      color: var(--red);
+      font-size: 1.22rem;
+      font-weight: normal;
+      filter: url(#bloom);
+    }
+
+    .ex-venue {
+      font-family: 'MingLiU', 'PMingLiU', serif;
+      color: var(--red);
+      font-size: 0.90rem;
+      opacity: 0.68;
+      margin-top: 5px;
+      letter-spacing: 0.06em;
+    }
+
+    .vis-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-bottom: 24px;
+      max-width: 800px;
+    }
+    .vis-grid video {
+      width: 100%; aspect-ratio: 16/9; display: block;
+      border: 1px solid var(--red-dim); background: #000;
+    }
+
+    .docs-header {
+      font-family: 'MingLiU', 'PMingLiU', serif;
+      color: var(--red);
+      font-size: 0.80rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      opacity: 0.68;
+      margin-bottom: 12px;
+    }
+
+    .docs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+      gap: 8px;
+      overflow: hidden;
+    }
+    .docs-grid img {
+      width: 100%; aspect-ratio: 3/2; object-fit: cover; display: block;
+      border: 1px solid var(--red-dim);
+      transition: border-color 0.2s;
+      cursor: default;
+    }
+    .docs-grid img:hover { border-color: var(--red-mid); }
+
+    .show-more {
+      display: inline-block;
+      margin-top: 6px;
+      margin-bottom: 12px;
+      font-family: 'MingLiU', 'PMingLiU', serif;
+      color: var(--red);
+      font-size: 0.86rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      cursor: default;
+      background: none; border: none; padding: 0;
+      opacity: 0.62;
+      transition: opacity 0.2s, filter 0.2s;
+    }
+    .show-more:hover { opacity: 1; filter: url(#bloom); }
+
+    /* ── Public Program ────────────────────────────── */
+    .prog-list { list-style: none; }
+
+    .prog-item { padding: 22px 0; border-bottom: 1px solid var(--red-dim); }
+    .prog-item:first-child { padding-top: 0; }
+
+    .prog-date {
+      font-family: 'MingLiU', 'PMingLiU', serif;
+      color: var(--red);
+      font-size: 0.90rem;
+      opacity: 0.78;
+      margin-bottom: 7px;
+      letter-spacing: 0.08em;
+    }
+
+    .prog-title {
+      font-family: 'MingLiU', 'PMingLiU', 'STSong', serif;
+      color: var(--red);
+      font-size: 1.22rem;
+      font-weight: normal;
+      filter: url(#bloom);
+    }
+
+    .prog-venue {
+      font-family: 'MingLiU', 'PMingLiU', serif;
+      color: var(--red);
+      font-size: 0.90rem;
+      opacity: 0.68;
+      margin-top: 5px;
+      letter-spacing: 0.06em;
+    }
+
+    /* ── CV ────────────────────────────────────────── */
+    .cv-pdf {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-family: 'MingLiU', 'PMingLiU', serif;
+      color: var(--red);
+      font-size: 0.99rem;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      text-decoration: none;
+      opacity: 0.88;
+      margin-bottom: 36px;
+      border-bottom: 1px solid var(--red-dim);
+      padding-bottom: 3px;
+      transition: opacity 0.2s, filter 0.2s;
+    }
+    .cv-pdf { cursor: default; }
+    .cv-pdf:hover { opacity: 1; filter: url(#bloom); }
+
+    .cv-block { margin-bottom: 34px; }
+
+    .cv-block-title {
+      font-family: 'MingLiU', 'PMingLiU', serif;
+      color: var(--red);
+      font-size: 0.83rem;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      opacity: 0.75;
+      margin-bottom: 14px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--red-dim);
+    }
+
+    .cv-row {
+      display: grid;
+      grid-template-columns: 52px 1fr;
+      gap: 8px 22px;
+      margin-bottom: 10px;
+    }
+
+    .cv-year {
+      font-family: 'MingLiU', 'PMingLiU', serif;
+      color: var(--red);
+      font-size: 0.96rem;
+      opacity: 0.78;
+    }
+
+    .cv-detail {
+      font-family: 'MingLiU', 'PMingLiU', 'STSong', serif;
+      color: var(--red);
+      font-size: 1.08rem;
+      opacity: 1;
+      line-height: 1.55;
+    }
+
+    /* ── Lightbox ──────────────────────────────────── */
+    .lightbox {
+      display: none;
+      position: fixed; inset: 0;
+      z-index: 150;
+      align-items: center;
+      justify-content: center;
+    }
+    .lightbox.open { display: flex; }
+
+    .lb-overlay {
+      position: absolute; inset: 0;
+      backdrop-filter: blur(18px);
+      background: linear-gradient(to right, rgba(0,0,0,0.15) 0%, rgba(0,0,0,0.72) 28%, rgba(0,0,0,0.78) 100%);
+      cursor: default;
+    }
+
+    .lb-layout {
+      position: relative;
+      z-index: 151;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .lb-arrow {
+      font-family: 'MingLiU', serif;
+      color: var(--red);
+      font-size: 1.65rem;
+      background: none; border: none;
+      cursor: default;
+      opacity: 0.55;
+      transition: opacity 0.2s, filter 0.2s;
+      padding: 28px 14px;
+      user-select: none;
+      line-height: 1;
+      flex-shrink: 0;
+    }
+    .lb-arrow:hover:not(:disabled) { opacity: 1; filter: url(#bloom); }
+    .lb-arrow:disabled { opacity: 0.12; cursor: default; }
+
+    .lb-container {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      max-width: 82vw;
+      max-height: 90vh;
+    }
+
+    .lb-close {
+      position: absolute;
+      top: -44px; right: 0;
+      font-family: 'MingLiU', serif;
+      color: var(--red);
+      font-size: 1.76rem;
+      line-height: 1;
+      background: none; border: none;
+      cursor: default;
+      opacity: 0.55;
+      transition: opacity 0.2s, filter 0.2s;
+    }
+    .lb-close:hover { opacity: 1; filter: url(#bloom); }
+
+    .lb-media-wrap {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      max-width: 82vw;
+      max-height: 80vh;
+      position: relative;
+    }
+    .lb-loading {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #e83535;
+      font-size: 0.85rem;
+      letter-spacing: 0.18em;
+      pointer-events: none;
+    }
+    .lb-media-wrap img, .lb-media-wrap video {
+      max-width: 82vw;
+      max-height: 80vh;
+      object-fit: contain;
+      display: block;
+    }
+
+    .lb-trio {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+      width: 82vw;
+      max-height: 80vh;
+    }
+    .lb-trio video {
+      flex: 1;
+      min-width: 0;
+      max-height: 80vh;
+      object-fit: contain;
+    }
+
+    .lb-info-bar {
+      margin-top: 14px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .lb-title {
+      font-family: 'MingLiU', 'PMingLiU', serif;
+      color: var(--red);
+      font-size: 0.99rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      filter: url(#bloom);
+    }
+
+    .lb-counter {
+      font-family: 'MingLiU', 'PMingLiU', serif;
+      color: var(--red);
+      font-size: 0.80rem;
+      letter-spacing: 0.1em;
+      opacity: 0.5;
+    }
+
+    /* ── Responsive ────────────────────────────────── */
+    @media (max-width: 600px) {
+      .frame  { inset: 6px; }
+      .layout { inset: 6px; flex-direction: column; }
+      .sidebar {
+        width: 100%; border-right: none;
+        border-bottom: 1px solid var(--red-dim);
+        padding: 18px 20px 14px;
+        flex-direction: row; flex-wrap: wrap; align-items: baseline;
+      }
+      .site-name { margin-bottom: 12px; }
+      nav { flex-direction: row; flex-wrap: wrap; gap: 10px 18px; align-items: flex-start; }
+      nav a.external { margin-top: 0; }
+      .content { padding: 20px; }
+      .vis-grid { grid-template-columns: 1fr; }
+      .works-grid { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); }
+      .lb-arrow { padding: 20px 8px; }
+    }
+  </style>
+</head>
+<body>
+
+  <svg style="display:none" aria-hidden="true">
+    <defs>
+      <filter id="bloom" x="-80%" y="-80%" width="260%" height="260%">
+        <feGaussianBlur in="SourceGraphic" stdDeviation="14" result="blur-wide"/>
+        <feColorMatrix in="blur-wide" type="matrix"
+          values="1.4 0 0 0 0
+                  0   0 0 0 0
+                  0   0 0 0 0
+                  0   0 0 1.1 0" result="glow-wide"/>
+        <feGaussianBlur in="SourceGraphic" stdDeviation="5" result="blur-mid"/>
+        <feColorMatrix in="blur-mid" type="matrix"
+          values="1.5 0 0 0 0
+                  0.05 0 0 0 0
+                  0   0 0 0 0
+                  0   0 0 1.3 0" result="glow-mid"/>
+        <feMerge>
+          <feMergeNode in="glow-wide"/>
+          <feMergeNode in="glow-mid"/>
+          <feMergeNode in="SourceGraphic"/>
+        </feMerge>
+      </filter>
+    </defs>
+  </svg>
+
+  <canvas id="static"></canvas>
+  <div class="frame"></div>
+
+  <!-- Lightbox -->
+  <div id="lightbox" class="lightbox">
+    <div class="lb-overlay" id="lb-overlay"></div>
+    <div class="lb-layout">
+      <button class="lb-arrow" id="lb-prev">←</button>
+      <div class="lb-container">
+        <button class="lb-close" id="lb-close">×</button>
+        <div class="lb-media-wrap" id="lb-media"></div>
+        <div class="lb-info-bar">
+          <span class="lb-title"  id="lb-title"></span>
+          <span class="lb-counter" id="lb-counter"></span>
+        </div>
+      </div>
+      <button class="lb-arrow" id="lb-next">→</button>
+    </div>
+  </div>
+
+  <div class="layout">
+
+    <aside class="sidebar">
+      <div class="site-name">
+        <span style="font-size:1.52rem">Connor</span><br>
+        <span style="font-size:1.52rem">Andree</span><br>
+        <span style="font-size:1.52rem">Evarts</span>
+      </div>
+      <nav>
+        <a href="#works" class="active">Selected Works</a>
+        <a href="#exhibitions">Exhibitions</a>
+        <a href="#program">Public Programs</a>
+        <a href="#cv">CV</a>
+        <div id="profile-wrap" style="width:100%;margin-top:auto;margin-bottom:auto;position:relative;line-height:0;border:1px solid var(--red-dim);">
+          <img src="../Profile Photo/Vertical/Scan 25.jpeg" alt="Connor Andree Evarts" style="width:100%;display:block;">
+          <canvas id="profile-canvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:2;"></canvas>
+        </div>
+        <div class="nav-bottom">
+          <a href="mailto:connor.andree.evarts@gmail.com" class="external">Email ↗</a>
+          <a href="https://www.instagram.com/fleshchrist666/" target="_blank" class="external">Instagram ↗</a>
+        </div>
+      </nav>
+    </aside>
+
+    <main class="content" id="content">
+
+      <!-- SELECTED WORKS -->
+      <section id="works" class="section">
+        <p class="section-label">Selected Works</p>
+        <div class="works-grid">
+
+          <div class="work-item" data-work="Anti Shadow">
+            <img src="../Selected Works/Anti Shadow/Screenshot 2025-06-23 at 8.42.31 pm.png" alt="Anti Shadow" loading="lazy">
+            <div class="work-label">Anti Shadow</div>
+          </div>
+
+          <div class="work-item" data-work="FarCry Simulation">
+            <video src="../Selected Works/FarCry Simulation/FC3.mp4" muted loop autoplay playsinline></video>
+            <div class="work-label">FarCry Simulation</div>
+          </div>
+
+          <div class="work-item" data-work="touch grass">
+            <video src="../Selected Works/Touch Grass/MVI_1649.MOV" muted loop autoplay playsinline></video>
+            <div class="work-label">touch grass</div>
+          </div>
+
+          <div class="work-item" data-work="Aranea Daemon">
+            <img src="../Selected Works/Aranea_Daemon/Screenshot 2025-06-30 at 6.07.27 pm.png" alt="Aranea Daemon" loading="lazy">
+            <div class="work-label">Aranea Daemon</div>
+          </div>
+
+          <div class="work-item" data-work="Cthonic Mechanism">
+            <video src="../Selected Works/Cthonic Mechanisim/CthonicMechscreenCapture.mp4" muted loop autoplay playsinline></video>
+            <div class="work-label">Cthonic Mechanism</div>
+          </div>
+
+          <div class="work-item" data-work="Encoded Topography">
+            <video src="../Selected Works/encoded topography/Encoded Topography.mp4" muted loop autoplay playsinline></video>
+            <div class="work-label">Encoded Topography</div>
+          </div>
+
+          <div class="work-item" data-work="Iris Agate">
+            <video src="../Selected Works/Iris Agate/Iris Agate.mp4" muted loop autoplay playsinline></video>
+            <div class="work-label">Iris Agate</div>
+          </div>
+
+          <div class="work-item" data-work="Nyctophobia">
+            <video src="../Selected Works/Nyctophobia/Nyctophobia.mp4" muted loop autoplay playsinline></video>
+            <div class="work-label">Nyctophobia</div>
+          </div>
+
+          <div class="work-item" data-work="Vein">
+            <video src="../Selected Works/Vein/1. Vein.mp4" muted loop autoplay playsinline></video>
+            <div class="work-label">Vein</div>
+          </div>
+
+          <div class="work-item" data-work="Fantasy Island">
+            <video src="../Selected Works/Fantasy Island/ULTRA WIDE.mp4" muted loop autoplay playsinline onloadedmetadata="this.currentTime=13"></video>
+            <div class="work-label">Fantasy Island</div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- EXHIBITIONS -->
+      <section id="exhibitions" class="section">
+        <p class="section-label">Exhibitions</p>
+
+        <!-- BLISS — solo, with media -->
+        <div class="ex-entry">
+          <div class="ex-meta">
+            <span class="ex-year">2025</span>
+            <h3 class="ex-title">BLISS</h3>
+            <p class="ex-venue">Echo &amp; Bounce, Woolloongabba</p>
+          </div>
+
+          <div class="vis-grid">
+            <video id="bliss-video" src="../Exhibitions/BLISS/Vis Files/Bliss.mp4" autoplay muted playsinline loop></video>
+          </div>
+
+          <p class="docs-header">Installation Documentation</p>
+          <button class="show-more" id="bliss-show-more"></button>
+          <div class="docs-grid" id="bliss-docs"></div>
+        </div>
+
+        <!-- Theremonic -->
+        <div class="ex-entry">
+          <div class="ex-meta">
+            <span class="ex-year">2023</span>
+            <h3 class="ex-title">Theremonic</h3>
+            <p class="ex-venue">VentSpace, Southbank</p>
+          </div>
+
+          <div class="vis-grid">
+            <img src="../Exhibitions/THEREMONIC/_66A9060.jpg" alt="Theremonic" style="width:100%;aspect-ratio:3/2;object-fit:cover;border:1px solid var(--red-dim);">
+          </div>
+
+          <p class="docs-header">Installation Documentation</p>
+          <button class="show-more" id="theremonic-show-more"></button>
+          <div class="docs-grid" id="theremonic-docs"></div>
+        </div>
+
+
+      </section>
+
+      <!-- PUBLIC PROGRAM -->
+      <section id="program" class="section">
+        <p class="section-label">Public Program</p>
+        <ul class="prog-list">
+          <li class="prog-item">
+            <p class="prog-date">2025</p>
+            <h3 class="prog-title">Rīgorabana, The Balawaia | An Extended Sound Performance: Dean Ansell</h3>
+            <p class="prog-venue">Fish Lane Town Square, Southbank</p>
+          </li>
+          <li class="prog-item">
+            <p class="prog-date">2024</p>
+            <h3 class="prog-title">Tectonic Noise | Sound response to Hannah Hallam-Eames' exhibition Time Tunnels</h3>
+            <p class="prog-venue">Outer Space, Fortitude Valley</p>
+
+            <div class="vis-grid" style="margin-top:18px;">
+              <img src="../Public Programs/Tectonic Noise/IMG_2747.jpg" alt="Tectonic Noise" style="width:100%;aspect-ratio:3/2;object-fit:cover;border:1px solid var(--red-dim);">
+            </div>
+
+            <p class="docs-header">Documentation</p>
+            <button class="show-more" id="tectonic-show-more"></button>
+            <div class="docs-grid" id="tectonic-docs"></div>
+          </li>
+        </ul>
+      </section>
+
+      <!-- CV -->
+      <section id="cv" class="section">
+        <p class="section-label">CV</p>
+        <a class="cv-pdf" href="../CV/Connor Andree-Evarts Artist CV.pdf" target="_blank">
+          Download CV (PDF) ↗
+        </a>
+
+        <div class="cv-block">
+          <p class="cv-block-title">Education</p>
+          <div class="cv-row">
+            <span class="cv-year">2021–24</span>
+            <span class="cv-detail">Bachelor of Fine Arts, Queensland University of Technology, QLD</span>
+          </div>
+          <div class="cv-row">
+            <span class="cv-year">2016–18</span>
+            <span class="cv-detail">Bachelor of Audio Engineering, SAE, NSW</span>
+          </div>
+        </div>
+
+        <div class="cv-block">
+          <p class="cv-block-title">Solo Exhibitions</p>
+          <div class="cv-row">
+            <span class="cv-year">2025</span>
+            <span class="cv-detail">BLISS, Echo &amp; Bounce, Woolongaba</span>
+          </div>
+        </div>
+
+        <div class="cv-block">
+          <p class="cv-block-title">Group Exhibitions</p>
+          <div class="cv-row">
+            <span class="cv-year">2023</span>
+            <span class="cv-detail">Theremonic</span>
+          </div>
+          <div class="cv-row">
+            <span class="cv-year"></span>
+            <span class="cv-detail">inFORM</span>
+          </div>
+          <div class="cv-row">
+            <span class="cv-year"></span>
+            <span class="cv-detail">Sentient</span>
+          </div>
+          <div class="cv-row">
+            <span class="cv-year">2022</span>
+            <span class="cv-detail">Emergence</span>
+          </div>
+          <div class="cv-row">
+            <span class="cv-year"></span>
+            <span class="cv-detail">Emergence</span>
+          </div>
+        </div>
+
+        <div class="cv-block">
+          <p class="cv-block-title">Art Related Employment</p>
+          <div class="cv-row">
+            <span class="cv-year">2024–</span>
+            <span class="cv-detail">Visitor Services Assistant &amp; Exhibition Installation Technician, Queensland University of Technology, Brisbane</span>
+          </div>
+          <div class="cv-row">
+            <span class="cv-year">2021–24</span>
+            <span class="cv-detail">Co-Founder and Organiser | Emergence Collective, Brisbane</span>
+          </div>
+          <div class="cv-row">
+            <span class="cv-year">2021–23</span>
+            <span class="cv-detail">Volunteer Program | Outer Space, Fortitude Valley</span>
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <script>
+    // ── Animated loading dots helper ─────────────────────────────────
+    function startLoadingAnim(el) {
+      let dots = 1;
+      el.textContent = 'LOADING.';
+      setTimeout(() => {
+        if (!el.isConnected) return;
+        el.textContent = 'LOADING.';
+        const id = setInterval(() => {
+          if (!el.isConnected) { clearInterval(id); return; }
+          dots = (dots % 3) + 1;
+          el.textContent = 'LOADING' + '.'.repeat(dots);
+        }, 400);
+      }, Math.random() * 600);
+    }
+
+    // ── Static with horizontal brightness gradient ───────────────────
+    const canvas = document.getElementById('static');
+    const ctx    = canvas.getContext('2d');
+    let colBoosts = null;
+
+    function computeColBoosts() {
+      const w = canvas.width;
+      colBoosts = new Float32Array(w);
+      const sidebarEnd = 285; // 275px sidebar + 10px frame inset
+      for (let x = sidebarEnd; x < w; x++) {
+        const relX = (x - sidebarEnd) / Math.max(1, w - sidebarEnd);
+        // Rise sharply at left edge, plateau, drop sharply at right edge
+        const fadeIn  = Math.min(relX * 10, 1);
+        const fadeOut = Math.min((1 - relX) * 10, 1);
+        colBoosts[x] = fadeIn * fadeOut * 14;
+      }
+    }
+
+    function resizeCanvas() {
+      canvas.width  = window.innerWidth;
+      canvas.height = window.innerHeight;
+      computeColBoosts();
+    }
+    resizeCanvas();
+    window.addEventListener('resize', resizeCanvas);
+
+    let lastFrame = 0;
+    const FPS      = 15;
+    const INTERVAL = 1000 / FPS;
+
+    function drawStatic(ts) {
+      if (ts - lastFrame >= INTERVAL) {
+        lastFrame = ts;
+        const w         = canvas.width;
+        const h         = canvas.height;
+        const imageData = ctx.createImageData(w, h);
+        const data      = imageData.data;
+
+        for (let i = 0; i < data.length; i += 4) {
+          const x     = (i >> 2) % w;
+          const boost = colBoosts ? colBoosts[x] : 0;
+          const v     = Math.min(255, Math.random() * 23 + boost);
+          data[i]     = v;
+          data[i + 1] = v;
+          data[i + 2] = v;
+          data[i + 3] = 255;
+        }
+        ctx.putImageData(imageData, 0, 0);
+      }
+      requestAnimationFrame(drawStatic);
+    }
+    requestAnimationFrame(drawStatic);
+
+    // ── Docs grid: collapse to one row ──────────────────────────────
+    function clampOneRow(grid) {
+      const first = grid.querySelector('img');
+      if (first) grid.style.maxHeight = first.offsetHeight + 'px';
+    }
+    function releaseRows(grid) { grid.style.maxHeight = ''; }
+    window.addEventListener('resize', () => {
+      document.querySelectorAll('.docs-grid:not(.expanded)').forEach(clampOneRow);
+    });
+
+    // ── BLISS documentation ─────────────────────────────────────────
+    const blissNums = [
+      '30','31','32','33','34','35','36','37','38','39','40','41','42','43','44','45',
+      '46','47','48','49','50','51','52','53','54','55','56','57','58','59','60','61',
+      '62','63','64','65','66','67','68','69','72','73'
+    ];
+    const blissPaths = blissNums.map(n =>
+      `../Exhibitions/BLISS/BLISS Documentation/signal assembly 5_4_25-${n}.jpg`
+    );
+    const blissItems = blissPaths.map(src => ({ type: 'img', src }));
+
+    const docsGrid    = document.getElementById('bliss-docs');
+    const showMoreBtn = document.getElementById('bliss-show-more');
+    const INITIAL     = 8;
+    let docsExpanded  = false;
+
+    function addDocImg(src, idx) {
+      const img        = document.createElement('img');
+      img.src          = src;
+      img.loading      = 'lazy';
+      img.alt          = 'BLISS documentation';
+      img.dataset.idx  = idx;
+      docsGrid.appendChild(img);
+    }
+
+    blissPaths.slice(0, INITIAL).forEach((src, i) => addDocImg(src, i));
+    showMoreBtn.textContent = `+ ${blissPaths.length - INITIAL} more`;
+    requestAnimationFrame(() => clampOneRow(docsGrid));
+
+    showMoreBtn.addEventListener('click', () => {
+      if (!docsExpanded) {
+        blissPaths.slice(INITIAL).forEach((src, i) => addDocImg(src, INITIAL + i));
+        showMoreBtn.textContent = '— show less';
+        docsExpanded = true;
+        docsGrid.classList.add('expanded');
+        releaseRows(docsGrid);
+      } else {
+        [...docsGrid.querySelectorAll('img')].slice(INITIAL).forEach(img => img.remove());
+        showMoreBtn.textContent = `+ ${blissPaths.length - INITIAL} more`;
+        docsExpanded = false;
+        docsGrid.classList.remove('expanded');
+        requestAnimationFrame(() => clampOneRow(docsGrid));
+      }
+    });
+
+    // Click docs photo → lightbox
+    docsGrid.addEventListener('click', e => {
+      const img = e.target.closest('img');
+      if (!img) return;
+      openLightbox(blissItems, parseInt(img.dataset.idx), 'BLISS');
+    });
+
+    // ── Theremonic documentation ─────────────────────────────────────
+    const theremonicFiles = [
+      '_66A8953.jpg','_66A8966.jpg','_66A8978.jpg','_66A8980.jpg','_66A8994.jpg',
+      '_66A9027.jpg','_66A9079.jpg','_66A9105.jpg','_66A9126.jpg','_66A9165.jpg',
+      '_66A9183.jpg','_66A9214.jpg','_66A9219.jpg','_66A9272.jpg',
+      '_MG_5556.jpg','_MG_5592.jpg','_MG_5608.jpg','_MG_5658.jpg','_MG_5759.jpg'
+    ];
+    const theremonicPaths = theremonicFiles.map(n => `../Exhibitions/THEREMONIC/${n}`);
+    const theremonicItems = [
+      { type: 'img', src: '../Exhibitions/THEREMONIC/_66A9060.jpg' },
+      ...theremonicPaths.map(src => ({ type: 'img', src })),
+      { type: 'video', src: '../Exhibitions/THEREMONIC/THEREMONIC PROMO (Fin Video) v1.mp4', sound: true }
+    ];
+
+    const theremonicGrid    = document.getElementById('theremonic-docs');
+    const theremonicMoreBtn = document.getElementById('theremonic-show-more');
+    let theremonicExpanded  = false;
+
+    function addTheremonicImg(src, idx) {
+      const img       = document.createElement('img');
+      img.src         = src;
+      img.loading     = 'lazy';
+      img.alt         = 'Theremonic documentation';
+      img.dataset.idx = idx;
+      theremonicGrid.appendChild(img);
+    }
+
+    theremonicPaths.slice(0, INITIAL).forEach((src, i) => addTheremonicImg(src, i));
+    theremonicMoreBtn.textContent = `+ ${theremonicPaths.length - INITIAL} more`;
+    requestAnimationFrame(() => clampOneRow(theremonicGrid));
+
+    theremonicMoreBtn.addEventListener('click', () => {
+      if (!theremonicExpanded) {
+        theremonicPaths.slice(INITIAL).forEach((src, i) => addTheremonicImg(src, INITIAL + i));
+        theremonicMoreBtn.textContent = '— show less';
+        theremonicExpanded = true;
+        theremonicGrid.classList.add('expanded');
+        releaseRows(theremonicGrid);
+      } else {
+        [...theremonicGrid.querySelectorAll('img')].slice(INITIAL).forEach(img => img.remove());
+        theremonicMoreBtn.textContent = `+ ${theremonicPaths.length - INITIAL} more`;
+        theremonicExpanded = false;
+        theremonicGrid.classList.remove('expanded');
+        requestAnimationFrame(() => clampOneRow(theremonicGrid));
+      }
+    });
+
+    theremonicGrid.addEventListener('click', e => {
+      const img = e.target.closest('img');
+      if (!img) return;
+      openLightbox(theremonicItems, parseInt(img.dataset.idx) + 1, 'Theremonic');
+    });
+
+    // ── Tectonic Noise docs grid ─────────────────────────────────────
+    const tectonicFiles = [
+      'IMG_2291.jpg','IMG_2298.jpg','IMG_2403.jpg','IMG_2438.jpg','IMG_2479.jpg',
+      'IMG_2487.jpg','IMG_2746.jpg','IMG_2760.jpg','IMG_2777.jpg','IMG_2782.jpg',
+      'IMG_2783.jpg','IMG_2788.jpg','IMG_2789.jpg','IMG_2798.jpg','IMG_2800.jpg',
+      'IMG_2808.jpg','IMG_2816.jpg','IMG_2817.jpg','IMG_2821.jpg','IMG_2822.jpg',
+      'IMG_2827.jpg','IMG_2831.jpg','IMG_2837.jpg','IMG_2870.jpg','IMG_2874.jpg',
+      'IMG_2947.jpg','IMG_2951.jpg','IMG_2969.jpg','IMG_3032.jpg','IMG_3033.jpg',
+      'IMG_3068.jpg','IMG_3076.jpg'
+    ];
+    const tectonicBase  = '../Public Programs/Tectonic Noise/';
+    const tectonicPaths = tectonicFiles.map(n => tectonicBase + n);
+    const tectonicItems = [
+      { type: 'img', src: tectonicBase + 'IMG_2747.jpg' },
+      ...tectonicPaths.map(src => ({ type: 'img', src }))
+    ];
+    const tectonicGrid    = document.getElementById('tectonic-docs');
+    const tectonicMoreBtn = document.getElementById('tectonic-show-more');
+    let tectonicExpanded  = false;
+
+    function addTectonicImg(src, idx) {
+      const img       = document.createElement('img');
+      img.src         = src;
+      img.loading     = 'lazy';
+      img.alt         = 'Tectonic Noise documentation';
+      img.dataset.idx = idx;
+      tectonicGrid.appendChild(img);
+    }
+
+    tectonicPaths.slice(0, INITIAL).forEach((src, i) => addTectonicImg(src, i));
+    tectonicMoreBtn.textContent = `+ ${tectonicPaths.length - INITIAL} more`;
+    requestAnimationFrame(() => clampOneRow(tectonicGrid));
+
+    tectonicMoreBtn.addEventListener('click', () => {
+      if (!tectonicExpanded) {
+        tectonicPaths.slice(INITIAL).forEach((src, i) => addTectonicImg(src, INITIAL + i));
+        tectonicMoreBtn.textContent = '— show less';
+        tectonicExpanded = true;
+        tectonicGrid.classList.add('expanded');
+        releaseRows(tectonicGrid);
+      } else {
+        [...tectonicGrid.querySelectorAll('img')].slice(INITIAL).forEach(img => img.remove());
+        tectonicMoreBtn.textContent = `+ ${tectonicPaths.length - INITIAL} more`;
+        tectonicExpanded = false;
+        tectonicGrid.classList.remove('expanded');
+        requestAnimationFrame(() => clampOneRow(tectonicGrid));
+      }
+    });
+
+    tectonicGrid.addEventListener('click', e => {
+      const img = e.target.closest('img');
+      if (!img) return;
+      openLightbox(tectonicItems, parseInt(img.dataset.idx) + 1, 'Tectonic Noise');
+    });
+
+    // ── Lightbox ────────────────────────────────────────────────────
+    const workFiles = {
+      'Anti Shadow': [
+        { type: 'img', src: '../Selected Works/Anti Shadow/Screenshot 2025-06-23 at 8.42.31 pm.png' },
+        { type: 'img', src: '../Selected Works/Anti Shadow/Screenshot 2025-06-23 at 8.42.54 pm.png' },
+        { type: 'img', src: '../Selected Works/Anti Shadow/Screenshot 2025-06-23 at 8.43.06 pm.png' },
+        { type: 'img', src: '../Selected Works/Anti Shadow/Screenshot 2025-06-23 at 8.43.20 pm.png' },
+        { type: 'img', src: '../Selected Works/Anti Shadow/Screenshot 2025-06-23 at 8.43.29 pm.png' },
+        { type: 'img', src: '../Selected Works/Anti Shadow/Screenshot 2025-06-23 at 8.43.41 pm.png' },
+        { type: 'img', src: '../Selected Works/Anti Shadow/Screenshot 2025-06-23 at 8.44.00 pm.png' },
+        { type: 'img', src: '../Selected Works/Anti Shadow/Screenshot 2025-06-30 at 6.01.53 pm.png' },
+      ],
+      'Aranea Daemon': [
+        { type: 'img', src: '../Selected Works/Aranea_Daemon/Screenshot 2025-06-30 at 6.07.27 pm.png' },
+        { type: 'img', src: '../Selected Works/Aranea_Daemon/Screenshot 2025-06-30 at 6.07.38 pm.png' },
+        { type: 'img', src: '../Selected Works/Aranea_Daemon/Screenshot 2025-06-30 at 6.07.52 pm.png' },
+      ],
+      'Cthonic Mechanism': [
+        { type: 'video', src: '../Selected Works/Cthonic Mechanisim/CthonicMechscreenCapture.mp4' },
+        { type: 'img',   src: '../Selected Works/Cthonic Mechanisim/Screenshot 2025-06-23 at 7.34.13 pm.png' },
+        { type: 'img',   src: '../Selected Works/Cthonic Mechanisim/Screenshot 2025-06-23 at 7.34.28 pm.png' },
+      ],
+      'Encoded Topography': [{ type: 'video', src: '../Selected Works/encoded topography/Encoded Topography.mp4' }],
+      'Iris Agate':         [{ type: 'video', src: '../Selected Works/Iris Agate/Iris Agate.mp4' }],
+      'Nyctophobia':        [{ type: 'video', src: '../Selected Works/Nyctophobia/Nyctophobia.mp4', sound: true }],
+      'Vein':               [{ type: 'video', src: '../Selected Works/Vein/1. Vein.mp4', sound: true }],
+      'Fantasy Island': [{ type: 'video', src: '../Selected Works/Fantasy Island/ULTRA WIDE.mp4', sound: true }],
+      'touch grass': [
+        { type: 'video', src: '../Selected Works/Touch Grass/MVI_1649.MOV' },
+        { type: 'img',   src: '../Selected Works/Touch Grass/IMG_1651.JPG' },
+        { type: 'img',   src: '../Selected Works/Touch Grass/IMG_1668.JPG' },
+        { type: 'img',   src: '../Selected Works/Touch Grass/IMG_1669.JPG' },
+      ],
+      'FarCry Simulation':  [
+        { type: 'trio', srcs: [
+          '../Selected Works/FarCry Simulation/FC1.mp4',
+          '../Selected Works/FarCry Simulation/FC2.mp4',
+          '../Selected Works/FarCry Simulation/FC3.mp4',
+        ]},
+        { type: 'video', src: '../Selected Works/FarCry Simulation/MVI_3069.MOV' },
+      ],
+    };
+
+    // ── Image slideshow autoplay (cross-fade, no black flash) ────────
+    const SLIDE_FIRST = 2000;
+    const SLIDE_INTERVAL = 2800;
+    const FADE_MS = 300;
+    const slideItems = [...document.querySelectorAll('.work-item')].filter(item => {
+      const img = item.querySelector('img');
+      if (!img) return false;
+      return (workFiles[item.dataset.work] || []).filter(f => f.type === 'img').length > 1;
+    });
+
+    // Preload all slideshow images
+    slideItems.forEach(item => {
+      (workFiles[item.dataset.work] || []).filter(f => f.type === 'img')
+        .forEach(f => { new Image().src = f.src; });
+    });
+
+    slideItems.forEach((item, slideIdx) => {
+      const imgA = item.querySelector('img');
+      const images = (workFiles[item.dataset.work] || [])
+        .filter(f => f.type === 'img').map(f => f.src);
+
+      // Second layer fades in on top — imgA always stays visible underneath
+      const imgB = document.createElement('img');
+      imgB.style.cssText = `position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:0;transition:opacity ${FADE_MS}ms ease;pointer-events:none;`;
+      item.appendChild(imgB);
+
+      let idx = 0;
+      const offset = slideIdx * (SLIDE_FIRST / slideItems.length);
+
+      function doSwap() {
+        idx = (idx + 1) % images.length;
+        imgB.src = images[idx];
+        imgB.style.opacity = '1';
+        setTimeout(() => {
+          imgA.src = images[idx];
+          imgB.style.transition = 'none';
+          imgB.style.opacity = '0';
+          requestAnimationFrame(() => requestAnimationFrame(() => {
+            imgB.style.transition = `opacity ${FADE_MS}ms ease`;
+          }));
+        }, FADE_MS + 50);
+      }
+
+      setTimeout(() => {
+        doSwap();
+        setInterval(doSwap, SLIDE_INTERVAL);
+      }, SLIDE_FIRST + offset);
+    });
+
+    const lightbox  = document.getElementById('lightbox');
+    const lbMedia   = document.getElementById('lb-media');
+    const lbTitle   = document.getElementById('lb-title');
+    const lbCounter = document.getElementById('lb-counter');
+    const lbPrev    = document.getElementById('lb-prev');
+    const lbNext    = document.getElementById('lb-next');
+    const lbClose   = document.getElementById('lb-close');
+    const lbOverlay = document.getElementById('lb-overlay');
+
+    let lbItems = [];
+    let lbIndex = 0;
+
+    function showLbItem() {
+      const item = lbItems[lbIndex];
+      lbMedia.innerHTML = '';
+
+      const loadingEl = document.createElement('div');
+      loadingEl.className = 'lb-loading';
+      lbMedia.appendChild(loadingEl);
+      startLoadingAnim(loadingEl);
+      const removeLoading = () => loadingEl.remove();
+
+      if (item.type === 'img') {
+        const el = document.createElement('img');
+        el.src = item.src;
+        el.addEventListener('load',  removeLoading, { once: true });
+        el.addEventListener('error', removeLoading, { once: true });
+        lbMedia.appendChild(el);
+      } else if (item.type === 'trio') {
+        const wrap = document.createElement('div');
+        wrap.className = 'lb-trio';
+        item.srcs.forEach((src, i) => {
+          const el       = document.createElement('video');
+          el.src         = src;
+          el.muted       = true;
+          el.autoplay    = true;
+          el.playsinline = true;
+          el.style.cursor = 'default';
+          el.addEventListener('click', () => el.paused ? el.play() : el.pause());
+          if (i === 0) {
+            el.addEventListener('canplay', removeLoading, { once: true });
+            el.addEventListener('error',   removeLoading, { once: true });
+          }
+          wrap.appendChild(el);
+        });
+        lbMedia.appendChild(wrap);
+      } else {
+        const soundOn  = !!item.sound;
+        if (soundOn) duckBackground(0, 2000);
+        else         duckBackground(1, 1500);
+        const el       = document.createElement('video');
+        el.src         = item.src;
+        el.muted       = !soundOn;
+        el.autoplay    = true;
+        el.playsinline = true;
+        el.style.cursor = 'default';
+        el.addEventListener('click', () => el.paused ? el.play() : el.pause());
+        el.addEventListener('canplay', removeLoading, { once: true });
+        el.addEventListener('error',   removeLoading, { once: true });
+        lbMedia.appendChild(el);
+      }
+
+      lbCounter.textContent   = lbItems.length > 1 ? `${lbIndex + 1} / ${lbItems.length}` : '';
+      lbPrev.disabled         = lbIndex === 0;
+      lbNext.disabled         = lbIndex === lbItems.length - 1;
+      const multi             = lbItems.length > 1;
+      lbPrev.style.visibility = multi ? 'visible' : 'hidden';
+      lbNext.style.visibility = multi ? 'visible' : 'hidden';
+    }
+
+    function openLightbox(items, startIndex, title) {
+      lbItems = items;
+      lbIndex = startIndex;
+      lbTitle.textContent = title;
+      showLbItem();
+      lightbox.classList.add('open');
+    }
+
+    function closeLightbox() {
+      lightbox.classList.remove('open');
+      lbMedia.innerHTML = '';
+      lbItems = [];
+      duckBackground(1, 1500);
+    }
+
+    lbPrev.addEventListener('click', () => { if (lbIndex > 0) { lbIndex--; showLbItem(); } });
+    lbNext.addEventListener('click', () => { if (lbIndex < lbItems.length - 1) { lbIndex++; showLbItem(); } });
+    lbClose.addEventListener('click', closeLightbox);
+    lbOverlay.addEventListener('click', closeLightbox);
+
+    document.addEventListener('keydown', e => {
+      if (!lightbox.classList.contains('open')) return;
+      if (e.key === 'Escape')      closeLightbox();
+      if (e.key === 'ArrowRight' && !lbNext.disabled) { lbIndex++; showLbItem(); }
+      if (e.key === 'ArrowLeft'  && !lbPrev.disabled) { lbIndex--; showLbItem(); }
+    });
+
+    document.querySelectorAll('.work-item[data-work]').forEach(item => {
+      item.addEventListener('click', () => openLightbox(workFiles[item.dataset.work], 0, item.dataset.work));
+    });
+
+    // ── Title card autoplay reliability + loading indicator ─────────
+    document.querySelectorAll('.work-item video').forEach(v => {
+      const loadingEl = document.createElement('div');
+      loadingEl.className = 'work-loading';
+      v.parentElement.appendChild(loadingEl);
+      startLoadingAnim(loadingEl);
+      v.addEventListener('canplay', () => {
+        loadingEl.remove();
+        v.play().catch(() => {});
+      }, { once: true });
+    });
+
+    // ── BLISS video click to pause/play ─────────────────────────────
+    const blissVideo = document.getElementById('bliss-video');
+    blissVideo.addEventListener('click', () => {
+      blissVideo.paused ? blissVideo.play() : blissVideo.pause();
+    });
+
+    // ── Navigation + scroll spy ─────────────────────────────────────
+    const navLinks = document.querySelectorAll('nav a[href^="#"]');
+    const content  = document.getElementById('content');
+    const sections = document.querySelectorAll('.section');
+
+    navLinks.forEach(link => {
+      link.addEventListener('click', e => {
+        e.preventDefault();
+        const target = document.querySelector(link.getAttribute('href'));
+        if (!target) return;
+        const offset = target.getBoundingClientRect().top
+                     - content.getBoundingClientRect().top
+                     + content.scrollTop - 28;
+        content.scrollTo({ top: offset, behavior: 'smooth' });
+      });
+    });
+
+    // ── Profile photo dot shader (spring physics) ────────────────────
+    const profileWrap   = document.getElementById('profile-wrap');
+    const profileCanvas = document.getElementById('profile-canvas');
+    const pctx          = profileCanvas.getContext('2d');
+
+    const DOT_SPACING      = 8;
+    const DOT_RADIUS       = 0.7;
+    const ATTRACT_RADIUS   = 40;
+    const ATTRACT_STRENGTH = 0.45;
+    const SPRING_K         = 0.055;
+    const DAMPING          = 0.68;
+
+    let pmx = -9999, pmy = -9999;
+    let isHovering = false;
+    let profileDots = [];
+    let profileAnimFrame = null;
+    let offscreen = null;
+    let dotTrail = [];
+    const TRAIL_FRAMES = 7;
+    let clickImprints = [];
+
+    // Profile photo slideshow
+    const profilePhotos = [
+      '../Profile Photo/Vertical/Scan 25.jpeg',
+      '../Profile Photo/Vertical/Scan 2.jpeg',
+      '../Profile Photo/Vertical/Scan 23.jpeg',
+      '../Profile Photo/Vertical/Scan 4.jpeg',
+      '../Profile Photo/Vertical/Scan 33.jpeg',
+    ];
+    let profilePhotoIndex = 0;
+    let profilePhotoImgs  = [];
+    let offscreenNext     = null;
+    let xfPhotoStart      = null;
+    const PHOTO_XF_MS     = 6000;
+
+    const profileImg = profileWrap.querySelector('img');
+
+    function loadOffscreen() {
+      offscreen = document.createElement('canvas');
+      offscreen.width  = profileCanvas.width;
+      offscreen.height = profileCanvas.height;
+      const src = (profilePhotoImgs.length && profilePhotoImgs[profilePhotoIndex].complete)
+        ? profilePhotoImgs[profilePhotoIndex] : profileImg;
+      offscreen.getContext('2d').drawImage(src, 0, 0, offscreen.width, offscreen.height);
+    }
+
+    function buildDots() {
+      profileDots = [];
+      const w = profileCanvas.width;
+      const h = profileCanvas.height;
+      for (let ox = DOT_SPACING / 2; ox < w; ox += DOT_SPACING) {
+        for (let oy = DOT_SPACING / 2; oy < h; oy += DOT_SPACING) {
+          profileDots.push({ ox, oy, x: ox, y: oy, vx: 0, vy: 0 });
+        }
+      }
+    }
+
+    function resizeProfileCanvas() {
+      profileCanvas.width  = profileWrap.offsetWidth;
+      profileCanvas.height = profileWrap.offsetHeight;
+      offscreenNext = null;
+      xfPhotoStart  = null;
+      loadOffscreen();
+      buildDots();
+    }
+
+    function tickAndDraw() {
+      const w = profileCanvas.width;
+      const h = profileCanvas.height;
+
+      // Base image (crossfade between profile photos)
+      if (xfPhotoStart !== null && offscreenNext) {
+        const t = Math.min((performance.now() - xfPhotoStart) / PHOTO_XF_MS, 1);
+        pctx.globalAlpha = 1 - t;
+        pctx.drawImage(offscreen, 0, 0);
+        pctx.globalAlpha = t;
+        pctx.drawImage(offscreenNext, 0, 0);
+        pctx.globalAlpha = 1;
+        if (t >= 1) { offscreen = offscreenNext; offscreenNext = null; xfPhotoStart = null; }
+      } else {
+        pctx.globalAlpha = 1;
+        pctx.drawImage(offscreen, 0, 0);
+      }
+
+      let anyMoving = false;
+      const half = DOT_SPACING / 2 + 1; // slight overdraw to avoid tile gaps
+
+      for (const d of profileDots) {
+        const quickDx = d.ox - pmx;
+        const quickDy = d.oy - pmy;
+        const originDist2 = quickDx * quickDx + quickDy * quickDy;
+        const farAway = originDist2 > (ATTRACT_RADIUS + 20) * (ATTRACT_RADIUS + 20);
+        const settled = Math.abs(d.vx) < 0.01 && Math.abs(d.vy) < 0.01 &&
+                        Math.abs(d.x - d.ox) < 0.08 && Math.abs(d.y - d.oy) < 0.08;
+        if (farAway && settled) continue;
+
+        // Spring back to origin
+        let fx = (d.ox - d.x) * SPRING_K;
+        let fy = (d.oy - d.y) * SPRING_K;
+
+        // Attract toward mouse
+        if (isHovering && !farAway) {
+          const dx   = pmx - d.x;
+          const dy   = pmy - d.y;
+          const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+          if (dist < ATTRACT_RADIUS) {
+            const t        = 1 - dist / ATTRACT_RADIUS;
+            const strength = t * t * ATTRACT_STRENGTH;
+            fx += (dx / dist) * strength;
+            fy += (dy / dist) * strength;
+          }
+        }
+
+        d.vx = (d.vx + fx) * DAMPING;
+        d.vy = (d.vy + fy) * DAMPING;
+        d.x += d.vx;
+        d.y += d.vy;
+
+        const ddx = d.x - d.ox;
+        const ddy = d.y - d.oy;
+        const displacement = Math.sqrt(ddx * ddx + ddy * ddy);
+        if (displacement > 0.08 || Math.abs(d.vx) > 0.01) anyMoving = true;
+        if (displacement < 0.1) continue;
+
+        // Redraw displaced image tile on top of base
+        const sx = Math.max(0, d.ox - half);
+        const sy = Math.max(0, d.oy - half);
+        const sw = Math.min(half * 2, w - sx);
+        const sh = Math.min(half * 2, h - sy);
+        pctx.drawImage(offscreen, sx, sy, sw, sh,
+                                  sx + ddx, sy + ddy, sw, sh);
+      }
+
+      // Collect current frame dot data
+      const currentFrame = [];
+      for (const d of profileDots) {
+        const quickDx = d.ox - pmx;
+        const quickDy = d.oy - pmy;
+        const originDist  = Math.sqrt(quickDx * quickDx + quickDy * quickDy);
+        const t = originDist / ATTRACT_RADIUS;
+        const hoverOpacity = (isHovering && originDist < ATTRACT_RADIUS)
+          ? (1 - t * t) * (1 - t) : 0;
+        const displacement = Math.sqrt((d.x - d.ox) ** 2 + (d.y - d.oy) ** 2);
+        const displaceOpacity = Math.min(displacement / 5, 1) * 0.9;
+        const opacity = Math.max(hoverOpacity, displaceOpacity);
+        if (opacity < 0.01) continue;
+        currentFrame.push({ x: d.x, y: d.y, opacity });
+      }
+
+      // Draw trail + current dots
+      pctx.fillStyle = '#ff1010';
+
+      // Trail frames (oldest first, most faded)
+      for (let fi = 0; fi < dotTrail.length; fi++) {
+        const age = (fi + 1) / (dotTrail.length + 1);
+        for (const td of dotTrail[fi]) {
+          pctx.globalAlpha = td.opacity * age * 0.25;
+          pctx.beginPath();
+          pctx.roundRect(td.x - DOT_RADIUS, td.y - DOT_RADIUS, DOT_RADIUS * 2, DOT_RADIUS * 2, DOT_RADIUS * 0.38);
+          pctx.fill();
+        }
+      }
+
+      // Current frame
+      for (const cd of currentFrame) {
+        pctx.globalAlpha = cd.opacity;
+        pctx.beginPath();
+        pctx.roundRect(cd.x - DOT_RADIUS, cd.y - DOT_RADIUS, DOT_RADIUS * 2, DOT_RADIUS * 2, DOT_RADIUS * 0.38);
+        pctx.fill();
+      }
+
+      pctx.globalAlpha = 1;
+
+      // Update trail buffer
+      dotTrail.push(currentFrame);
+      if (dotTrail.length > TRAIL_FRAMES) dotTrail.shift();
+
+      // Click imprints
+      clickImprints = clickImprints.filter(imp => imp.opacity > 0.01);
+      for (const imp of clickImprints) {
+        const s = 8;
+        const g = 3;
+        pctx.strokeStyle = '#e83535';
+        pctx.lineWidth   = 1;
+        pctx.globalAlpha = imp.opacity;
+        pctx.beginPath();
+        pctx.moveTo(imp.x, imp.y - s); pctx.lineTo(imp.x, imp.y - g);
+        pctx.moveTo(imp.x, imp.y + g); pctx.lineTo(imp.x, imp.y + s);
+        pctx.moveTo(imp.x - s, imp.y); pctx.lineTo(imp.x - g, imp.y);
+        pctx.moveTo(imp.x + g, imp.y); pctx.lineTo(imp.x + s, imp.y);
+        pctx.stroke();
+        pctx.beginPath();
+        pctx.arc(imp.x, imp.y, 2, 0, Math.PI * 2);
+        pctx.stroke();
+        pctx.globalAlpha = 1;
+        imp.opacity -= 0.007;
+      }
+
+      profileAnimFrame = (isHovering || anyMoving || clickImprints.length || xfPhotoStart !== null)
+        ? requestAnimationFrame(tickAndDraw) : null;
+    }
+
+    function startProfileAnim() {
+      if (!profileAnimFrame) profileAnimFrame = requestAnimationFrame(tickAndDraw);
+    }
+
+    profileWrap.addEventListener('mousemove', e => {
+      const rect = profileCanvas.getBoundingClientRect();
+      pmx        = (e.clientX - rect.left) * (profileCanvas.width  / rect.width);
+      pmy        = (e.clientY - rect.top)  * (profileCanvas.height / rect.height);
+      isHovering = true;
+      startProfileAnim();
+    });
+
+    profileWrap.addEventListener('mouseleave', () => {
+      isHovering = false;
+      pmx = -9999; pmy = -9999;
+      startProfileAnim(); // keep running so dots spring back visibly
+    });
+
+    profileWrap.addEventListener('click', e => {
+      const rect = profileCanvas.getBoundingClientRect();
+      const cx = (e.clientX - rect.left) * (profileCanvas.width  / rect.width);
+      const cy = (e.clientY - rect.top)  * (profileCanvas.height / rect.height);
+      clickImprints.push({ x: cx, y: cy, opacity: 1 });
+      startProfileAnim();
+    });
+
+    const crosshairSVG = `<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24'>
+      <line x1='12' y1='0' x2='12' y2='10' stroke='%23e83535' stroke-width='1'/>
+      <line x1='12' y1='14' x2='12' y2='24' stroke='%23e83535' stroke-width='1'/>
+      <line x1='0' y1='12' x2='10' y2='12' stroke='%23e83535' stroke-width='1'/>
+      <line x1='14' y1='12' x2='24' y2='12' stroke='%23e83535' stroke-width='1'/>
+      <circle cx='12' cy='12' r='2' fill='none' stroke='%23e83535' stroke-width='1'/>
+    </svg>`;
+    profileWrap.style.cursor = `url("data:image/svg+xml,${crosshairSVG.replace(/\s+/g,' ')}") 12 12, crosshair`;
+
+    window.addEventListener('resize', resizeProfileCanvas);
+    if (profileImg.complete) { resizeProfileCanvas(); }
+    else { profileImg.addEventListener('load', resizeProfileCanvas); }
+
+    // Preload all profile photos
+    profilePhotos.forEach((src, i) => {
+      const img = new Image();
+      img.src = src;
+      profilePhotoImgs[i] = img;
+    });
+
+    // Profile photo slideshow: transition every 45s with 6s crossfade
+    setInterval(() => {
+      const nextIndex = (profilePhotoIndex + 1) % profilePhotos.length;
+      const nextImg   = profilePhotoImgs[nextIndex];
+      function beginPhotoXf() {
+        offscreenNext = document.createElement('canvas');
+        offscreenNext.width  = profileCanvas.width;
+        offscreenNext.height = profileCanvas.height;
+        offscreenNext.getContext('2d').drawImage(nextImg, 0, 0, offscreenNext.width, offscreenNext.height);
+        profilePhotoIndex = nextIndex;
+        xfPhotoStart = performance.now();
+        startProfileAnim();
+      }
+      if (nextImg.complete) beginPhotoXf();
+      else nextImg.addEventListener('load', beginPhotoXf, { once: true });
+    }, 45000);
+
+    // ── Easter egg: 6 clicks → crossfade audio loop + speaker UI ─────
+    let eggClicks   = 0;
+    let audioReady  = false;
+    let audA, audB, curAud, nxtAud;
+    let mVol        = 0;
+    let volMuted    = false;
+    let xfTimeout   = null;
+    let xfInterval  = null;
+    const XF_SECS   = 15;
+
+    // Background music ducking when sound-on works play in lightbox
+    let bgDuckMul      = 1;
+    let bgDuckTarget   = 1;
+    let bgDuckFromMul  = 1;
+    let bgDuckStart    = null;
+    let bgDuckDur      = 2000;
+    function duckBackground(to, ms) {
+      bgDuckFromMul = bgDuckMul;
+      bgDuckTarget  = to;
+      bgDuckStart   = performance.now();
+      bgDuckDur     = ms || 2000;
+      (function step() {
+        const t = Math.min((performance.now() - bgDuckStart) / bgDuckDur, 1);
+        bgDuckMul = bgDuckFromMul + (bgDuckTarget - bgDuckFromMul) * t;
+        if (curAud && !volMuted) curAud.volume = Math.max(0, Math.min(1, mVol * bgDuckMul));
+        if (curAud &&  volMuted) curAud.volume = 0;
+        if (t < 1) requestAnimationFrame(step);
+        else bgDuckMul = bgDuckTarget;
+      })();
+    }
+
+    function scheduleXfade() {
+      clearTimeout(xfTimeout);
+      const dur = curAud.duration;
+      if (!dur || isNaN(dur)) return;
+      const waitMs = Math.max(0, (dur - XF_SECS - curAud.currentTime) * 1000);
+      xfTimeout = setTimeout(() => {
+        nxtAud.currentTime = 0;
+        nxtAud.volume = 0;
+        nxtAud.play().catch(() => {});
+        let step = 0;
+        const steps = XF_SECS * 10;
+        clearInterval(xfInterval);
+        xfInterval = setInterval(() => {
+          step++;
+          const t = step / steps;
+          curAud.volume = mVol * bgDuckMul * (1 - t);
+          nxtAud.volume = mVol * bgDuckMul * t;
+          if (step >= steps) {
+            clearInterval(xfInterval);
+            curAud.pause();
+            [curAud, nxtAud] = [nxtAud, curAud];
+            scheduleXfade();
+          }
+        }, 100);
+      }, waitMs);
+    }
+
+    function createSpeakerUI() {
+      const speaker = document.createElement('div');
+      speaker.style.cssText = 'position:absolute;bottom:8px;right:8px;z-index:10;display:flex;flex-direction:column;align-items:center;';
+
+      const sliderWrap = document.createElement('div');
+      sliderWrap.style.cssText = 'height:0;overflow:hidden;transition:height 0.28s ease;display:flex;justify-content:center;align-items:flex-end;padding-bottom:6px;';
+
+      // Custom volume slider: 1px track + solid 4-point star thumb (bottom stretched)
+      let volDragging = false;
+      let volAnimating = false;
+      const volTrackH = 100;
+      const volOpenH = volTrackH + 6; // includes sliderWrap padding-bottom
+
+      const sliderContainer = document.createElement('div');
+      sliderContainer.style.cssText = 'position:relative;height:' + volTrackH + 'px;width:36px;cursor:default;overflow:hidden;';
+
+      const volTrack = document.createElement('div');
+      volTrack.style.cssText = 'position:absolute;left:50%;top:0;height:' + volTrackH + 'px;width:1px;background:#e83535;transform:translateX(-50%);';
+
+      const volThumb = document.createElementNS('http://www.w3.org/2000/svg','svg');
+      volThumb.setAttribute('width','20');
+      volThumb.setAttribute('height','26');
+      volThumb.setAttribute('viewBox','0 0 20 26');
+      volThumb.style.cssText = 'position:absolute;left:50%;transform:translateX(-50%);pointer-events:none;';
+      const volStar = document.createElementNS('http://www.w3.org/2000/svg','path');
+      // 4-point star: outer R=9, inner r=1.41, center (10,10), bottom point stretched to y=24
+      // Rounded 4-point star: straight arms, small Q curve at each tip for soft rounding
+      volStar.setAttribute('d','M 8.59,8.59 L 9.63,2.97 Q 10,1 10.37,2.97 L 11.41,8.59 L 17.03,9.63 Q 19,10 17.03,10.37 L 11.41,11.41 L 10.22,22.01 Q 10,24 9.78,22.01 L 8.59,11.41 L 2.97,10.37 Q 1,10 2.97,9.63 Z');
+      volStar.setAttribute('fill','#e83535');
+      volStar.setAttribute('stroke','none');
+      volThumb.appendChild(volStar);
+
+      function setVolume(val) {
+        val = Math.max(0, Math.min(100, val));
+        mVol = val / 100;
+        if (curAud) curAud.volume = volMuted ? 0 : mVol * bgDuckMul;
+        // Keep star fully inside container: center range [10, volTrackH-16]
+        const minC = 10, maxC = volTrackH - 16;
+        volThumb.style.top = (maxC - (val / 100) * (maxC - minC) - 10) + 'px';
+      }
+
+      sliderContainer.addEventListener('mousedown', e => {
+        volAnimating = false;
+        volDragging = true;
+        const rect = sliderContainer.getBoundingClientRect();
+        setVolume((1 - (e.clientY - rect.top) / volTrackH) * 100);
+        e.preventDefault();
+      });
+      document.addEventListener('mousemove', e => {
+        if (!volDragging) return;
+        const rect = sliderContainer.getBoundingClientRect();
+        setVolume((1 - (e.clientY - rect.top) / volTrackH) * 100);
+      });
+      document.addEventListener('mouseup', () => { volDragging = false; });
+
+      sliderContainer.appendChild(volTrack);
+      sliderContainer.appendChild(volThumb);
+      setVolume(0);
+
+      const svgUnmuted = `<svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <rect x="1" y="5" width="3" height="4" rx="0.4" fill="#e83535"/>
+        <polygon points="4,5 8.5,2 8.5,12 4,9" fill="#e83535"/>
+        <path d="M10 4.5 Q12.2 7 10 9.5" stroke="#e83535" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+      </svg>`;
+      const svgMuted = `<svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+        <rect x="1" y="5" width="3" height="4" rx="0.4" fill="#e83535"/>
+        <polygon points="4,5 8.5,2 8.5,12 4,9" fill="#e83535"/>
+        <line x1="10" y1="4.5" x2="13" y2="9.5" stroke="#e83535" stroke-width="1.2" stroke-linecap="round"/>
+        <line x1="10" y1="9.5" x2="13" y2="4.5" stroke="#e83535" stroke-width="1.2" stroke-linecap="round"/>
+      </svg>`;
+
+      const icon = document.createElement('div');
+      icon.style.cssText = 'opacity:0.65;transition:opacity 0.2s;line-height:0;cursor:pointer;';
+      icon.innerHTML = svgUnmuted;
+
+      icon.addEventListener('click', e => {
+        e.stopPropagation();
+        volMuted = !volMuted;
+        if (volMuted) {
+          if (curAud) curAud.volume = 0;
+          if (nxtAud) nxtAud.volume = 0;
+        } else {
+          if (curAud) curAud.volume = mVol * bgDuckMul;
+        }
+        icon.innerHTML = volMuted ? svgMuted : svgUnmuted;
+      });
+
+      speaker.addEventListener('mouseenter', () => { sliderWrap.style.height = volOpenH + 'px'; icon.style.opacity = '1'; });
+      speaker.addEventListener('mouseleave', () => { sliderWrap.style.height = '0';              icon.style.opacity = '0.65'; });
+
+      sliderWrap.appendChild(sliderContainer);
+      speaker.appendChild(sliderWrap);
+      speaker.appendChild(icon);
+      profileWrap.appendChild(speaker);
+
+      // Scroll anywhere on profile image to adjust volume
+      profileWrap.addEventListener('wheel', e => {
+        volAnimating = false;
+        e.preventDefault();
+        setVolume(mVol * 100 - e.deltaY * 0.08);
+      }, { passive: false });
+
+      // On trigger: auto-open and animate volume to 66% over 6 seconds
+      setTimeout(() => {
+        sliderWrap.style.height = volOpenH + 'px';
+        icon.style.opacity = '1';
+        volAnimating = true;
+        const animStart = performance.now();
+        const animDur = 6000;
+        function autoAnim(now) {
+          if (!volAnimating) return;
+          const t = Math.min((now - animStart) / animDur, 1);
+          setVolume(t * 66);
+          if (t < 1) requestAnimationFrame(autoAnim);
+          else {
+            volAnimating = false;
+            // Auto-close after 6s — cancelled if user hovers first
+            const autoCloseId = setTimeout(() => {
+              sliderWrap.style.height = '0';
+              icon.style.opacity = '0.65';
+            }, 1500);
+            speaker.addEventListener('mouseenter', () => clearTimeout(autoCloseId), { once: true });
+          }
+        }
+        requestAnimationFrame(autoAnim);
+      }, 80);
+    }
+
+    // Start audio silently on page load so it's ready when egg triggers
+    (function startAudio() {
+      if (audioReady) return;
+      audioReady = true;
+      audA = new Audio('../Audio/Website Loop.m4a');
+      audB = new Audio('../Audio/Website Loop.m4a');
+      audA.volume = 0; audB.volume = 0;
+      curAud = audA; nxtAud = audB;
+      curAud.addEventListener('canplay', scheduleXfade, { once: true });
+      const tryPlay = () => curAud.play().catch(() => {});
+      tryPlay();
+      // Retry on first interaction in case autoplay was blocked
+      ['click','keydown','touchstart'].forEach(ev =>
+        document.addEventListener(ev, tryPlay, { once: true, passive: true })
+      );
+    })();
+
+    let eggUIShown = false;
+    function initEasterEgg() {
+      if (eggUIShown) return;
+      eggUIShown = true;
+      createSpeakerUI();
+    }
+
+    profileWrap.addEventListener('click', () => {
+      eggClicks++;
+      if (eggClicks === 6) initEasterEgg();
+    });
+
+    // ── Navigation + scroll spy ─────────────────────────────────────
+    content.addEventListener('scroll', () => {
+      let current = sections[0].id;
+      sections.forEach(s => {
+        const top = s.getBoundingClientRect().top - content.getBoundingClientRect().top;
+        if (top < 120) current = s.id;
+      });
+      navLinks.forEach(l => {
+        l.classList.toggle('active', l.getAttribute('href') === `#${current}`);
+      });
+    });
+  </script>
+
+</body>
+</html>

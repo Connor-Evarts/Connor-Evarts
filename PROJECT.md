@@ -29,7 +29,8 @@ A single-file art portfolio website (index.html) with:
 - Background: pure black `#000`
 - Static noise range: 0–23 brightness
 - Static centre boost: `fadeIn * fadeOut * 14`
-- Font stack: MingLiU, PMingLiU, STSong, Songti TC, Noto Serif, serif
+- Font stack (index-1 / original): MingLiU, PMingLiU, STSong, Songti TC, Noto Serif, serif
+- Font stack (index-2 iteration): Baunk (local, name + titles) + Cinzel (nav + labels, Google Fonts) + Cormorant Garamond (body text, Google Fonts) — Baunk may change, was originally MingLiU
 - Sidebar width: 275px
 - Bloom filter: wide glow stdDeviation=14 (1.4x red), mid glow stdDeviation=5 (1.5x red, trace green)
 
@@ -39,10 +40,19 @@ A single-file art portfolio website (index.html) with:
 
 ```
 website/
-├── index.html              ← entire website (HTML + CSS + JS)
+├── index.html              ← entire website (HTML + CSS + JS) — live on GitHub Pages
 ├── PROJECT.md              ← this file
 ├── .gitignore
 ├── .nojekyll               ← disables Jekyll on GitHub Pages (required for _ filenames)
+├── versions/
+│   ├── index-1.html        ← backup of original, do not touch (all paths use ../ prefix)
+│   ├── index-2.html        ← active iteration with friend's feedback applied
+│   └── index-2-backup.html ← snapshot before easter egg / bg photo work (do not touch)
+├── fonts/
+│   └── BAUNK FILE/
+│       ├── Baunk.otf
+│       ├── Baunk.ttf
+│       └── Baunk.woff      ← used in index-2 for site name + section/exhibition/program titles
 ├── Audio/
 │   ├── Website Loop.m4a    ← easter egg ambient loop (compressed from WAV, 1.1MB)
 │   └── Website Loop.wav    ← original (NOT in git)
@@ -55,10 +65,17 @@ website/
 │   │       └── Bliss.mp4
 │   └── THEREMONIC/                 ← 20 JPGs (_66Axxxx, _MG_xxxx) + promo video
 ├── Profile Photo/
-│   ├── Scan 25.jpeg        ← slideshow photo 1
-│   ├── Scan 2.jpeg         ← slideshow photo 2
-│   ├── Scan 23.jpeg        ← slideshow photo 3
-│   └── Scan 4.jpeg         ← slideshow photo 4
+│   ├── Vertical/           ← sidebar profile photo slideshow (index-1 + index-2)
+│   │   ├── Scan 25.jpeg
+│   │   ├── Scan 2.jpeg
+│   │   ├── Scan 23.jpeg
+│   │   ├── Scan 33.jpeg
+│   │   └── Scan 4.jpeg
+│   └── horizontal/         ← full-page background photos (index-2 only), crossfade by active section
+│       ├── Scan 29.jpeg
+│       ├── Scan 30.jpeg
+│       ├── Scan 34.jpeg
+│       └── Scan.jpeg
 ├── Selected Works/
 │   ├── Anti Shadow/                ← 8 PNGs
 │   ├── Aranea_Daemon/              ← 3 PNGs
@@ -121,7 +138,7 @@ website/
 - Custom red crosshair cursor (SVG data URL) on the profile wrap
 - Profile photo cycles through 4 photos every 45s with 6s crossfade
 
-### Easter egg
+### Easter egg (audio)
 - Audio loop (Audio/Website Loop.m4a) loads silently at volume 0 on page load
   - Fallback: starts on first user interaction if autoplay was blocked
 - 6 clicks on profile photo → red speaker icon appears bottom-right, volume animates 0→66% over 6s, auto-closes after 1.5s
@@ -130,6 +147,13 @@ website/
 - Click speaker icon to mute/unmute
 - Loop uses 15-second crossfade: two audio instances alternate, fading in/out seamlessly
 - Background music ducks when sound-on lightbox items play
+
+### Easter egg (background reveal) — index-2 only
+- Hovering cursor against the right edge of the screen (full height, 60px strip) for 350ms fades the main content to opacity 0
+- Content restores immediately when cursor leaves the right edge
+- While revealed: scroll anywhere on the page to cycle through background photos (4x speed, mapped to sections)
+- Sidebar stays fully visible at all times
+- Background photo section map: works → Scan 29, exhibitions → Scan 30, program → Scan 34, cv → Scan
 
 ---
 
@@ -200,6 +224,11 @@ git push
 - Add photos/media to Rīgorabana public program when available
 - Consider TV turn-on intro animation (static resolves into page on load)
 - The repo is named Connor-Evarts (not Connor-Evarts.github.io) — this is fine, GitHub Pages still works via Settings → Pages
+- **Enable contact form sending** (visual is built in index-2, needs Formspree ID to actually send):
+  1. Sign up free at https://formspree.io
+  2. Create a new form → set destination email to connor.andree.evarts@gmail.com
+  3. Copy the Form ID (e.g. `xpwzbkqr`)
+  4. In index-2.html find `const FORMSPREE_ID = 'YOUR_FORM_ID';` and replace with your ID
 
 ## Important notes
 - `.nojekyll` file in repo root is critical — without it GitHub Pages (Jekyll) silently blocks all files whose names start with `_` (affects all THEREMONIC photos)
