@@ -1603,21 +1603,28 @@
       }, 80);
     }
 
-    function initEasterEgg() {
+    // Start audio silently on page load so it's ready when egg triggers
+    (function startAudio() {
       if (audioReady) return;
       audioReady = true;
       audA = new Audio('Audio/Website Loop.m4a');
       audB = new Audio('Audio/Website Loop.m4a');
       audA.volume = 0; audB.volume = 0;
       curAud = audA; nxtAud = audB;
-      createSpeakerUI();
-      curAud.play().catch(() => {});
       curAud.addEventListener('canplay', scheduleXfade, { once: true });
-      // Fade in from silence whenever audio actually starts playing
-      curAud.addEventListener('playing', () => {
-        bgDuckMul = 0;
-        duckBackground(1, 1500);
-      }, { once: true });
+      const tryPlay = () => curAud.play().catch(() => {});
+      tryPlay();
+      // Retry on first interaction in case autoplay was blocked
+      ['click','keydown','touchstart'].forEach(ev =>
+        document.addEventListener(ev, tryPlay, { once: true, passive: true })
+      );
+    })();
+
+    let eggUIShown = false;
+    function initEasterEgg() {
+      if (eggUIShown) return;
+      eggUIShown = true;
+      createSpeakerUI();
     }
 
     profileWrap.addEventListener('click', () => {
