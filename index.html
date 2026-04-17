@@ -129,6 +129,17 @@
       width: 100%; height: 100%; object-fit: cover; display: block;
     }
     .work-item img { transition: none; }
+    .work-loading {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #e83535;
+      font-size: 0.75rem;
+      letter-spacing: 0.18em;
+      pointer-events: none;
+    }
 
     .work-label {
       position: absolute;
@@ -1092,9 +1103,16 @@
       item.addEventListener('click', () => openLightbox(workFiles[item.dataset.work], 0, item.dataset.work));
     });
 
-    // ── Title card autoplay reliability ─────────────────────────────
+    // ── Title card autoplay reliability + loading indicator ─────────
     document.querySelectorAll('.work-item video').forEach(v => {
-      v.addEventListener('canplay', () => v.play().catch(() => {}), { once: true });
+      const loadingEl = document.createElement('div');
+      loadingEl.className = 'work-loading';
+      loadingEl.textContent = 'LOADING...';
+      v.parentElement.appendChild(loadingEl);
+      v.addEventListener('canplay', () => {
+        loadingEl.remove();
+        v.play().catch(() => {});
+      }, { once: true });
     });
 
     // ── BLISS video click to pause/play ─────────────────────────────
