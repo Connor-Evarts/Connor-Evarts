@@ -518,7 +518,7 @@
         <a href="#program">Public Programs</a>
         <a href="#cv">CV</a>
         <div id="profile-wrap" style="width:100%;margin-top:auto;margin-bottom:auto;position:relative;line-height:0;border:1px solid var(--red-dim);">
-          <img src="profile photo/Scan 25.jpeg" alt="Connor Andree Evarts" style="width:100%;display:block;">
+          <img src="Profile Photo/Scan 25.jpeg" alt="Connor Andree Evarts" style="width:100%;display:block;">
           <canvas id="profile-canvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:2;"></canvas>
         </div>
         <div class="nav-bottom">
@@ -546,7 +546,7 @@
           </div>
 
           <div class="work-item" data-work="touch grass">
-            <video src="Selected Works/touch grass/MVI_1649.MOV" muted loop autoplay playsinline></video>
+            <video src="Selected Works/Touch Grass/MVI_1649.MOV" muted loop autoplay playsinline></video>
             <div class="work-label">touch grass</div>
           </div>
 
@@ -618,7 +618,7 @@
           </div>
 
           <div class="vis-grid">
-            <img src="Exhibitions/Theremonic/_66A9060.jpg" alt="Theremonic" style="width:100%;aspect-ratio:3/2;object-fit:cover;border:1px solid var(--red-dim);">
+            <img src="Exhibitions/THEREMONIC/_66A9060.jpg" alt="Theremonic" style="width:100%;aspect-ratio:3/2;object-fit:cover;border:1px solid var(--red-dim);">
           </div>
 
           <p class="docs-header">Installation Documentation</p>
@@ -840,9 +840,9 @@
       '_66A9183.jpg','_66A9214.jpg','_66A9219.jpg','_66A9272.jpg',
       '_MG_5556.jpg','_MG_5592.jpg','_MG_5608.jpg','_MG_5658.jpg','_MG_5759.jpg'
     ];
-    const theremonicPaths = theremonicFiles.map(n => `Exhibitions/Theremonic/${n}`);
+    const theremonicPaths = theremonicFiles.map(n => `Exhibitions/THEREMONIC/${n}`);
     const theremonicItems = [
-      { type: 'img', src: 'Exhibitions/Theremonic/_66A9060.jpg' },
+      { type: 'img', src: 'Exhibitions/THEREMONIC/_66A9060.jpg' },
       ...theremonicPaths.map(src => ({ type: 'img', src })),
       { type: 'video', src: 'Exhibitions/THEREMONIC/THEREMONIC PROMO (Fin Video) v1.mp4', sound: true }
     ];
@@ -914,10 +914,10 @@
       'Vein':               [{ type: 'video', src: 'Selected Works/Vein/1. Vein.mp4', sound: true }],
       'Fantasy Island': [{ type: 'video', src: 'Selected Works/Fantasy Island/ULTRA WIDE.mp4', sound: true }],
       'touch grass': [
-        { type: 'video', src: 'Selected Works/touch grass/MVI_1649.MOV' },
-        { type: 'img',   src: 'Selected Works/touch grass/IMG_1651.JPG' },
-        { type: 'img',   src: 'Selected Works/touch grass/IMG_1668.JPG' },
-        { type: 'img',   src: 'Selected Works/touch grass/IMG_1669.JPG' },
+        { type: 'video', src: 'Selected Works/Touch Grass/MVI_1649.MOV' },
+        { type: 'img',   src: 'Selected Works/Touch Grass/IMG_1651.JPG' },
+        { type: 'img',   src: 'Selected Works/Touch Grass/IMG_1668.JPG' },
+        { type: 'img',   src: 'Selected Works/Touch Grass/IMG_1669.JPG' },
       ],
       'FarCry Simulation':  [
         { type: 'trio', srcs: [
@@ -1111,10 +1111,10 @@
 
     // Profile photo slideshow
     const profilePhotos = [
-      'profile photo/Scan 25.jpeg',
-      'profile photo/Scan 2.jpeg',
-      'profile photo/Scan 23.jpeg',
-      'profile photo/Scan 4.jpeg',
+      'Profile Photo/Scan 25.jpeg',
+      'Profile Photo/Scan 2.jpeg',
+      'Profile Photo/Scan 23.jpeg',
+      'Profile Photo/Scan 4.jpeg',
     ];
     let profilePhotoIndex = 0;
     let profilePhotoImgs  = [];
@@ -1541,8 +1541,8 @@
     function initEasterEgg() {
       if (audioReady) return;
       audioReady = true;
-      audA = new Audio('audio/Website Loop.wav');
-      audB = new Audio('audio/Website Loop.wav');
+      audA = new Audio('Audio/Website Loop.wav');
+      audB = new Audio('Audio/Website Loop.wav');
       audA.volume = 0; audB.volume = 0;
       curAud = audA; nxtAud = audB;
       createSpeakerUI();
