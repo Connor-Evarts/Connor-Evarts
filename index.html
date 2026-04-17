@@ -666,6 +666,14 @@
             <p class="prog-date">2024</p>
             <h3 class="prog-title">Tectonic Noise | Sound response to Hannah Hallam-Eames' exhibition Time Tunnels</h3>
             <p class="prog-venue">Outer Space, Fortitude Valley</p>
+
+            <div class="vis-grid" style="margin-top:18px;">
+              <img src="Public Programs/Tectonic Noise/IMG_2747.jpg" alt="Tectonic Noise" style="width:100%;aspect-ratio:3/2;object-fit:cover;border:1px solid var(--red-dim);">
+            </div>
+
+            <p class="docs-header">Documentation</p>
+            <button class="show-more" id="tectonic-show-more"></button>
+            <div class="docs-grid" id="tectonic-docs"></div>
           </li>
         </ul>
       </section>
@@ -923,6 +931,61 @@
       const img = e.target.closest('img');
       if (!img) return;
       openLightbox(theremonicItems, parseInt(img.dataset.idx) + 1, 'Theremonic');
+    });
+
+    // ── Tectonic Noise docs grid ─────────────────────────────────────
+    const tectonicFiles = [
+      'IMG_2291.jpg','IMG_2298.jpg','IMG_2403.jpg','IMG_2438.jpg','IMG_2479.jpg',
+      'IMG_2487.jpg','IMG_2746.jpg','IMG_2760.jpg','IMG_2777.jpg','IMG_2782.jpg',
+      'IMG_2783.jpg','IMG_2788.jpg','IMG_2789.jpg','IMG_2798.jpg','IMG_2800.jpg',
+      'IMG_2808.jpg','IMG_2816.jpg','IMG_2817.jpg','IMG_2821.jpg','IMG_2822.jpg',
+      'IMG_2827.jpg','IMG_2831.jpg','IMG_2837.jpg','IMG_2870.jpg','IMG_2874.jpg',
+      'IMG_2947.jpg','IMG_2951.jpg','IMG_2969.jpg','IMG_3032.jpg','IMG_3033.jpg',
+      'IMG_3068.jpg','IMG_3076.jpg'
+    ];
+    const tectonicBase  = 'Public Programs/Tectonic Noise/';
+    const tectonicPaths = tectonicFiles.map(n => tectonicBase + n);
+    const tectonicItems = [
+      { type: 'img', src: tectonicBase + 'IMG_2747.jpg' },
+      ...tectonicPaths.map(src => ({ type: 'img', src }))
+    ];
+    const tectonicGrid    = document.getElementById('tectonic-docs');
+    const tectonicMoreBtn = document.getElementById('tectonic-show-more');
+    let tectonicExpanded  = false;
+
+    function addTectonicImg(src, idx) {
+      const img       = document.createElement('img');
+      img.src         = src;
+      img.loading     = 'lazy';
+      img.alt         = 'Tectonic Noise documentation';
+      img.dataset.idx = idx;
+      tectonicGrid.appendChild(img);
+    }
+
+    tectonicPaths.slice(0, INITIAL).forEach((src, i) => addTectonicImg(src, i));
+    tectonicMoreBtn.textContent = `+ ${tectonicPaths.length - INITIAL} more`;
+    requestAnimationFrame(() => clampOneRow(tectonicGrid));
+
+    tectonicMoreBtn.addEventListener('click', () => {
+      if (!tectonicExpanded) {
+        tectonicPaths.slice(INITIAL).forEach((src, i) => addTectonicImg(src, INITIAL + i));
+        tectonicMoreBtn.textContent = '— show less';
+        tectonicExpanded = true;
+        tectonicGrid.classList.add('expanded');
+        releaseRows(tectonicGrid);
+      } else {
+        [...tectonicGrid.querySelectorAll('img')].slice(INITIAL).forEach(img => img.remove());
+        tectonicMoreBtn.textContent = `+ ${tectonicPaths.length - INITIAL} more`;
+        tectonicExpanded = false;
+        tectonicGrid.classList.remove('expanded');
+        requestAnimationFrame(() => clampOneRow(tectonicGrid));
+      }
+    });
+
+    tectonicGrid.addEventListener('click', e => {
+      const img = e.target.closest('img');
+      if (!img) return;
+      openLightbox(tectonicItems, parseInt(img.dataset.idx) + 1, 'Tectonic Noise');
     });
 
     // ── Lightbox ────────────────────────────────────────────────────
