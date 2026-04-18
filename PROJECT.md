@@ -116,7 +116,9 @@ website/
 
 ### Exhibitions
 - **BLISS (2025)**: featured video (autoplay, muted, loop, click to pause) + 42 documentation photos (8 shown, expandable). Photos open in lightbox.
-- **Theremonic (2023)**: featured hero image (_66A9060) + 19 documentation photos + promo video (8 shown, expandable). Photos open in lightbox.
+- **Theremonic (2023)**: featured hero image (_66A9060) + 19 documentation photos + promo video (8 shown, expandable). Photos open in lightbox. Role line: organiser/installer/AV tech.
+- **Sentient (2023)**: 3 screenshots only, all shown in docs grid. Vent Space, Southbank. Role line: organiser/installer/AV tech.
+- **Emergence III (2022)**: hero = Screenshot PNG, 14 JPGs in expandable docs grid. Vent Space, Southbank. Role line: organiser/installer/AV tech.
 - Documentation grids always collapse to exactly one row
 - show-more button sits above the docs grid, below "Installation Documentation" header
 
@@ -228,13 +230,8 @@ git push
 
 ## Known future tasks
 - Add photos/media to Rīgorabana public program when available
-- Consider TV turn-on intro animation (static resolves into page on load)
 - The repo is named Connor-Evarts (not Connor-Evarts.github.io) — this is fine, GitHub Pages still works via Settings → Pages
-- **Enable contact form sending** (visual is built in index-2, needs Formspree ID to actually send):
-  1. Sign up free at https://formspree.io
-  2. Create a new form → set destination email to connor.andree.evarts@gmail.com
-  3. Copy the Form ID (e.g. `xpwzbkqr`)
-  4. In index-2.html find `const FORMSPREE_ID = 'YOUR_FORM_ID';` and replace with your ID
+- ~~**Enable contact form sending**~~ — done. Formspree ID `xrerqnly` set in index-2.html.
 
 ## Important notes
 - `.nojekyll` file in repo root is critical — without it GitHub Pages (Jekyll) silently blocks all files whose names start with `_` (affects all THEREMONIC photos)

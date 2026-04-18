@@ -204,10 +204,10 @@
     }
 
     .ex-title {
-      font-family: 'Baunk', 'Cinzel', serif;
+      font-family: 'Cinzel', serif;
       color: var(--red);
-      font-size: 1.22rem;
-      font-weight: normal;
+      font-size: 1.12rem;
+      font-weight: 400;
       filter: url(#bloom);
     }
 
@@ -218,6 +218,16 @@
       opacity: 0.68;
       margin-top: 5px;
       letter-spacing: 0.06em;
+    }
+
+    .ex-role {
+      font-family: 'Cormorant Garamond', serif;
+      color: var(--red);
+      font-size: 0.88rem;
+      opacity: 0.68;
+      margin-top: 4px;
+      letter-spacing: 0.06em;
+      font-style: italic;
     }
 
     .vis-grid {
@@ -545,7 +555,7 @@
       font-size: 0.82rem;
       letter-spacing: 0.16em;
       text-transform: uppercase;
-      opacity: 0.58;
+      opacity: 0.78;
     }
     .contact-input,
     .contact-textarea {
@@ -565,7 +575,7 @@
     .contact-input:focus,
     .contact-textarea:focus { border-bottom-color: var(--red); }
     .contact-input::placeholder,
-    .contact-textarea::placeholder { color: var(--red); opacity: 0.32; font-style: italic; }
+    .contact-textarea::placeholder { color: var(--red); opacity: 0.45; font-style: italic; }
     .contact-textarea {
       resize: none;
       flex: 1;
@@ -596,9 +606,9 @@
       font-size: 0.78rem;
       letter-spacing: 0.14em;
       text-transform: uppercase;
-      color: #000;
-      background: var(--red);
-      border: none;
+      color: var(--red);
+      background: transparent;
+      border: 1px solid var(--red);
       padding: 9px 18px;
       cursor: default;
       transition: opacity 0.2s;
@@ -802,6 +812,7 @@
             <span class="ex-year">2025</span>
             <h3 class="ex-title">BLISS</h3>
             <p class="ex-venue">Echo &amp; Bounce, Woolloongabba</p>
+            <p class="ex-role" style="font-style:normal;">Solo Exhibition</p>
           </div>
 
           <div class="vis-grid">
@@ -818,7 +829,8 @@
           <div class="ex-meta">
             <span class="ex-year">2023</span>
             <h3 class="ex-title">Theremonic</h3>
-            <p class="ex-venue">VentSpace, Southbank</p>
+            <p class="ex-venue">Emergence Collective | Vent Space, Southbank</p>
+            <p class="ex-role">Organiser, installer & AV technician</p>
           </div>
 
           <div class="vis-grid">
@@ -830,6 +842,40 @@
           <div class="docs-grid" id="theremonic-docs"></div>
         </div>
 
+        <!-- Sentient -->
+        <div class="ex-entry">
+          <div class="ex-meta">
+            <span class="ex-year">2023</span>
+            <h3 class="ex-title">Sentient</h3>
+            <p class="ex-venue">Emergence Collective | Vent Space, Southbank</p>
+            <p class="ex-role">Organiser, installer & AV technician</p>
+          </div>
+
+          <div class="vis-grid">
+            <img src="../Exhibitions/Sentient/sentient-1.png" alt="Sentient" style="width:100%;aspect-ratio:3/2;object-fit:cover;border:1px solid var(--red-dim);">
+          </div>
+
+          <p class="docs-header">Documentation</p>
+          <div class="docs-grid" id="sentient-docs"></div>
+        </div>
+
+        <!-- Emergence III -->
+        <div class="ex-entry">
+          <div class="ex-meta">
+            <span class="ex-year">2022</span>
+            <h3 class="ex-title">Emergence III</h3>
+            <p class="ex-venue">Emergence Collective | Vent Space, Southbank</p>
+            <p class="ex-role">Organiser, installer & AV technician</p>
+          </div>
+
+          <div class="vis-grid">
+            <img src="../Exhibitions/Emergence III/emergence3-hero.png" alt="Emergence III" style="width:100%;aspect-ratio:3/2;object-fit:cover;border:1px solid var(--red-dim);">
+          </div>
+
+          <p class="docs-header">Installation Documentation</p>
+          <button class="show-more" id="emergence3-show-more"></button>
+          <div class="docs-grid" id="emergence3-docs"></div>
+        </div>
 
       </section>
 
@@ -1198,6 +1244,84 @@
       const img = e.target.closest('img');
       if (!img) return;
       openLightbox(tectonicItems, parseInt(img.dataset.idx) + 1, 'Tectonic Noise');
+    });
+
+    // ── Sentient documentation ───────────────────────────────────────
+    const sentientHeroSrc = '../Exhibitions/Sentient/sentient-1.png';
+    const sentientDocFiles = ['sentient-2.png', 'sentient-3.png'];
+    const sentientDocPaths = sentientDocFiles.map(n => `../Exhibitions/Sentient/${n}`);
+    const sentientItems = [
+      { type: 'img', src: sentientHeroSrc },
+      ...sentientDocPaths.map(src => ({ type: 'img', src }))
+    ];
+    const sentientGrid  = document.getElementById('sentient-docs');
+
+    sentientDocPaths.forEach((src, i) => {
+      const img       = document.createElement('img');
+      img.src         = src;
+      img.loading     = 'lazy';
+      img.alt         = 'Sentient documentation';
+      img.dataset.idx = i;
+      sentientGrid.appendChild(img);
+    });
+    requestAnimationFrame(() => clampOneRow(sentientGrid));
+
+    sentientGrid.addEventListener('click', e => {
+      const img = e.target.closest('img');
+      if (!img) return;
+      openLightbox(sentientItems, parseInt(img.dataset.idx) + 1, 'Sentient');
+    });
+
+    // ── Emergence III documentation ──────────────────────────────────
+    const emergence3Files = [
+      '_U5A4963.jpg','_U5A5114.jpg','_U5A5138.jpg','_U5A5139.jpg',
+      '_U5A5145.jpg','_U5A5146.jpg','_U5A5147.jpg','_U5A5151.jpg',
+      '_U5A5154.jpg','_U5A5158.jpg','_U5A5176.jpg','_U5A5206.jpg',
+      '_U5A5220.jpg','_U5A5251.jpg'
+    ];
+    const emergence3Paths   = emergence3Files.map(n => `../Exhibitions/Emergence III/${n}`);
+    const emergence3HeroSrc = '../Exhibitions/Emergence III/emergence3-hero.png';
+    const emergence3Items   = [
+      { type: 'img', src: emergence3HeroSrc },
+      ...emergence3Paths.map(src => ({ type: 'img', src }))
+    ];
+    const emergence3Grid    = document.getElementById('emergence3-docs');
+    const emergence3MoreBtn = document.getElementById('emergence3-show-more');
+    let emergence3Expanded  = false;
+
+    function addEmergence3Img(src, idx) {
+      const img       = document.createElement('img');
+      img.src         = src;
+      img.loading     = 'lazy';
+      img.alt         = 'Emergence III documentation';
+      img.dataset.idx = idx;
+      emergence3Grid.appendChild(img);
+    }
+
+    emergence3Paths.slice(0, INITIAL).forEach((src, i) => addEmergence3Img(src, i));
+    emergence3MoreBtn.textContent = `+ ${emergence3Paths.length - INITIAL} more`;
+    requestAnimationFrame(() => clampOneRow(emergence3Grid));
+
+    emergence3MoreBtn.addEventListener('click', () => {
+      if (!emergence3Expanded) {
+        emergence3Paths.slice(INITIAL).forEach((src, i) => addEmergence3Img(src, INITIAL + i));
+        emergence3MoreBtn.textContent = '— show less';
+        emergence3Expanded = true;
+        emergence3Grid.classList.add('expanded');
+        releaseRows(emergence3Grid);
+      } else {
+        [...emergence3Grid.querySelectorAll('img')].slice(INITIAL).forEach(img => img.remove());
+        emergence3MoreBtn.textContent = `+ ${emergence3Paths.length - INITIAL} more`;
+        emergence3Expanded = false;
+        emergence3Grid.classList.remove('expanded');
+        requestAnimationFrame(() => clampOneRow(emergence3Grid));
+      }
+    });
+
+    emergence3Grid.addEventListener('click', e => {
+      const img = e.target.closest('img');
+      if (!img) return;
+      openLightbox(emergence3Items, parseInt(img.dataset.idx) + 1, 'Emergence III');
     });
 
     // ── Lightbox ────────────────────────────────────────────────────
@@ -1699,6 +1823,8 @@
     let audA, audB, curAud, nxtAud;
     let mVol        = 0;
     let volMuted    = false;
+    let volMuteScale = 1;
+    let dipRafId    = null;
     let xfTimeout   = null;
     let xfInterval  = null;
     const XF_SECS   = 15;
@@ -1717,8 +1843,7 @@
       (function step() {
         const t = Math.min((performance.now() - bgDuckStart) / bgDuckDur, 1);
         bgDuckMul = bgDuckFromMul + (bgDuckTarget - bgDuckFromMul) * t;
-        if (curAud && !volMuted) curAud.volume = Math.max(0, Math.min(1, mVol * bgDuckMul));
-        if (curAud &&  volMuted) curAud.volume = 0;
+        if (curAud) curAud.volume = Math.max(0, Math.min(1, mVol * bgDuckMul * volMuteScale));
         if (t < 1) requestAnimationFrame(step);
         else bgDuckMul = bgDuckTarget;
       })();
@@ -1739,8 +1864,8 @@
         xfInterval = setInterval(() => {
           step++;
           const t = step / steps;
-          curAud.volume = mVol * bgDuckMul * (1 - t);
-          nxtAud.volume = mVol * bgDuckMul * t;
+          curAud.volume = mVol * bgDuckMul * volMuteScale * (1 - t);
+          nxtAud.volume = mVol * bgDuckMul * volMuteScale * t;
           if (step >= steps) {
             clearInterval(xfInterval);
             curAud.pause();
@@ -1786,7 +1911,7 @@
       function setVolume(val) {
         val = Math.max(0, Math.min(100, val));
         mVol = val / 100;
-        if (curAud) curAud.volume = volMuted ? 0 : mVol * bgDuckMul;
+        if (curAud) curAud.volume = mVol * bgDuckMul * volMuteScale;
         // Keep star fully inside container: center range [10, volTrackH-16]
         const minC = 10, maxC = volTrackH - 16;
         volThumb.style.top = (maxC - (val / 100) * (maxC - minC) - 10) + 'px';
@@ -1810,7 +1935,7 @@
       sliderContainer.appendChild(volThumb);
       setVolume(0);
 
-      const svgUnmuted = `<svg width="14" height="14" viewBox="0 0 14 14" fill="none">
+      const svgSpeaker = `<svg width="14" height="14" viewBox="0 0 14 14" fill="none">
         <rect x="1" y="5" width="3" height="4" rx="0.4" fill="#e83535"/>
         <polygon points="4,5 8.5,2 8.5,12 4,9" fill="#e83535"/>
         <path d="M10 4.5 Q12.2 7 10 9.5" stroke="#e83535" stroke-width="1.2" fill="none" stroke-linecap="round"/>
@@ -1824,18 +1949,26 @@
 
       const icon = document.createElement('div');
       icon.style.cssText = 'opacity:0.65;transition:opacity 0.2s;line-height:0;cursor:pointer;';
-      icon.innerHTML = svgUnmuted;
+      icon.innerHTML = svgSpeaker;
 
       icon.addEventListener('click', e => {
         e.stopPropagation();
+        if (dipRafId) cancelAnimationFrame(dipRafId);
         volMuted = !volMuted;
-        if (volMuted) {
-          if (curAud) curAud.volume = 0;
-          if (nxtAud) nxtAud.volume = 0;
-        } else {
-          if (curAud) curAud.volume = mVol * bgDuckMul;
+        icon.innerHTML = volMuted ? svgMuted : svgSpeaker;
+        const fromScale = volMuteScale;
+        const toScale   = volMuted ? 0 : 1;
+        const duration  = volMuted ? 250 : 400;
+        const start     = performance.now();
+        function animScale(now) {
+          const t = Math.min((now - start) / duration, 1);
+          volMuteScale = fromScale + (toScale - fromScale) * t;
+          if (curAud) curAud.volume = Math.max(0, Math.min(1, mVol * bgDuckMul * volMuteScale));
+          if (nxtAud) nxtAud.volume = Math.max(0, Math.min(1, mVol * bgDuckMul * volMuteScale));
+          if (t < 1) { dipRafId = requestAnimationFrame(animScale); }
+          else        { volMuteScale = toScale; dipRafId = null; }
         }
-        icon.innerHTML = volMuted ? svgMuted : svgUnmuted;
+        dipRafId = requestAnimationFrame(animScale);
       });
 
       speaker.addEventListener('mouseenter', () => { sliderWrap.style.height = volOpenH + 'px'; icon.style.opacity = '1'; });
@@ -1953,7 +2086,7 @@
     // ── Contact Panel ────────────────────────────────────────────────
     // To enable live sending: sign up free at https://formspree.io,
     // create a new form, copy the Form ID, and paste it below.
-    const FORMSPREE_ID = 'YOUR_FORM_ID';
+    const FORMSPREE_ID = 'xrerqnly';
 
     const contactPanel  = document.getElementById('contact-panel');
     const emailLinkEl   = document.getElementById('email-link');
