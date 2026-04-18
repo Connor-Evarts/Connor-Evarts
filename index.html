@@ -1019,10 +1019,10 @@
 
     // ── Background photo scroll crossfade ────────────────────────
     const bgPhotos = [
-      'Profile Photo/horizontal/Scan 29.jpeg',
-      'Profile Photo/horizontal/Scan 30.jpeg',
-      'Profile Photo/horizontal/Scan 34.jpeg',
-      'Profile Photo/horizontal/Scan.jpeg',
+      'Profile Photo/Horizontal/Scan 29.jpeg',
+      'Profile Photo/Horizontal/Scan 30.jpeg',
+      'Profile Photo/Horizontal/Scan 34.jpeg',
+      'Profile Photo/Horizontal/Scan.jpeg',
     ];
 
     const bgEl = document.getElementById('bg-photo');
@@ -1581,7 +1581,7 @@
       'Profile Photo/Vertical/Scan 4.jpeg',
       'Profile Photo/Vertical/Scan 33.jpeg',
     ];
-    let profilePhotoIndex = 0;
+    let profilePhotoIndex = Math.floor(Math.random() * profilePhotos.length);
     let profilePhotoImgs  = [];
     let offscreenNext     = null;
     let xfPhotoStart      = null;
