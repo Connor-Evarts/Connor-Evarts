@@ -630,6 +630,92 @@
     }
     .contact-cancel-btn:hover { opacity: 0.9; filter: url(#bloom); }
 
+    /* ── Acknowledgement Overlay ───────────────────── */
+    #ack-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 500;
+      backdrop-filter: blur(24px);
+      -webkit-backdrop-filter: blur(24px);
+      background: rgba(0,0,0,0.68);
+      cursor: default;
+      transition: opacity 0.55s ease;
+    }
+    #ack-overlay.dismissed {
+      opacity: 0;
+      pointer-events: none;
+    }
+    .ack-close {
+      position: absolute;
+      top: 28px; right: 36px;
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 2.6rem;
+      line-height: 1;
+      color: var(--red);
+      background: none; border: none;
+      cursor: default;
+      opacity: 0.60;
+      transition: opacity 0.2s, filter 0.2s;
+      filter: url(#bloom);
+      user-select: none;
+    }
+    .ack-close:hover { opacity: 1; }
+    .ack-content {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      max-width: 660px;
+      width: calc(100% - 96px);
+      display: flex;
+      flex-direction: column;
+      gap: 36px;
+    }
+    .ack-text {
+      font-family: 'Cormorant Garamond', serif;
+      color: var(--red);
+      font-size: 1.38rem;
+      line-height: 1.78;
+      letter-spacing: 0.03em;
+      filter: url(#bloom);
+    }
+    .ack-credits {
+      font-family: 'Cormorant Garamond', serif;
+      color: var(--red);
+      font-size: 1.02rem;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      opacity: 0.82;
+      line-height: 1.9;
+    }
+    .ack-flags {
+      position: absolute;
+      bottom: 32px;
+      left: 36px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    .ack-flags img {
+      height: 26px;
+      width: auto;
+      display: block;
+      opacity: 0.82;
+    }
+    .ack-hint {
+      position: absolute;
+      bottom: 36px;
+      left: 50%;
+      transform: translateX(-50%);
+      font-family: 'Cormorant Garamond', serif;
+      color: var(--red);
+      font-size: 0.74rem;
+      letter-spacing: 0.20em;
+      text-transform: uppercase;
+      opacity: 0.32;
+      white-space: nowrap;
+    }
+
     /* ── Responsive ────────────────────────────────── */
     @media (max-width: 600px) {
       .frame  { inset: 6px; }
@@ -651,6 +737,24 @@
   </style>
 </head>
 <body>
+
+  <!-- Acknowledgement Overlay -->
+  <div id="ack-overlay">
+    <button class="ack-close" id="ack-close" aria-label="Close">×</button>
+    <div class="ack-content">
+      <p class="ack-text">I acknowledge the Turrbal and Jagera peoples as the Traditional Custodians of the land on which this work was created, and pay my respects to their Elders past, present and emerging.</p>
+      <p class="ack-credits">
+        Original artwork by Connor Andree-Evarts<br>
+        Site built with Claude Code
+      </p>
+    </div>
+    <div class="ack-flags">
+      <img src="../flags/First Nations.png" alt="First Nations Flag">
+      <img src="../flags/Palestine.png" alt="Palestine Flag">
+      <img src="../flags/Queer Trans.png" alt="Queer &amp; Trans Flag">
+    </div>
+    <span class="ack-hint">Click anywhere to continue</span>
+  </div>
 
   <div id="bg-photo"></div>
 
@@ -755,7 +859,7 @@
           </div>
 
           <div class="work-item" data-work="Vein">
-            <video src="../Selected Works/Vein/1. Vein.mp4" muted loop autoplay playsinline></video>
+            <img src="../Gifs/vein.gif" alt="Vein">
             <div class="work-label">Vein</div>
           </div>
 
@@ -764,24 +868,9 @@
             <div class="work-label">touch grass</div>
           </div>
 
-          <div class="work-item" data-work="Aranea Daemon">
-            <img src="../Selected Works/Aranea_Daemon/aranea-1.png" alt="Aranea Daemon" loading="lazy">
-            <div class="work-label">Aranea Daemon</div>
-          </div>
-
-          <div class="work-item" data-work="Cthonic Mechanism">
-            <video src="../Selected Works/Cthonic Mechanisim/CthonicMechscreenCapture.mp4" muted loop autoplay playsinline></video>
-            <div class="work-label">Cthonic Mechanism</div>
-          </div>
-
           <div class="work-item" data-work="Encoded Topography">
             <video src="../Selected Works/encoded topography/Encoded Topography.mp4" muted loop autoplay playsinline></video>
             <div class="work-label">Encoded Topography</div>
-          </div>
-
-          <div class="work-item" data-work="Iris Agate">
-            <video src="../Selected Works/Iris Agate/Iris Agate.mp4" muted loop autoplay playsinline></video>
-            <div class="work-label">Iris Agate</div>
           </div>
 
           <div class="work-item" data-work="Nyctophobia">
@@ -798,6 +887,22 @@
             <video src="../Selected Works/Fantasy Island/ULTRA WIDE.mp4" muted loop autoplay playsinline onloadedmetadata="this.currentTime=13"></video>
             <div class="work-label">Fantasy Island</div>
           </div>
+
+          <div class="work-item" data-work="Iris Agate">
+            <video src="../Selected Works/Iris Agate/Iris Agate.mp4" muted loop autoplay playsinline></video>
+            <div class="work-label">Iris Agate</div>
+          </div>
+
+          <div class="work-item" data-work="Cthonic Mechanism">
+            <img src="../Selected Works/Cthonic Mechanisim/cthonic-1.png" alt="Cthonic Mechanism" loading="lazy">
+            <div class="work-label">Cthonic Mechanism</div>
+          </div>
+
+          <div class="work-item" data-work="Aranea Daemon">
+            <img src="../Selected Works/Aranea_Daemon/aranea-1.png" alt="Aranea Daemon" loading="lazy">
+            <div class="work-label">Aranea Daemon</div>
+          </div>
+
 
         </div>
       </section>
@@ -935,23 +1040,19 @@
           <p class="cv-block-title">Group Exhibitions</p>
           <div class="cv-row">
             <span class="cv-year">2023</span>
-            <span class="cv-detail">Theremonic</span>
+            <span class="cv-detail">Theremonic | Emergence Collective</span>
           </div>
           <div class="cv-row">
             <span class="cv-year"></span>
-            <span class="cv-detail">inFORM</span>
+            <span class="cv-detail">inFORM | QUT Graduate Showcase</span>
           </div>
           <div class="cv-row">
             <span class="cv-year"></span>
-            <span class="cv-detail">Sentient</span>
+            <span class="cv-detail">Sentient | Emergence Collective</span>
           </div>
           <div class="cv-row">
             <span class="cv-year">2022</span>
-            <span class="cv-detail">Emergence</span>
-          </div>
-          <div class="cv-row">
-            <span class="cv-year"></span>
-            <span class="cv-detail">Emergence</span>
+            <span class="cv-detail">Emergence III | Emergence Collective</span>
           </div>
         </div>
 
@@ -2185,6 +2286,104 @@
     });
 
     window.addEventListener('resize', () => { if (contactOpen) updateContactHeight(); });
+
+  </script>
+
+  <!-- DEV-ONLY-START -->
+  <script>
+    // ── Drag-to-reorder works grid (dev only, Shift+D) ───────────────
+    (function () {
+      let active = false;
+      const grid = document.querySelector('.works-grid');
+
+      const panel = document.createElement('div');
+      panel.style.cssText = [
+        'display:none','position:fixed','bottom:24px','right:24px','z-index:600',
+        'background:rgba(0,0,0,0.94)','border:1px solid rgba(232,53,53,0.5)',
+        'padding:18px 20px','font-family:Cormorant Garamond,serif','color:#e83535',
+        'font-size:0.88rem','letter-spacing:0.08em','min-width:200px',
+        'max-height:70vh','overflow-y:auto','line-height:1.6'
+      ].join(';');
+      document.body.appendChild(panel);
+
+      function getOrder() {
+        return [...grid.querySelectorAll('.work-item')].map(el => el.dataset.work);
+      }
+
+      function updatePanel() {
+        const order = getOrder();
+        panel.innerHTML =
+          '<div style="text-transform:uppercase;letter-spacing:0.16em;font-size:0.74rem;opacity:0.5;margin-bottom:10px">Reorder Mode</div>' +
+          order.map((n, i) => `<div style="padding:2px 0">${i + 1}. ${n}</div>`).join('') +
+          '<button id="ro-copy" style="margin-top:14px;width:100%;background:none;border:1px solid rgba(232,53,53,0.45);color:#e83535;font-family:inherit;font-size:0.80rem;letter-spacing:0.12em;text-transform:uppercase;padding:8px;cursor:pointer">Copy Order</button>' +
+          '<div style="margin-top:10px;font-size:0.70rem;opacity:0.35;letter-spacing:0.1em">Shift+D to exit</div>';
+        document.getElementById('ro-copy').onclick = () => {
+          navigator.clipboard.writeText(order.map((n, i) => `${i + 1}. ${n}`).join('\n'));
+          document.getElementById('ro-copy').textContent = 'Copied!';
+          setTimeout(updatePanel, 1400);
+        };
+      }
+
+      let dragSrc = null;
+
+      function onDragStart() { dragSrc = this; this.style.opacity = '0.35'; }
+      function onDragOver(e) { e.preventDefault(); }
+      function onDrop(e) {
+        e.stopPropagation();
+        if (dragSrc && dragSrc !== this) {
+          const items = [...grid.querySelectorAll('.work-item')];
+          if (items.indexOf(dragSrc) < items.indexOf(this)) grid.insertBefore(dragSrc, this.nextSibling);
+          else grid.insertBefore(dragSrc, this);
+          updatePanel();
+        }
+      }
+      function onDragEnd() { [...grid.querySelectorAll('.work-item')].forEach(el => el.style.opacity = ''); }
+
+      function enable() {
+        [...grid.querySelectorAll('.work-item')].forEach(el => {
+          el.draggable = true;
+          el.style.cursor = 'grab';
+          el.style.outline = '1px dashed rgba(232,53,53,0.4)';
+          el.addEventListener('dragstart', onDragStart);
+          el.addEventListener('dragover',  onDragOver);
+          el.addEventListener('drop',      onDrop);
+          el.addEventListener('dragend',   onDragEnd);
+        });
+        panel.style.display = 'block';
+        updatePanel();
+      }
+
+      function disable() {
+        [...grid.querySelectorAll('.work-item')].forEach(el => {
+          el.draggable = false;
+          el.style.cursor = '';
+          el.style.outline = '';
+          el.removeEventListener('dragstart', onDragStart);
+          el.removeEventListener('dragover',  onDragOver);
+          el.removeEventListener('drop',      onDrop);
+          el.removeEventListener('dragend',   onDragEnd);
+        });
+        panel.style.display = 'none';
+      }
+
+      document.addEventListener('keydown', e => {
+        if (e.shiftKey && e.key === 'D') { active = !active; active ? enable() : disable(); }
+      });
+    })();
+  </script>
+  <!-- DEV-ONLY-END -->
+
+  <script>
+    // ── Acknowledgement overlay ──────────────────────
+
+    (function () {
+      const overlay = document.getElementById('ack-overlay');
+      function dismiss() {
+        overlay.classList.add('dismissed');
+        overlay.addEventListener('transitionend', () => overlay.remove(), { once: true });
+      }
+      overlay.addEventListener('click', dismiss);
+    })();
   </script>
 
 </body>

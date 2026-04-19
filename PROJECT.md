@@ -9,18 +9,18 @@ Local files: /Users/conr/Documents/website/
 
 ## What's been built
 
-Two versions exist. `index.html` (live) = index-1. Active development is on `versions/index-2.html`.
+`index.html` (live) = index-2. Active development is on `versions/index-2.html`.
 
 **index-2 features:**
 - Animated TV static background (canvas-based, 15fps, brighter in content area)
 - Full-page background photos that crossfade based on active scroll section
-- Baunk + Cinzel + Cormorant Garamond font stack (all red)
+- Cinzel (nav + exhibition titles) + Cormorant Garamond (body) + Baunk (site name only) font stack (all red)
 - Sidebar: name + nav links + profile photo + email/instagram
 - Bloom/glow SVG filter on active/hovered text (two-layer: wide halo + mid glow)
 - Scroll-spy navigation (active link updates as you scroll)
 - Default cursor everywhere; pointer only on Email/Instagram; red crosshair on profile photo
 - LOADING... overlay (animated cycling dots, desynced) on title card videos and lightbox media
-- Contact panel: slides down over sidebar on Email click, menu fades out, transparent bg; Cancel or second Email click slides it back up (Formspree-ready, see future tasks)
+- Contact panel: slides down over sidebar on Email click, menu fades out, transparent bg; Cancel or second Email click slides it back up. Formspree ID `xrerqnly` active — sends to connor.andree.evarts@gmail.com
 - Easter egg: 6 clicks on profile photo → ambient audio loop with volume slider
 - Easter egg: hover right screen edge 350ms → background photos revealed, scroll to change
 
@@ -35,9 +35,11 @@ Two versions exist. `index.html` (live) = index-1. Active development is on `ver
 - Static noise range: 0–23 brightness
 - Static centre boost: `fadeIn * fadeOut * 14`
 - Font stack (index-1 / original): MingLiU, PMingLiU, STSong, Songti TC, Noto Serif, serif
-- Font stack (index-2 iteration): Baunk (local, name + titles) + Cinzel (nav + labels, Google Fonts) + Cormorant Garamond (body text, Google Fonts) — Baunk may change, was originally MingLiU
+- Font stack (index-2): Baunk (local, site name only) + Cinzel (nav, labels, exhibition titles) + Cormorant Garamond (body text)
 - Sidebar width: 275px
 - Bloom filter: wide glow stdDeviation=14 (1.4x red), mid glow stdDeviation=5 (1.5x red, trace green)
+- Send Email button: transparent bg, red border (outline style)
+- Contact panel text opacity: labels 0.78, placeholders 0.45
 
 ---
 
@@ -45,19 +47,19 @@ Two versions exist. `index.html` (live) = index-1. Active development is on `ver
 
 ```
 website/
-├── index.html              ← entire website (HTML + CSS + JS) — live on GitHub Pages
+├── index.html              ← live site (copy of index-2.html)
 ├── PROJECT.md              ← this file
 ├── .gitignore
 ├── .nojekyll               ← disables Jekyll on GitHub Pages (required for _ filenames)
 ├── versions/
 │   ├── index-1.html        ← backup of original, do not touch (all paths use ../ prefix)
-│   ├── index-2.html        ← active iteration with friend's feedback applied
+│   ├── index-2.html        ← active version (currently live)
 │   └── index-2-backup.html ← snapshot before easter egg / bg photo work (do not touch)
 ├── Fonts/
 │   └── BAUNK FILE/
 │       ├── Baunk.otf
 │       ├── Baunk.ttf
-│       └── Baunk.woff      ← used in index-2 for site name + section/exhibition/program titles
+│       └── Baunk.woff      ← used in index-2 for site name only
 ├── Audio/
 │   ├── Website Loop.m4a    ← easter egg ambient loop (compressed from WAV, 1.1MB)
 │   └── Website Loop.wav    ← original (NOT in git)
@@ -68,15 +70,17 @@ website/
 │   │   ├── BLISS Documentation/    ← 42 JPGs
 │   │   └── Vis Files/
 │   │       └── Bliss.mp4
-│   └── THEREMONIC/                 ← 20 JPGs (_66Axxxx, _MG_xxxx) + promo video
+│   ├── THEREMONIC/                 ← 20 JPGs (_66Axxxx, _MG_xxxx) + promo video
+│   ├── Sentient/                   ← sentient-1.png (hero), sentient-2.png, sentient-3.png
+│   └── Emergence III/              ← emergence3-hero.png + 14 JPGs (_U5Axxxx)
 ├── Profile Photo/
-│   ├── Vertical/           ← sidebar profile photo slideshow (index-1 + index-2)
+│   ├── Vertical/           ← sidebar profile photo slideshow
 │   │   ├── Scan 25.jpeg
 │   │   ├── Scan 2.jpeg
 │   │   ├── Scan 23.jpeg
 │   │   ├── Scan 33.jpeg
 │   │   └── Scan 4.jpeg
-│   └── Horizontal/         ← full-page background photos (index-2 only), crossfade by active section
+│   └── Horizontal/         ← full-page background photos, crossfade by active section
 │       ├── Scan 29.jpeg
 │       ├── Scan 30.jpeg
 │       ├── Scan 34.jpeg
@@ -104,7 +108,7 @@ website/
 ## Sections
 
 ### Selected Works
-- 10 works in a grid (order): Anti Shadow, Vein, touch grass, Aranea Daemon, Cthonic Mechanism, Encoded Topography, Iris Agate, Nyctophobia, FarCry Simulation, Fantasy Island
+- 10 works in a grid (order): Anti Shadow, Vein, Touch Grass, Aranea Daemon, Cthonic Mechanism, Encoded Topography, Iris Agate, Nyctophobia, FarCry Simulation, Fantasy Island
 - All video works autoplay looping on load (muted); LOADING... shown until canplay fires
 - Image works (Anti Shadow, Aranea Daemon) auto-slideshow: instant cut, 2.8s interval, desynced offsets
 - Clicking any work opens a lightbox with all images/videos for that work
@@ -115,12 +119,12 @@ website/
 - Background music ducks to 0 when sound-on works play in lightbox, restores after
 
 ### Exhibitions
-- **BLISS (2025)**: featured video (autoplay, muted, loop, click to pause) + 42 documentation photos (8 shown, expandable). Photos open in lightbox.
-- **Theremonic (2023)**: featured hero image (_66A9060) + 19 documentation photos + promo video (8 shown, expandable). Photos open in lightbox. Role line: organiser/installer/AV tech.
-- **Sentient (2023)**: 3 screenshots only, all shown in docs grid. Vent Space, Southbank. Role line: organiser/installer/AV tech.
-- **Emergence III (2022)**: hero = Screenshot PNG, 14 JPGs in expandable docs grid. Vent Space, Southbank. Role line: organiser/installer/AV tech.
+- **BLISS (2025)**: Solo Exhibition. Echo & Bounce, Woolloongabba. Featured video (autoplay, muted, loop, click to pause) + 42 documentation photos (8 shown, expandable). Photos open in lightbox.
+- **Theremonic (2023)**: Emergence Collective | Vent Space, Southbank. Hero image (_66A9060) + 19 docs photos + promo video (8 shown, expandable). Role line: organiser, installer & AV technician.
+- **Sentient (2023)**: Emergence Collective | Vent Space, Southbank. Hero: sentient-1.png. Docs grid: sentient-2 + sentient-3. Role line: organiser, installer & AV technician.
+- **Emergence III (2022)**: Emergence Collective | Vent Space, Southbank. Hero: emergence3-hero.png. 14 JPGs in expandable docs grid (8 shown, + 6 more). Role line: organiser, installer & AV technician.
 - Documentation grids always collapse to exactly one row
-- show-more button sits above the docs grid, below "Installation Documentation" header
+- Show-more button sits above the docs grid, below the docs header
 
 ### Public Programs
 - **2025**: Rīgorabana, The Balawaia | An Extended Sound Performance: Dean Ansell — Fish Lane Town Square, Southbank (text only)
@@ -129,7 +133,7 @@ website/
 ### CV
 - PDF download link (CV/Connor Andree-Evarts Artist CV.pdf)
 - Education: BFA QUT (2021–24), Bachelor of Audio Engineering SAE (2016–18)
-- Solo Exhibitions: BLISS, Echo & Bounce, Woolongaba (2025)
+- Solo Exhibitions: BLISS, Echo & Bounce, Woolloongabba (2025)
 - Group Exhibitions: Theremonic, inFORM, Sentient (2023), Emergence x2 (2022)
 - Art Related Employment: QUT Visitor Services/Technician (2024–), Emergence Collective Co-Founder (2021–24), Outer Space Volunteer (2021–23)
 
@@ -151,9 +155,10 @@ website/
 - 6 clicks on profile photo → red speaker icon appears bottom-right, volume animates 0→66% over 6s, auto-closes after 1.5s
 - Hover speaker → volume slider slides up (stays open while hovering)
 - Slider: 1px red track, solid 4-point star thumb (bottom point stretched); scroll on profile image also controls volume
-- Click speaker icon to mute/unmute
+- Click speaker icon = animated mute toggle: fades volume down (250ms), holds, fades back up (400ms) on second click. Shows muted X icon while muted. Cancels and reverses if clicked mid-animation.
 - Loop uses 15-second crossfade: two audio instances alternate, fading in/out seamlessly
 - Background music ducks when sound-on lightbox items play
+- Volume state managed via `volMuteScale` (0–1) multiplier — all audio paths respect it
 
 ### Easter egg (background reveal) — index-2 only
 - Hovering cursor against the right edge of the screen (full height, 60px strip) for 350ms fades the main content to opacity 0
@@ -176,32 +181,41 @@ website/
 
 ## Image compression
 
-All images have been resized to max 2000px on the long edge using macOS `sips`. Originals stored in ORIGINAL PHOTOS/ (not in git).
+All images resized to max 2000px on the long edge using macOS `sips`. Originals in ORIGINAL PHOTOS/ (not in git).
 
-To compress new images added in future, run in Terminal:
+**Important:** macOS screenshot filenames contain a Unicode narrow no-break space (U+202F) before "am/pm" — rename them to simple names before adding to the project or they will fail to load on GitHub Pages.
+
+To compress a single image:
 ```
 sips -Z 2000 "path/to/image.jpg"
 ```
-Or to batch compress a whole folder:
+To batch compress a folder:
 ```
-find "/Users/conr/Documents/website/Exhibitions/NEWFOLDER" -type f \( -iname "*.jpg" -o -iname "*.png" \) -exec sips -Z 2000 {} --out {} \;
+find "/Users/conr/Documents/website/Exhibitions/NEWFOLDER" -type f -name "*.jpg" -exec sips -Z 2000 {} \;
+```
+To rename macOS screenshots safely (use glob, not typed filename):
+```
+cd "/path/to/folder" && for f in Screenshot*.png; do mv "$f" new-name.png; done
 ```
 
 ---
 
 ## How to update the site
 
-1. Edit `versions/index-2.html` (active version) or add files to relevant folders
-   - When ready to go live: copy index-2.html contents into index.html
-2. Compress any new images with sips (see above)
+1. Edit `versions/index-2.html` or add files to relevant folders
+2. Compress any new images with sips (see above), rename screenshots to clean names
 3. In Terminal:
 ```
 cd /Users/conr/Documents/website
+cp versions/index-2.html index.html
+sed -i '' 's|\.\./||g' index.html
+sed -i '' '/<!-- DEV-ONLY-START -->/,/<!-- DEV-ONLY-END -->/d' index.html
 git add .
 git commit -m "describe what you changed"
 git push
 ```
-4. Site updates at https://connor-evarts.github.io/Connor-Evarts/ within ~1 minute
+Note: the first `sed` strips the `../` path prefix. The second strips the dev-only reorder tool so it never appears on the live site.
+4. Site updates at https://connor-evarts.github.io/Connor-Evarts/ within 1–5 minutes
 
 ---
 
@@ -215,10 +229,9 @@ git push
 - Image title card: `<img src="..." loading="lazy">`
 
 ### New exhibition with photos
-1. Add folder to Exhibitions/ with photos
-2. Compress photos (sips command above)
-3. Add `.ex-entry` block in the HTML (Exhibitions section)
-4. Add JS block for the docs grid (copy the Theremonic pattern)
+1. Add folder to Exhibitions/ with photos, compress with sips, rename any screenshots
+2. Add `.ex-entry` block in the HTML (Exhibitions section)
+3. Add JS block for the docs grid (copy the Theremonic pattern)
 
 ### New public program event with photos
 1. Add `.prog-item` to the Public Programs section in HTML
@@ -228,12 +241,16 @@ git push
 
 ---
 
+## ⚠️ Pick up here next session
+- Do a full pass of the live site across all sections — last session fixed fonts, images, background photos, and deployment path bugs but there may be more to check
+- JS console error on live site: `Cannot access 'bgDuckMul' before initialization` at duckBackground — investigate and fix
+
 ## Known future tasks
 - Add photos/media to Rīgorabana public program when available
 - The repo is named Connor-Evarts (not Connor-Evarts.github.io) — this is fine, GitHub Pages still works via Settings → Pages
-- ~~**Enable contact form sending**~~ — done. Formspree ID `xrerqnly` set in index-2.html.
 
 ## Important notes
-- `.nojekyll` file in repo root is critical — without it GitHub Pages (Jekyll) silently blocks all files whose names start with `_` (affects all THEREMONIC photos)
+- `.nojekyll` file in repo root is critical — without it GitHub Pages (Jekyll) silently blocks all files whose names start with `_` (affects all THEREMONIC + Emergence III photos)
 - Audio is M4A not WAV — WAV original is gitignored
-- All case-sensitive paths must match exactly (GitHub Pages runs on Linux): `Profile Photo/`, `Audio/`, `Touch Grass/`, `THEREMONIC/`
+- All paths are case-sensitive on GitHub Pages (Linux): `Fonts/`, `Profile Photo/`, `Audio/`, `Touch Grass/`, `THEREMONIC/`, `Emergence III/`, `Sentient/`
+- Formspree contact form: ID `xrerqnly`, destination connor.andree.evarts@gmail.com. First submission requires Formspree verification email.
