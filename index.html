@@ -939,7 +939,7 @@
           </div>
 
           <div class="vis-grid">
-            <img src="Exhibitions/THEREMONIC/_66A9060.jpg" alt="Theremonic" style="width:100%;aspect-ratio:3/2;object-fit:cover;border:1px solid var(--red-dim);">
+            <img id="theremonic-hero" src="Exhibitions/THEREMONIC/Live/_66A9060.jpg" alt="Theremonic" style="width:100%;aspect-ratio:3/2;object-fit:cover;border:1px solid var(--red-dim);">
           </div>
 
           <p class="docs-header">Installation Documentation</p>
@@ -957,7 +957,7 @@
           </div>
 
           <div class="vis-grid">
-            <img src="Exhibitions/Sentient/sentient-1.png" alt="Sentient" style="width:100%;aspect-ratio:3/2;object-fit:cover;border:1px solid var(--red-dim);">
+            <img id="sentient-hero" src="Exhibitions/Sentient/Live/sentient-1.png" alt="Sentient" style="width:100%;aspect-ratio:3/2;object-fit:cover;border:1px solid var(--red-dim);">
           </div>
 
           <p class="docs-header">Documentation</p>
@@ -974,7 +974,7 @@
           </div>
 
           <div class="vis-grid">
-            <img src="Exhibitions/Emergence III/emergence3-hero.png" alt="Emergence III" style="width:100%;aspect-ratio:3/2;object-fit:cover;border:1px solid var(--red-dim);">
+            <img id="emergence3-hero-img" src="Exhibitions/Emergence III/Live/emergence3-hero.png" alt="Emergence III" style="width:100%;aspect-ratio:3/2;object-fit:cover;border:1px solid var(--red-dim);">
           </div>
 
           <p class="docs-header">Installation Documentation</p>
@@ -1188,15 +1188,13 @@
     });
 
     // ── BLISS documentation ─────────────────────────────────────────
-    const blissNums = [
-      '30','31','32','33','34','35','36','37','38','39','40','41','42','43','44','45',
-      '46','47','48','49','50','51','52','53','54','55','56','57','58','59','60','61',
-      '62','63','64','65','66','67','68','69','72','73'
+    const blissPaths = [
+      '38','44','46','50','55','58','63','65','66','69'
+    ].map(n => `Exhibitions/BLISS/BLISS Documentation/Live/signal assembly 5_4_25-${n}.jpg`);
+    const blissItems = [
+      { type: 'video', src: 'Exhibitions/BLISS/Vis Files/Bliss.mp4' },
+      ...blissPaths.map(src => ({ type: 'img', src }))
     ];
-    const blissPaths = blissNums.map(n =>
-      `Exhibitions/BLISS/BLISS Documentation/signal assembly 5_4_25-${n}.jpg`
-    );
-    const blissItems = blissPaths.map(src => ({ type: 'img', src }));
 
     const docsGrid    = document.getElementById('bliss-docs');
     const showMoreBtn = document.getElementById('bliss-show-more');
@@ -1214,6 +1212,7 @@
 
     blissPaths.slice(0, INITIAL).forEach((src, i) => addDocImg(src, i));
     showMoreBtn.textContent = `+ ${blissPaths.length - INITIAL} more`;
+    if (blissPaths.length <= INITIAL) showMoreBtn.style.display = 'none';
     requestAnimationFrame(() => clampOneRow(docsGrid));
 
     showMoreBtn.addEventListener('click', () => {
@@ -1236,19 +1235,17 @@
     docsGrid.addEventListener('click', e => {
       const img = e.target.closest('img');
       if (!img) return;
-      openLightbox(blissItems, parseInt(img.dataset.idx), 'BLISS');
+      openLightbox(blissItems, parseInt(img.dataset.idx) + 1, 'BLISS');
     });
 
     // ── Theremonic documentation ─────────────────────────────────────
     const theremonicFiles = [
-      '_66A8953.jpg','_66A8966.jpg','_66A8978.jpg','_66A8980.jpg','_66A8994.jpg',
-      '_66A9027.jpg','_66A9079.jpg','_66A9105.jpg','_66A9126.jpg','_66A9165.jpg',
-      '_66A9183.jpg','_66A9214.jpg','_66A9219.jpg','_66A9272.jpg',
-      '_MG_5556.jpg','_MG_5592.jpg','_MG_5608.jpg','_MG_5658.jpg','_MG_5759.jpg'
+      '_66A8978.jpg','_66A8994.jpg','_66A9027.jpg','_66A9105.jpg','_66A9219.jpg',
+      '_66A9272.jpg','_MG_5608.jpg','_MG_5658.jpg','_MG_5759.jpg'
     ];
-    const theremonicPaths = theremonicFiles.map(n => `Exhibitions/THEREMONIC/${n}`);
+    const theremonicPaths = theremonicFiles.map(n => `Exhibitions/THEREMONIC/Live/${n}`);
     const theremonicItems = [
-      { type: 'img', src: 'Exhibitions/THEREMONIC/_66A9060.jpg' },
+      { type: 'img', src: 'Exhibitions/THEREMONIC/Live/_66A9060.jpg' },
       ...theremonicPaths.map(src => ({ type: 'img', src })),
       { type: 'video', src: 'Exhibitions/THEREMONIC/THEREMONIC PROMO (Fin Video) v1.mp4', sound: true }
     ];
@@ -1268,6 +1265,7 @@
 
     theremonicPaths.slice(0, INITIAL).forEach((src, i) => addTheremonicImg(src, i));
     theremonicMoreBtn.textContent = `+ ${theremonicPaths.length - INITIAL} more`;
+    if (theremonicPaths.length <= INITIAL) theremonicMoreBtn.style.display = 'none';
     requestAnimationFrame(() => clampOneRow(theremonicGrid));
 
     theremonicMoreBtn.addEventListener('click', () => {
@@ -1348,9 +1346,9 @@
     });
 
     // ── Sentient documentation ───────────────────────────────────────
-    const sentientHeroSrc = 'Exhibitions/Sentient/sentient-1.png';
+    const sentientHeroSrc = 'Exhibitions/Sentient/Live/sentient-1.png';
     const sentientDocFiles = ['sentient-2.png', 'sentient-3.png'];
-    const sentientDocPaths = sentientDocFiles.map(n => `Exhibitions/Sentient/${n}`);
+    const sentientDocPaths = sentientDocFiles.map(n => `Exhibitions/Sentient/Live/${n}`);
     const sentientItems = [
       { type: 'img', src: sentientHeroSrc },
       ...sentientDocPaths.map(src => ({ type: 'img', src }))
@@ -1375,13 +1373,11 @@
 
     // ── Emergence III documentation ──────────────────────────────────
     const emergence3Files = [
-      '_U5A4963.jpg','_U5A5114.jpg','_U5A5138.jpg','_U5A5139.jpg',
-      '_U5A5145.jpg','_U5A5146.jpg','_U5A5147.jpg','_U5A5151.jpg',
-      '_U5A5154.jpg','_U5A5158.jpg','_U5A5176.jpg','_U5A5206.jpg',
-      '_U5A5220.jpg','_U5A5251.jpg'
+      '_U5A5138.jpg','_U5A5145.jpg','_U5A5146.jpg','_U5A5147.jpg',
+      '_U5A5154.jpg','_U5A5251.jpg'
     ];
-    const emergence3Paths   = emergence3Files.map(n => `Exhibitions/Emergence III/${n}`);
-    const emergence3HeroSrc = 'Exhibitions/Emergence III/emergence3-hero.png';
+    const emergence3Paths   = emergence3Files.map(n => `Exhibitions/Emergence III/Live/${n}`);
+    const emergence3HeroSrc = 'Exhibitions/Emergence III/Live/emergence3-hero.png';
     const emergence3Items   = [
       { type: 'img', src: emergence3HeroSrc },
       ...emergence3Paths.map(src => ({ type: 'img', src }))
@@ -1401,6 +1397,7 @@
 
     emergence3Paths.slice(0, INITIAL).forEach((src, i) => addEmergence3Img(src, i));
     emergence3MoreBtn.textContent = `+ ${emergence3Paths.length - INITIAL} more`;
+    if (emergence3Paths.length <= INITIAL) emergence3MoreBtn.style.display = 'none';
     requestAnimationFrame(() => clampOneRow(emergence3Grid));
 
     emergence3MoreBtn.addEventListener('click', () => {
@@ -1424,6 +1421,11 @@
       if (!img) return;
       openLightbox(emergence3Items, parseInt(img.dataset.idx) + 1, 'Emergence III');
     });
+
+    // ── Hero click → lightbox at index 0 ────────────────────────────
+    document.getElementById('theremonic-hero').addEventListener('click', () => openLightbox(theremonicItems, 0, 'Theremonic'));
+    document.getElementById('sentient-hero').addEventListener('click', () => openLightbox(sentientItems, 0, 'Sentient'));
+    document.getElementById('emergence3-hero-img').addEventListener('click', () => openLightbox(emergence3Items, 0, 'Emergence III'));
 
     // ── Lightbox ────────────────────────────────────────────────────
     const workFiles = {
@@ -1630,11 +1632,9 @@
       }, { once: true });
     });
 
-    // ── BLISS video click to pause/play ─────────────────────────────
+    // ── BLISS video click → open lightbox at first doc ──────────────
     const blissVideo = document.getElementById('bliss-video');
-    blissVideo.addEventListener('click', () => {
-      blissVideo.paused ? blissVideo.play() : blissVideo.pause();
-    });
+    blissVideo.addEventListener('click', () => openLightbox(blissItems, 0, 'BLISS'));
 
     // ── Navigation + scroll spy ─────────────────────────────────────
     const navLinks = document.querySelectorAll('nav a[href^="#"]');

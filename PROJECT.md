@@ -67,12 +67,16 @@ website/
 │   └── Connor Andree-Evarts Artist CV.pdf
 ├── Exhibitions/
 │   ├── BLISS/
-│   │   ├── BLISS Documentation/    ← 42 JPGs
+│   │   ├── BLISS Documentation/
+│   │   │   └── Live/               ← 10 culled JPGs (signal assembly 5_4_25-38/44/46/50/55/58/63/65/66/69)
 │   │   └── Vis Files/
 │   │       └── Bliss.mp4
-│   ├── THEREMONIC/                 ← 20 JPGs (_66Axxxx, _MG_xxxx) + promo video
-│   ├── Sentient/                   ← sentient-1.png (hero), sentient-2.png, sentient-3.png
-│   └── Emergence III/              ← emergence3-hero.png + 14 JPGs (_U5Axxxx)
+│   ├── THEREMONIC/                 ← remaining old JPGs + promo video
+│   │   └── Live/                   ← 10 files: _66A9060 (hero) + 9 docs (_66Axxxx, _MG_xxxx)
+│   ├── Sentient/
+│   │   └── Live/                   ← sentient-1.png (hero), sentient-2.png, sentient-3.png
+│   └── Emergence III/              ← old JPGs (not used)
+│       └── Live/                   ← emergence3-hero.png + 6 docs (_U5Axxxx)
 ├── Profile Photo/
 │   ├── Vertical/           ← sidebar profile photo slideshow
 │   │   ├── Scan 25.jpeg
@@ -119,10 +123,10 @@ website/
 - Background music ducks to 0 when sound-on works play in lightbox, restores after
 
 ### Exhibitions
-- **BLISS (2025)**: Solo Exhibition. Echo & Bounce, Woolloongabba. Featured video (autoplay, muted, loop, click to pause) + 42 documentation photos (8 shown, expandable). Photos open in lightbox.
-- **Theremonic (2023)**: Emergence Collective | Vent Space, Southbank. Hero image (_66A9060) + 19 docs photos + promo video (8 shown, expandable). Role line: organiser, installer & AV technician.
-- **Sentient (2023)**: Emergence Collective | Vent Space, Southbank. Hero: sentient-1.png. Docs grid: sentient-2 + sentient-3. Role line: organiser, installer & AV technician.
-- **Emergence III (2022)**: Emergence Collective | Vent Space, Southbank. Hero: emergence3-hero.png. 14 JPGs in expandable docs grid (8 shown, + 6 more). Role line: organiser, installer & AV technician.
+- **BLISS (2025)**: Solo Exhibition. Echo & Bounce, Woolloongabba. Featured video (autoplay, muted, loop); click video opens lightbox with video at index 0, then 10 docs photos. Show-more shows "+2 more".
+- **Theremonic (2023)**: Emergence Collective | Vent Space, Southbank. Hero (_66A9060, clickable) + 9 live docs photos + promo video (8 shown, "+1 more"). Clicking hero opens lightbox at index 0.
+- **Sentient (2023)**: Emergence Collective | Vent Space, Southbank. Hero: sentient-1.png (clickable, opens lightbox). Docs grid: sentient-2 + sentient-3. All images in Live/.
+- **Emergence III (2022)**: Emergence Collective | Vent Space, Southbank. Hero: emergence3-hero.png (clickable, Live/). 6 docs photos in Live/, all shown — show-more button hidden.
 - Documentation grids always collapse to exactly one row
 - Show-more button sits above the docs grid, below the docs header
 
@@ -242,15 +246,40 @@ Note: the first `sed` strips the `../` path prefix. The second strips the dev-on
 ---
 
 ## ⚠️ Pick up here next session
-- Do a full pass of the live site across all sections — last session fixed fonts, images, background photos, and deployment path bugs but there may be more to check
+- Do a visual pass of the live site — check all works in lightbox, exhibitions, and public programs for remaining image artifacts
 - JS console error on live site: `Cannot access 'bgDuckMul' before initialization` at duckBackground — investigate and fix
+- Consider making the site mobile friendly
 
 ## Known future tasks
 - Add photos/media to Rīgorabana public program when available
 - The repo is named Connor-Evarts (not Connor-Evarts.github.io) — this is fine, GitHub Pages still works via Settings → Pages
 
+## What was done (this session)
+- All exhibitions now use culled `Live/` subfolders for documentation photos (note capital L — GitHub Pages sensitive)
+- BLISS: 10 live docs photos (38,44,46,50,55,58,63,65,66,69); video is now index 0 in lightbox, docs follow
+- BLISS video: click opens lightbox (video first, then docs) — was play/pause
+- Theremonic: 9 live docs photos from `THEREMONIC/Live/`; hero `_66A9060.jpg` moved into `Live/`
+- Sentient: all 3 images moved into `Sentient/Live/`; paths updated in HTML + JS
+- Emergence III: 6 live docs photos + hero from `Emergence III/Live/`; show-more button hidden (6 < 8)
+- Hero images (Theremonic, Sentient, Emergence III) are now clickable — open lightbox at index 0
+- Show-more buttons auto-hide when photo count ≤ 8 (INITIAL)
+
+## What was done (last session)
+- Fixed flags not loading on live site — path was `flags/` in HTML but folder is `Flags/` (GitHub Pages is case-sensitive on Linux)
+- Always match folder capitalisation exactly — see Important Notes below
+
+## What was done (previous session)
+- Added acknowledgement of country overlay (Turrbal & Jagera peoples, flags bottom-left, credits, click to dismiss)
+- Flags folder added: First Nations, Palestine, Queer Trans
+- Replaced Vein video title card with GIF (Gifs/vein.gif) — 4.6MB, 600×400, 12fps, t=13–17s
+- Cthonic Mechanism title card switched to image slideshow (cthonic-1 → cthonic-2)
+- Works grid reordered: Anti Shadow, Vein, Touch Grass, Encoded Topography, Nyctophobia, FarCry, Fantasy Island, Iris Agate, Cthonic Mechanism, Aranea Daemon
+- CV group exhibitions updated: added venue/org context, removed duplicate 2022 Emergence, corrected inFORM → QUT Graduate Showcase
+- Fixed white/blue edge artifacts: anti-shadow-4 (5px left), anti-shadow-7 (2px right), aranea-1 (1px top), aranea-2 (6px top+right macOS chrome bleed)
+- Added dev-only drag-to-reorder mode to index-2.html (Shift+D) — auto-stripped from live build by deploy sed command
+
 ## Important notes
 - `.nojekyll` file in repo root is critical — without it GitHub Pages (Jekyll) silently blocks all files whose names start with `_` (affects all THEREMONIC + Emergence III photos)
 - Audio is M4A not WAV — WAV original is gitignored
-- All paths are case-sensitive on GitHub Pages (Linux): `Fonts/`, `Profile Photo/`, `Audio/`, `Touch Grass/`, `THEREMONIC/`, `Emergence III/`, `Sentient/`
+- All paths are case-sensitive on GitHub Pages (Linux): `Fonts/`, `Profile Photo/`, `Audio/`, `Touch Grass/`, `THEREMONIC/`, `Emergence III/`, `Sentient/`, `Live/` (exhibition live subfolders)
 - Formspree contact form: ID `xrerqnly`, destination connor.andree.evarts@gmail.com. First submission requires Formspree verification email.
