@@ -401,6 +401,9 @@
       z-index: 151;
       display: flex;
       align-items: center;
+      width: 100%;
+      padding: 0 48px 0 48px;
+      box-sizing: border-box;
       gap: 12px;
     }
 
@@ -422,16 +425,38 @@
 
     .lb-container {
       position: relative;
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      max-height: 96vh;
+    }
+
+    .lb-top-row {
+      display: flex;
+      flex-direction: row;
+      align-items: flex-start;
+      justify-content: center;
+      gap: 0;
+    }
+    .lb-top-row .lb-arrow {
+      align-self: center;
+      flex-shrink: 0;
+    }
+
+    .lb-image-col {
+      flex: 1;
+      min-width: 0;
+      height: 90vh;
       display: flex;
       flex-direction: column;
       align-items: center;
-      max-width: 82vw;
-      max-height: 90vh;
+      justify-content: flex-start;
     }
 
     .lb-close {
-      position: absolute;
-      top: -44px; right: 0;
+      position: fixed;
+      top: 18px; right: 22px;
       font-family: 'Cormorant Garamond', serif;
       color: var(--red);
       font-size: 1.76rem;
@@ -444,13 +469,15 @@
     .lb-close:hover { opacity: 1; filter: url(#bloom); }
 
     .lb-media-wrap {
+      flex: 1;
       display: flex;
       align-items: center;
       justify-content: center;
-      max-width: 82vw;
-      max-height: 80vh;
       position: relative;
+      width: 100%;
+      overflow: hidden;
     }
+
     .lb-loading {
       position: absolute;
       inset: 0;
@@ -463,8 +490,8 @@
       pointer-events: none;
     }
     .lb-media-wrap img, .lb-media-wrap video {
-      max-width: 82vw;
-      max-height: 80vh;
+      width: 100%;
+      height: 100%;
       object-fit: contain;
       display: block;
     }
@@ -473,22 +500,22 @@
       display: flex;
       gap: 8px;
       align-items: center;
-      width: 82vw;
-      max-height: 80vh;
+      width: 70vw;
+      max-height: 86vh;
     }
     .lb-trio video {
       flex: 1;
       min-width: 0;
-      max-height: 80vh;
+      max-height: 86vh;
       object-fit: contain;
     }
 
     .lb-info-bar {
-      margin-top: 14px;
+      margin-top: 10px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      gap: 5px;
+      gap: 4px;
     }
 
     .lb-title {
@@ -506,6 +533,62 @@
       font-size: 0.80rem;
       letter-spacing: 0.1em;
       opacity: 0.5;
+    }
+
+    .lb-bottom-row {
+      margin-top: 18px;
+      padding-top: 10px;
+      border-top: 1px solid rgba(232,53,53,0.18);
+    }
+    .lb-bottom-row::before {
+      content: 'MATERIALS';
+      display: block;
+      font-family: 'Cinzel', serif;
+      color: var(--red);
+      font-size: 0.52rem;
+      letter-spacing: 0.28em;
+      opacity: 0.45;
+      margin-bottom: 5px;
+    }
+    .lb-materials {
+      font-family: 'Cinzel', serif;
+      color: var(--red);
+      font-size: 0.63rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      opacity: 0.88;
+      line-height: 1.9;
+      text-align: left;
+    }
+    .lb-sound-icon {
+      position: absolute;
+      bottom: 14px;
+      right: 14px;
+      color: var(--red);
+      opacity: 0;
+      transition: opacity 0.25s;
+      pointer-events: none;
+      line-height: 1;
+    }
+    .lb-media-wrap:hover .lb-sound-icon { opacity: 0.65; }
+    .lb-text-col {
+      width: 260px;
+      flex-shrink: 0;
+      margin-left: auto;
+      max-height: 78vh;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+    }
+    .lb-blurb {
+      font-family: 'Cormorant Garamond', serif;
+      color: var(--red);
+      font-size: 1.1rem;
+      font-style: italic;
+      letter-spacing: 0.03em;
+      opacity: 0.90;
+      line-height: 1.75;
+      text-align: left;
     }
 
     /* ── Contact Panel ──────────────────────────────── */
@@ -743,6 +826,130 @@
       .works-grid { grid-template-columns: 1fr; }
       .lb-arrow { padding: 20px 8px; }
     }
+
+    /* ── Hyper Map section ───────────────────────────────────────── */
+.hm-slideshow {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 3/2;
+      overflow: hidden;
+      border: 1px solid var(--red-dim);
+      cursor: pointer;
+    }
+    .hm-slide {
+      position: absolute;
+      inset: 0;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: opacity 1s ease;
+    }
+    .hm-buttons {
+      display: flex;
+      gap: 14px;
+      margin-top: 14px;
+    }
+    .hm-btn {
+      border: 1px solid var(--red);
+      background: transparent;
+      color: var(--red);
+      font-family: 'Cinzel', serif;
+      font-size: 0.6rem;
+      letter-spacing: 0.2em;
+      text-transform: uppercase;
+      padding: 10px 16px;
+      cursor: pointer;
+      text-align: left;
+      line-height: 1.6;
+    }
+    .hm-btn:hover { background: rgba(232,53,53,0.08); }
+    .hm-btn-disabled { opacity: 0.4; cursor: default; }
+    .hm-btn-disabled:hover { background: transparent; }
+    .hm-btn-sub {
+      display: block;
+      font-size: 0.52rem;
+      opacity: 0.65;
+      letter-spacing: 0.18em;
+    }
+
+    /* ── Exhibition text lightbox ───────────────────────────────── */
+    .text-lb-overlay {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: rgba(0,0,0,0.82);
+      backdrop-filter: blur(4px);
+    }
+    .text-lb-panel {
+      position: relative;
+      width: min(640px, 90vw);
+      max-height: 85vh;
+      display: flex;
+      flex-direction: column;
+      border: 1px solid var(--red-dim);
+      background: rgba(0,0,0,0.7);
+    }
+    .text-lb-body {
+      overflow-y: auto;
+      padding: 36px 40px 24px;
+      flex: 1;
+    }
+    .text-lb-attribution {
+      font-family: 'Cormorant Garamond', serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.12em;
+      color: var(--red);
+      opacity: 0.55;
+      text-align: right;
+      margin-bottom: 32px;
+      font-style: italic;
+    }
+    .text-lb-body p {
+      font-family: 'Cormorant Garamond', serif;
+      color: var(--red);
+      font-size: 1.05rem;
+      line-height: 1.85;
+      margin-bottom: 1.4em;
+    }
+    .text-lb-body p.text-italic { font-style: italic; }
+    .text-lb-body p.text-spaced { margin-bottom: 2.2em; }
+    .text-lb-body p.text-bold-italic { font-style: italic; font-weight: 600; }
+    .text-lb-footer {
+      padding: 16px 40px 20px;
+      border-top: 1px solid var(--red-dim);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+    .text-lb-download {
+      font-family: 'Cinzel', serif;
+      font-size: 0.58rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--red);
+      border: 1px solid var(--red);
+      padding: 8px 16px;
+      text-decoration: none;
+      background: transparent;
+    }
+    .text-lb-download:hover { background: rgba(232,53,53,0.08); }
+    .text-lb-close {
+      position: absolute;
+      top: 12px;
+      right: 14px;
+      background: none;
+      border: none;
+      color: var(--red);
+      font-size: 1rem;
+      cursor: pointer;
+      opacity: 0.6;
+      font-family: 'Cinzel', serif;
+      line-height: 1;
+    }
+    .text-lb-close:hover { opacity: 1; }
   </style>
 </head>
 <body>
@@ -801,13 +1008,23 @@
       <button class="lb-arrow" id="lb-prev">←</button>
       <div class="lb-container">
         <button class="lb-close" id="lb-close">×</button>
-        <div class="lb-media-wrap" id="lb-media"></div>
-        <div class="lb-info-bar">
-          <span class="lb-title"  id="lb-title"></span>
-          <span class="lb-counter" id="lb-counter"></span>
+        <div class="lb-top-row">
+          <div class="lb-image-col">
+            <div class="lb-media-wrap" id="lb-media"></div>
+            <div class="lb-info-bar">
+              <span class="lb-title" id="lb-title"></span>
+              <span class="lb-counter" id="lb-counter"></span>
+            </div>
+          </div>
+          <button class="lb-arrow" id="lb-next">→</button>
+          <div class="lb-text-col" id="lb-text-col" style="display:none">
+            <div class="lb-blurb" id="lb-blurb"></div>
+          </div>
+        </div>
+        <div class="lb-bottom-row" id="lb-bottom-row" style="display:none">
+          <div class="lb-materials" id="lb-materials"></div>
         </div>
       </div>
-      <button class="lb-arrow" id="lb-next">→</button>
     </div>
   </div>
 
@@ -840,6 +1057,7 @@
         <span style="font-size:1.52rem">Evarts</span>
       </div>
       <nav>
+        <a href="#hypermap">Hyper Map</a>
         <a href="#works" class="active">Selected Works</a>
         <a href="#exhibitions">Exhibitions</a>
         <a href="#program">Public Programs</a>
@@ -855,7 +1073,60 @@
       </nav>
     </aside>
 
+    <!-- Exhibition Text Lightbox -->
+    <div id="text-lb" class="text-lb-overlay" style="display:none;">
+      <div class="text-lb-panel">
+        <button class="text-lb-close" id="text-lb-close">✕</button>
+        <div class="text-lb-body">
+          <p class="text-lb-attribution">Tess Bakharia for Hyper Map</p>
+          <p class="text-italic text-spaced">Wake up. Power up. Log on.</p>
+          <p class="text-italic text-spaced">Open your eyes, heart and mind to your digital reality.</p>
+          <p class="text-italic text-spaced">Are you in control: of your appearance, your being, your destiny?</p>
+          <p>I am here to remind you that digital sovereignty is a myth. The internet, once a place of boundless potential and dreams of digital collectivism, now purged of utopic intentions by technocratic algorithmic rule.</p>
+          <p>It appears we are not in fact the creators of our own destiny after all, merely a cog in the metaphorical media machine. The NPCs of our MMORPG, resigned to our digital serfdom. Confined each day to the capital system and each night to the realm of digital fiefdoms. Where the waged work ends, the digital labour begins.</p>
+          <p class="text-italic text-spaced">It is here you commence your quest.</p>
+          <p>In this life, among other things, you hope to one day fulfil a greater purpose. Is this what you're seeking as you navigate countless online worlds—a path to self-discovery? To fulfil the deepest parts of your psyche? Digital self-expression and autonomy?</p>
+          <p>You return day by day, relentlessly searching, filtering, sorting, cataloguing, filing, saving, repeating. Driven by nostalgia for a better time, compelled by a higher power and moved by an incessant need to <em>do something</em>.</p>
+          <p>Desperate in your search, you transmit a beam of light, an exercise in digital manifestation. 'Are you there?', you motion through carefully curated images, videos and media in the hope that someone or something will signal back.</p>
+          <p>Along the way, you generate an endless stream of instant gratification through screen-stacking and content grazing. Accruing digital assets and digital waste, expanding the cloud while expanding your soul. You search far and wide, seeking to find the limits of this liminal world, unable to conceptualise its physical footprint.</p>
+          <p class="text-italic text-spaced">Every hero has a weakness and yours, my friend, is the system. A weakness intended by design.</p>
+          <p>In this digital world, everything is scannable, trackable, traceable. In gaining entry, you became complicit, relinquishing your autonomy to the techno-surveillance machine. Just as you search, catalogue, and compile, you are also being mapped. Your genomic sequence, your biometrics, every piece of data you generate is extracted to be leveraged and sold. Even when offline, your digital presence remains.</p>
+          <p class="text-italic text-spaced">Is this what you were seeking to find?</p>
+          <p class="text-italic text-spaced">Will this data reveal your essence?</p>
+          <p class="text-italic text-spaced">Can a computer map your being?</p>
+          <p>Tell me about yourself—the first time you materialised online, who you work for and who owns you, who you are when not commodified.</p>
+          <p>What makes you come alive?</p>
+          <p>Tell me about your life.<br>Tell me about your thoughts.<br>Tell me about your dreams.</p>
+          <p class="text-italic text-spaced">Now tell me, have you been successful in your quest?</p>
+          <p>If your goal was to find escapism, did you find it, and how then does it feel to be set free? Do you now know what it feels like to experience everything at the same time, how it feels to be one with the machine?</p>
+          <p class="text-italic text-spaced">It is here that the soul and spirit begin.</p>
+          <p class="text-bold-italic">Welcome to the Hyper Map.</p>
+        </div>
+        <div class="text-lb-footer">
+          <a href="Hyper Map/Text/Hyper Map Exhibition Text FINAL.pdf" download target="_blank" class="text-lb-download">Download PDF ↓</a>
+        </div>
+      </div>
+    </div>
+
     <main class="content" id="content">
+
+      <!-- HYPER MAP -->
+      <section id="hypermap" class="section">
+        <div class="ex-meta">
+          <span class="ex-year">2026</span>
+          <h3 class="ex-title">Hyper Map</h3>
+          <p class="ex-venue">StetlaAri</p>
+          <p class="ex-role" style="font-style:normal;">Solo Exhibition</p>
+        </div>
+        <div class="hm-slideshow" id="hm-slideshow">
+          <img class="hm-slide" id="hm-slide-a" src="Hyper Map/Images/1.JPG" alt="">
+          <img class="hm-slide" id="hm-slide-b" src="Hyper Map/Images/2.JPG" alt="" style="opacity:0;">
+        </div>
+        <div class="hm-buttons">
+          <button class="hm-btn" id="hm-text-btn">Exhibition Text<span class="hm-btn-sub">by Tess Bakharia</span></button>
+          <button class="hm-btn hm-btn-disabled">Performance</button>
+        </div>
+      </section>
 
       <!-- SELECTED WORKS -->
       <section id="works" class="section">
@@ -1155,9 +1426,78 @@
       bgImgEls[bgCurrentIndex].style.opacity = '1';
     }
 
-    // Update bg photo based on active nav section
+    // Update bg photo based on scroll quarters (not section IDs)
     const contentEl = document.getElementById('content');
-    const sectionPhotoMap = { works: 0, exhibitions: 1, program: 2, cv: 3 };
+
+    // ── Hyper Map slideshow ─────────────────────────────────────────
+    // Chronological order (date created) — used for lightbox
+    const hmImages = [
+      'Hyper Map/Images/1.JPG',
+      'Hyper Map/Images/2.JPG',
+      'Hyper Map/Images/3.JPG',
+      'Hyper Map/Images/IMG_9126.JPG',
+      'Hyper Map/Images/IMG_9158.JPG',
+      'Hyper Map/Images/IMG_9175.JPG',
+      'Hyper Map/Images/IMG_9178.JPG',
+      'Hyper Map/Images/_MG_9180.JPG',
+      'Hyper Map/Images/_MG_9198.JPG',
+      'Hyper Map/Images/_MG_9202.JPG',
+      'Hyper Map/Images/IMG_9224.JPG',
+      'Hyper Map/Images/IMG_9233.JPG',
+      'Hyper Map/Images/IMG_9235.JPG',
+      'Hyper Map/Images/IMG_9253.JPG',
+      'Hyper Map/Images/IMG_9256.JPG',
+      'Hyper Map/Images/IMG_9261.JPG',
+      'Hyper Map/Images/IMG_9274.JPG',
+      'Hyper Map/Images/IMG_9279.JPG',
+      'Hyper Map/Images/IMG_9287.JPG',
+      'Hyper Map/Images/IMG_9289.JPG',
+      'Hyper Map/Images/MasterMap.png',
+    ];
+    // Shuffled copy for the homepage slideshow
+    const hmSlideshow = [...hmImages].sort(() => Math.random() - 0.5);
+    const hmSlideA = document.getElementById('hm-slide-a');
+    const hmSlideB = document.getElementById('hm-slide-b');
+    hmSlideA.src = hmSlideshow[0];
+    hmSlideB.src = hmSlideshow[1];
+    let hmSlideshowIndex = 0;
+    let hmActive = 'a';
+    setInterval(() => {
+      hmSlideshowIndex = (hmSlideshowIndex + 1) % hmSlideshow.length;
+      if (hmActive === 'a') {
+        hmSlideB.src = hmSlideshow[hmSlideshowIndex];
+        hmSlideB.style.opacity = '1';
+        hmSlideA.style.opacity = '0';
+        hmActive = 'b';
+      } else {
+        hmSlideA.src = hmSlideshow[hmSlideshowIndex];
+        hmSlideA.style.opacity = '1';
+        hmSlideB.style.opacity = '0';
+        hmActive = 'a';
+      }
+    }, 3000);
+
+    // ── Exhibition text lightbox ────────────────────────────────────
+    const textLb = document.getElementById('text-lb');
+    document.getElementById('hm-text-btn').addEventListener('click', () => {
+      textLb.style.display = 'flex';
+    });
+    document.getElementById('text-lb-close').addEventListener('click', () => {
+      textLb.style.display = 'none';
+    });
+    textLb.addEventListener('click', e => {
+      if (e.target === textLb) textLb.style.display = 'none';
+    });
+    textLb.addEventListener('wheel', e => {
+      textLb.querySelector('.text-lb-body').scrollTop += e.deltaY;
+      e.preventDefault();
+    }, { passive: false });
+
+    // ── Hyper Map slideshow → lightbox on click ─────────────────────
+    const hmLbItems = hmImages.map(src => ({ type: 'img', src }));
+    document.getElementById('hm-slideshow').addEventListener('click', () => {
+      openLightbox(hmLbItems, 0, 'Hyper Map');
+    });
 
     let lastFrame = 0;
     const FPS      = 15;
@@ -1437,6 +1777,16 @@
     document.getElementById('emergence3-hero-img').addEventListener('click', () => openLightbox(emergence3Items, 0, 'Emergence III'));
 
     // ── Lightbox ────────────────────────────────────────────────────
+    const workMeta = {
+      'Anti Shadow': {
+        materials: 'Laser etched Acrylic Panel, Laser Cut Acrylic, 2x Aperture MC Pro RGB Portable Light, Lighting mount, Fishing wire, Digital photography, 3D render, Text from Wikipedia',
+        blurb: 'Experimenting with the interplay between different stages of image processing and conversion, Anti_Shadow serves as a catalyst for both metaphorical and physical transformations. The acrylic reproduction of the shadow photograph not only materialises the shadow but also reverses its reaction to light. The lights and floating acrylic bed turn the space into a sterile science fiction laboratory, a place for exercising experiments and playing with the foundational structure of light. Through the image processing, colour data is used to act in place as \u2018height information\u2019 to reveal underlying forms in the image.'
+      },
+      'Vein': {
+        materials: '3D Rendered moving Image'
+      }
+    };
+
     const workFiles = {
       'Anti Shadow': [
         { type: 'img', src: 'Selected Works/Anti Shadow/anti-shadow-1.png' },
@@ -1588,6 +1938,12 @@
         el.addEventListener('canplay', removeLoading, { once: true });
         el.addEventListener('error',   removeLoading, { once: true });
         lbMedia.appendChild(el);
+        if (soundOn) {
+          const icon = document.createElement('div');
+          icon.className = 'lb-sound-icon';
+          icon.innerHTML = '<svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><polygon points="11 5 6 9 2 9 2 15 6 15 11 19 11 5"/><path d="M15.54 8.46a5 5 0 0 1 0 7.07"/><path d="M19.07 4.93a10 10 0 0 1 0 14.14"/></svg>';
+          lbMedia.appendChild(icon);
+        }
       }
 
       lbCounter.textContent   = lbItems.length > 1 ? `${lbIndex + 1} / ${lbItems.length}` : '';
@@ -1596,6 +1952,26 @@
       const multi             = lbItems.length > 1;
       lbPrev.style.visibility = multi ? 'visible' : 'hidden';
       lbNext.style.visibility = multi ? 'visible' : 'hidden';
+
+      const lbMaterials  = document.getElementById('lb-materials');
+      const lbBottomRow  = document.getElementById('lb-bottom-row');
+      const lbTextCol    = document.getElementById('lb-text-col');
+      const lbBlurb      = document.getElementById('lb-blurb');
+      const meta         = workMeta[lbTitle.textContent];
+      if (meta) {
+        lbMaterials.innerHTML = meta.materials;
+        lbBottomRow.style.display = '';
+        if (meta.blurb) {
+          lbBlurb.textContent     = meta.blurb;
+          lbTextCol.style.display = '';
+        } else {
+          lbBlurb.textContent     = '';
+          lbTextCol.style.display = 'none';
+        }
+      } else {
+        lbBottomRow.style.display = 'none';
+        lbTextCol.style.display   = 'none';
+      }
     }
 
     function openLightbox(items, startIndex, title) {
@@ -1616,7 +1992,10 @@
     lbPrev.addEventListener('click', () => { if (lbIndex > 0) { lbIndex--; showLbItem(); } });
     lbNext.addEventListener('click', () => { if (lbIndex < lbItems.length - 1) { lbIndex++; showLbItem(); } });
     lbClose.addEventListener('click', closeLightbox);
-    lbOverlay.addEventListener('click', closeLightbox);
+    lightbox.addEventListener('click', e => {
+      if (!lightbox.classList.contains('open')) return;
+      if (e.target === lightbox || e.target === lbOverlay || e.target === document.querySelector('.lb-layout')) closeLightbox();
+    });
 
     document.addEventListener('keydown', e => {
       if (!lightbox.classList.contains('open')) return;
@@ -2161,8 +2540,9 @@
       navLinks.forEach(l => {
         l.classList.toggle('active', l.getAttribute('href') === `#${current}`);
       });
-      const photoIndex = sectionPhotoMap[current];
-      if (photoIndex !== undefined) crossfadeBgTo(photoIndex);
+      const scrollable = content.scrollHeight - content.clientHeight;
+      const pct = scrollable > 0 ? content.scrollTop / scrollable : 0;
+      crossfadeBgTo(Math.min(3, Math.floor(pct * 4)));
     });
 
     // ── Easter egg: top-right corner reveals background ──────────────

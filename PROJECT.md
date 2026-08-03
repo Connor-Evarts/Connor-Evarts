@@ -89,6 +89,10 @@ website/
 │       ├── Scan 30.jpeg
 │       ├── Scan 34.jpeg
 │       └── Scan.jpeg
+├── Hyper Map/
+│   ├── Images/             ← 21 JPGs + MasterMap.png (all used in slideshow + lightbox)
+│   ├── Title/              ← Hyper Map Title.png (not currently used — replaced by text)
+│   └── Text/               ← Hyper Map Exhibition Text FINAL.pdf
 ├── Selected Works/
 │   ├── Anti Shadow/                ← 8 PNGs
 │   ├── Aranea_Daemon/              ← 3 PNGs
@@ -246,15 +250,53 @@ Note: the first `sed` strips the `../` path prefix. The second strips the dev-on
 ---
 
 ## ⚠️ Pick up here next session
+- Port the new lightbox layout + Hyper Map section from `index-3.html` into `index-2.html` once approved
+- Add `workMeta` text for remaining works (source from RTF files in each Selected Works folder)
 - Do a visual pass of the live site — check all works in lightbox, exhibitions, and public programs for remaining image artifacts
 - JS console error on live site: `Cannot access 'bgDuckMul' before initialization` at duckBackground — investigate and fix
+- Performance button in Hyper Map section is a placeholder — add video when ready
 - Consider making the site mobile friendly
 
 ## Known future tasks
 - Add photos/media to Rīgorabana public program when available
+- Add performance video to Hyper Map section when ready
 - The repo is named Connor-Evarts (not Connor-Evarts.github.io) — this is fine, GitHub Pages still works via Settings → Pages
 
 ## What was done (this session)
+All work in `versions/index-3.html`:
+
+**Materials fix:**
+- Materials bar now displays as comma-separated inline text (was incorrectly one item per line with `display:block` span)
+
+**Hyper Map section** — new top-level section above Selected Works:
+- Nav link "Hyper Map" added as first item in sidebar
+- Section order: ex-meta (2026 / Hyper Map / StetlaAri / Solo Exhibition) → image slideshow → buttons
+- Slideshow: all 21 images from `Hyper Map/Images/` shuffled randomly on each page load
+- Lightbox: clicking slideshow opens all images in chronological order (date created), always starting at image 1
+- Chronological image order: 1.JPG, 2.JPG, 3.JPG, IMG_9126, IMG_9158, IMG_9175, IMG_9178, _MG_9180, _MG_9198, _MG_9202, IMG_9224, IMG_9233, IMG_9235, IMG_9253, IMG_9256, IMG_9261, IMG_9274, IMG_9279, IMG_9287, IMG_9289, MasterMap.png
+- Two red-bordered buttons: "Exhibition Text / by Tess Bakharia" and "Performance" (placeholder, does nothing)
+- Exhibition text lightbox: full Tess Bakharia essay with preserved formatting (italic lines, paragraphs, bold-italic final line); scroll works from anywhere on the overlay; "Download PDF ↓" opens in new tab; click outside panel or ✕ to close
+- `Hyper Map/` folder added to file structure: `Images/` (21 JPGs + MasterMap.png), `Title/` (Hyper Map Title.png), `Text/` (Hyper Map Exhibition Text FINAL.pdf)
+- `.nojekyll` already in place — needed for `_MG_` prefixed filenames on GitHub Pages
+
+**Background photos:**
+- Changed from section-ID-based mapping to scroll-percentage quarters (0–25%, 25–50%, 50–75%, 75–100%) — decoupled from section IDs, works correctly with new Hyper Map section at top
+
+**Lightbox improvements:**
+- Image column changed from fixed `58vw / 78vh` to `flex:1 / 90vh` — images now fill available space and match homepage slideshow size more closely
+- `lb-close` button moved to `position: fixed; top: 18px; right: 22px` — always visible regardless of content height
+- Backdrop click-to-close: clicking blurred overlay or gaps closes lightbox; ✕ still works independently
+
+## What was done (last session)
+Complete lightbox layout redesign in `versions/index-3.html`:
+- **Layout**: image column on left; text/blurb column (260px) pushed hard to right via `margin-left: auto`; materials bar spanning full width at bottom with thin red separator
+- **→ arrow** moved inside `lb-top-row` (next to image), lb-layout is now full-width; ← stays outside on left
+- **Backdrop close**: clicking any grey area closes lightbox
+- **Speaker icon**: SVG speaker appears bottom-right on hover for `sound: true` videos (e.g. Vein, Nyctophobia, Fantasy Island)
+- **workMeta JS object**: Anti Shadow (materials + blurb), Vein (materials only — no text col shown, image stays centered)
+- RTF sources: `Selected Works/Anti Shadow/ANTI SHADOW.rtf`, `Selected Works/Vein/Vein.rtf`
+
+## What was done (last session)
 - All exhibitions now use culled `Live/` subfolders for documentation photos (note capital L — GitHub Pages sensitive)
 - BLISS: 10 live docs photos (38,44,46,50,55,58,63,65,66,69); video is now index 0 in lightbox, docs follow
 - BLISS video: click opens lightbox (video first, then docs) — was play/pause
@@ -281,5 +323,5 @@ Note: the first `sed` strips the `../` path prefix. The second strips the dev-on
 ## Important notes
 - `.nojekyll` file in repo root is critical — without it GitHub Pages (Jekyll) silently blocks all files whose names start with `_` (affects all THEREMONIC + Emergence III photos)
 - Audio is M4A not WAV — WAV original is gitignored
-- All paths are case-sensitive on GitHub Pages (Linux): `Fonts/`, `Profile Photo/`, `Audio/`, `Touch Grass/`, `THEREMONIC/`, `Emergence III/`, `Sentient/`, `Live/` (exhibition live subfolders)
+- All paths are case-sensitive on GitHub Pages (Linux): `Fonts/`, `Profile Photo/`, `Audio/`, `Touch Grass/`, `THEREMONIC/`, `Emergence III/`, `Sentient/`, `Live/` (exhibition live subfolders), `Hyper Map/`
 - Formspree contact form: ID `xrerqnly`, destination connor.andree.evarts@gmail.com. First submission requires Formspree verification email.
