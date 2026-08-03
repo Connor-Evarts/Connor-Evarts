@@ -129,6 +129,7 @@
     .content::-webkit-scrollbar { display: none; }
 
     .section { margin-bottom: 90px; }
+    #hypermap { margin-top: -26px; }
     .section:last-child { padding-bottom: 60px; margin-bottom: 0; }
 
     .section-label {
@@ -831,7 +832,8 @@
 .hm-slideshow {
       position: relative;
       width: 100%;
-      aspect-ratio: 3/2;
+      height: calc(100vh - 260px);
+      min-height: 180px;
       overflow: hidden;
       border: 1px solid var(--red-dim);
       cursor: pointer;
@@ -1444,7 +1446,6 @@
       '../Hyper Map/Images/_MG_9202.JPG',
       '../Hyper Map/Images/IMG_9224.JPG',
       '../Hyper Map/Images/IMG_9233.JPG',
-      '../Hyper Map/Images/IMG_9235.JPG',
       '../Hyper Map/Images/IMG_9253.JPG',
       '../Hyper Map/Images/IMG_9256.JPG',
       '../Hyper Map/Images/IMG_9261.JPG',
@@ -2767,8 +2768,29 @@
 
     (function () {
       const overlay = document.getElementById('ack-overlay');
+
+      // On load: jump to works so the static/works grid shows behind the blur
+      setTimeout(() => {
+        content.scrollTop = document.getElementById('works').offsetTop;
+      }, 0);
+
+      // Smooth scroll helper with easeInOut
+      function smoothScrollTo(target, duration) {
+        const start = content.scrollTop;
+        const distance = target - start;
+        const startTime = performance.now();
+        function ease(t) { return t < 0.5 ? 2*t*t : -1+(4-2*t)*t; }
+        function step(now) {
+          const t = Math.min((now - startTime) / duration, 1);
+          content.scrollTop = start + distance * ease(t);
+          if (t < 1) requestAnimationFrame(step);
+        }
+        requestAnimationFrame(step);
+      }
+
       function dismiss() {
         overlay.classList.add('dismissed');
+        smoothScrollTo(0, 700);
         overlay.addEventListener('transitionend', () => overlay.remove(), { once: true });
       }
       overlay.addEventListener('click', dismiss);

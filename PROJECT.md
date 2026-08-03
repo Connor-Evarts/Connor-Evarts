@@ -9,7 +9,7 @@ Local files: /Users/conr/Documents/website/
 
 ## What's been built
 
-`index.html` (live) = index-2. Active development is on `versions/index-2.html`.
+`index.html` (live) = index-3. Active development is on `versions/index-3.html`. (`index-2.html` kept as backup, do not touch.)
 
 **index-2 features:**
 - Animated TV static background (canvas-based, 15fps, brighter in content area)
