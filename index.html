@@ -2642,9 +2642,8 @@
       navLinks.forEach(l => {
         l.classList.toggle('active', l.getAttribute('href') === `#${current}`);
       });
-      const scrollable = content.scrollHeight - content.clientHeight;
-      const pct = scrollable > 0 ? content.scrollTop / scrollable : 0;
-      crossfadeBgTo(Math.min(3, Math.floor(pct * 4)));
+      const sectionIdx = [...sections].findIndex(s => s.id === current);
+      crossfadeBgTo(Math.min(Math.max(sectionIdx, 0), bgImgEls.length - 1));
     });
 
     // ── Easter egg: top-right corner reveals background ──────────────
