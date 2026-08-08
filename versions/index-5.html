@@ -1114,6 +1114,99 @@
       font-family: 'Cormorant Garamond', serif;
     }
     .facescan-close:hover { opacity: 1; filter: url(#bloom); }
+
+    /* ── Accessibility Mode ─────────────────────────── */
+    .ack-a11y-btn {
+      position: absolute;
+      bottom: 36px;
+      right: 36px;
+      background: transparent;
+      border: 1px solid var(--red);
+      color: var(--red);
+      font-family: 'Cinzel', serif;
+      font-size: 0.68rem;
+      letter-spacing: 0.16em;
+      text-transform: uppercase;
+      padding: 8px 16px;
+      cursor: pointer;
+      opacity: 0.5;
+      transition: opacity 0.15s;
+    }
+    .ack-a11y-btn:hover { opacity: 1; }
+
+    body.a11y {
+      --red: #111111;
+      --red-mid: rgba(17,17,17,0.4);
+      --red-dim: rgba(17,17,17,0.18);
+      background: #ffffff;
+    }
+    body.a11y #bg-wrap { display: none !important; }
+    body.a11y #static  { display: none !important; }
+    body.a11y .frame   { border-color: rgba(0,0,0,0.15) !important; }
+
+    body.a11y .site-name,
+    body.a11y nav a,
+    body.a11y .section-label,
+    body.a11y .section-label,
+    body.a11y .ex-title,
+    body.a11y .ex-venue,
+    body.a11y .ex-role,
+    body.a11y .ex-year,
+    body.a11y .ex-group-label,
+    body.a11y .prog-title,
+    body.a11y .prog-venue,
+    body.a11y .prog-date,
+    body.a11y .cv-year,
+    body.a11y .cv-detail,
+    body.a11y .cv-pdf,
+    body.a11y .hm-btn,
+    body.a11y .work-label,
+    body.a11y .text-lb-body p,
+    body.a11y .text-lb-attribution,
+    body.a11y .lb-title,
+    body.a11y .lb-counter,
+    body.a11y .lb-materials,
+    body.a11y .ack-text,
+    body.a11y .ack-credits,
+    body.a11y .ack-hint {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif !important;
+      filter: none !important;
+    }
+    body.a11y nav a.active { font-weight: 600; }
+    body.a11y #profile-wrap { display: none !important; }
+
+    body.a11y .lb-overlay {
+      background: rgba(255,255,255,0.96) !important;
+      backdrop-filter: blur(4px) !important;
+    }
+    body.a11y .text-lb-overlay { background: rgba(255,255,255,0.98) !important; }
+    body.a11y .text-lb-panel {
+      background: #ffffff !important;
+      border-color: #ccc !important;
+    }
+    body.a11y .text-lb-body p { color: #111111 !important; }
+    body.a11y #ack-overlay { background: #ffffff !important; }
+
+    .a11y-exit {
+      display: none;
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+      font-size: 0.72rem;
+      background: transparent;
+      border: 1px solid #aaa;
+      color: #555;
+      padding: 5px 12px;
+      cursor: pointer;
+      letter-spacing: 0.05em;
+      margin-top: 4px;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .a11y-exit:hover { border-color: #333; color: #111; }
+    body.a11y .a11y-exit { display: inline-block; }
+    body.a11y .nav-bottom { display: flex !important; }
+
+    @media (max-width: 600px) {
+      body.a11y .nav-bottom { display: flex !important; }
+    }
   </style>
 </head>
 <body>
@@ -1134,6 +1227,7 @@
       <img src="../Flags/Queer Trans.webp" alt="Queer &amp; Trans Flag">
     </div>
     <span class="ack-hint">Click anywhere to continue</span>
+    <button class="ack-a11y-btn" id="ack-a11y-btn" aria-label="Enable accessibility mode">Accessibility Mode</button>
   </div>
 
   <div id="bg-photo"></div>
@@ -1232,6 +1326,7 @@
         <div class="nav-bottom">
           <a href="mailto:connor.andree.evarts@gmail.com" class="external" id="email-link">Email ↗</a>
           <a href="https://www.instagram.com/fleshchrist666/" target="_blank" class="external">Instagram ↗</a>
+          <button class="a11y-exit" id="a11y-exit" aria-label="Exit accessibility mode">Exit Accessibility</button>
         </div>
       </nav>
     </aside>
@@ -2618,7 +2713,7 @@
 
     // Start audio silently on page load so it's ready when egg triggers
     // Disabled on mobile — no audio autoplay on small screens
-    if (window.innerWidth > 600)
+    if (window.innerWidth > 600 && !document.body.classList.contains('a11y'))
     (function startAudio() {
       if (audioReady) return;
       audioReady = true;
@@ -2930,6 +3025,7 @@
     }
 
     function triggerRGBSweep() {
+      if (document.body.classList.contains('a11y')) return;
       const items = [];
 
       function walk(el) {
@@ -2988,13 +3084,38 @@
       if (!rgbRAF) rgbRAF = requestAnimationFrame(rgbRenderLoop);
     }
 
+    // ── Accessibility Mode ─────────────────────────────────────────────
+    function enableA11y() {
+      document.body.classList.add('a11y');
+      localStorage.setItem('a11y', '1');
+      // Stop any running audio
+      try { if (typeof curAud !== 'undefined' && curAud) { curAud.pause(); } } catch(e) {}
+      try { if (typeof nxtAud !== 'undefined' && nxtAud) { nxtAud.pause(); } } catch(e) {}
+    }
+    function disableA11y() {
+      document.body.classList.remove('a11y');
+      localStorage.removeItem('a11y');
+    }
+    // Apply on load if previously set
+    if (localStorage.getItem('a11y') === '1') enableA11y();
+
+    document.getElementById('a11y-exit').addEventListener('click', disableA11y);
+
     (function () {
       const overlay = document.getElementById('ack-overlay');
+      const a11yBtn = document.getElementById('ack-a11y-btn');
 
       function dismiss() {
         overlay.classList.add('dismissed');
         overlay.addEventListener('transitionend', () => overlay.remove(), { once: true });
       }
+
+      a11yBtn.addEventListener('click', e => {
+        e.stopPropagation();
+        enableA11y();
+        dismiss();
+      });
+
       overlay.addEventListener('click', dismiss);
     })();
   </script>
