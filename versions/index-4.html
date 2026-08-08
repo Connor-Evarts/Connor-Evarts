@@ -2665,6 +2665,7 @@
     let cornerRevealed = false;
 
     document.addEventListener('mousemove', e => {
+      if (window.innerWidth <= 600) return;
       const inCorner = e.clientX > window.innerWidth - 60;
       if (inCorner) {
         if (!cornerTimer) {
