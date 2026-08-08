@@ -1116,6 +1116,27 @@
     .facescan-close:hover { opacity: 1; filter: url(#bloom); }
 
     /* ── Accessibility Mode ─────────────────────────── */
+
+    /* Button on ack overlay — white on black, very readable */
+    .ack-a11y-btn {
+      position: absolute;
+      bottom: 36px;
+      right: 36px;
+      background: #ffffff;
+      border: none;
+      color: #000000;
+      font-family: 'Cinzel', serif;
+      font-size: 0.82rem;
+      letter-spacing: 0.14em;
+      text-transform: uppercase;
+      padding: 12px 24px;
+      cursor: pointer;
+      font-weight: 600;
+      transition: background 0.15s;
+    }
+    .ack-a11y-btn:hover { background: #ddd; }
+
+    /* Button in nav sidebar */
     .a11y-toggle {
       font-family: 'Cinzel', serif;
       font-size: 0.72rem;
@@ -1126,17 +1147,16 @@
       color: var(--red);
       padding: 6px 12px;
       cursor: pointer;
-      opacity: 0.65;
-      transition: opacity 0.15s;
+      opacity: 1;
+      transition: filter 0.12s;
       white-space: nowrap;
     }
-    .a11y-toggle:hover { opacity: 1; filter: url(#bloom); }
+    .a11y-toggle:hover { filter: url(#bloom); }
     body.a11y .a11y-toggle {
       font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif !important;
       filter: none !important;
       border-color: #aaa !important;
       color: #555 !important;
-      opacity: 1;
     }
     body.a11y .a11y-toggle:hover { border-color: #111 !important; color: #111 !important; }
 
@@ -1217,6 +1237,7 @@
       <img src="../Flags/Queer Trans.webp" alt="Queer &amp; Trans Flag">
     </div>
     <span class="ack-hint">Click anywhere to continue</span>
+    <button class="ack-a11y-btn" id="ack-a11y-btn">Accessibility Mode</button>
   </div>
 
   <div id="bg-photo"></div>
@@ -3093,11 +3114,20 @@
     });
 
     (function () {
-      const overlay = document.getElementById('ack-overlay');
+      const overlay  = document.getElementById('ack-overlay');
+      const a11yBtn  = document.getElementById('ack-a11y-btn');
+
       function dismiss() {
         overlay.classList.add('dismissed');
         overlay.addEventListener('transitionend', () => overlay.remove(), { once: true });
       }
+
+      a11yBtn.addEventListener('click', e => {
+        e.stopPropagation();
+        document.body.classList.contains('a11y') ? disableA11y() : enableA11y();
+        dismiss();
+      });
+
       overlay.addEventListener('click', dismiss);
     })();
   </script>
