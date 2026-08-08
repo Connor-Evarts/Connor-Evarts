@@ -3097,17 +3097,13 @@
     // ── Accessibility Mode ─────────────────────────────────────────────
     function enableA11y() {
       document.body.classList.add('a11y');
-      localStorage.setItem('a11y', '1');
       // Stop any running audio
       try { if (typeof curAud !== 'undefined' && curAud) { curAud.pause(); } } catch(e) {}
       try { if (typeof nxtAud !== 'undefined' && nxtAud) { nxtAud.pause(); } } catch(e) {}
     }
     function disableA11y() {
       document.body.classList.remove('a11y');
-      localStorage.removeItem('a11y');
     }
-    // Apply on load if previously set
-    if (localStorage.getItem('a11y') === '1') enableA11y();
 
     document.getElementById('a11y-toggle').addEventListener('click', () => {
       document.body.classList.contains('a11y') ? disableA11y() : enableA11y();
