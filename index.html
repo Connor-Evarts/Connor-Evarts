@@ -2617,6 +2617,8 @@
     }
 
     // Start audio silently on page load so it's ready when egg triggers
+    // Disabled on mobile — no audio autoplay on small screens
+    if (window.innerWidth > 600)
     (function startAudio() {
       if (audioReady) return;
       audioReady = true;
