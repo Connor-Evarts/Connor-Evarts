@@ -1120,19 +1120,20 @@
       position: absolute;
       bottom: 36px;
       right: 36px;
-      background: transparent;
-      border: 1px solid var(--red);
-      color: var(--red);
+      background: var(--red);
+      border: 2px solid var(--red);
+      color: #000;
       font-family: 'Cinzel', serif;
-      font-size: 0.68rem;
-      letter-spacing: 0.16em;
+      font-size: 0.82rem;
+      letter-spacing: 0.14em;
       text-transform: uppercase;
-      padding: 8px 16px;
+      padding: 11px 22px;
       cursor: pointer;
-      opacity: 0.5;
-      transition: opacity 0.15s;
+      opacity: 1;
+      transition: background 0.15s, color 0.15s;
+      font-weight: 600;
     }
-    .ack-a11y-btn:hover { opacity: 1; }
+    .ack-a11y-btn:hover { background: #fff; color: var(--red); }
 
     body.a11y {
       --red: #111111;
@@ -1140,8 +1141,8 @@
       --red-dim: rgba(17,17,17,0.18);
       background: #ffffff;
     }
-    body.a11y #bg-wrap { display: none !important; }
-    body.a11y #static  { display: none !important; }
+    body.a11y #bg-photo { display: none !important; }
+    body.a11y #static   { display: none !important; }
     body.a11y .frame   { border-color: rgba(0,0,0,0.15) !important; }
 
     body.a11y .site-name,
