@@ -9,7 +9,7 @@ Local files: /Users/conr/Documents/website/
 
 ## What's been built
 
-`index.html` (live) = index-5. Active development is on `versions/index-5.html`. (`index-4.html` kept as backup.)
+`index.html` (live) = index-6. Active development is on `versions/index-6.html`. (`index-5.html` kept as backup.)
 
 **index-2 features:**
 - Animated TV static background (canvas-based, 15fps, brighter in content area)
@@ -28,9 +28,9 @@ Local files: /Users/conr/Documents/website/
 
 ## Design values
 
-- Red: `#e83535`
-- Red mid (borders, lines): `rgba(232,53,53,0.45)`
-- Red dim (subtle lines, separators): `rgba(232,53,53,0.18)`
+- Red: `#e86030` (warm orange-red; shifted from original `#e83535` to add yellow warmth)
+- Red mid (borders, lines): `rgba(232,96,48,0.45)`
+- Red dim (subtle lines, separators): `rgba(232,96,48,0.18)`
 - Background: pure black `#000`
 - Static noise range: 0–23 brightness
 - Static centre boost: `fadeIn * fadeOut * 14`
@@ -210,12 +210,12 @@ cd "/path/to/folder" && for f in Screenshot*.png; do mv "$f" new-name.png; done
 
 ## How to update the site
 
-1. Edit `versions/index-5.html` or add files to relevant folders
+1. Edit `versions/index-6.html` or add files to relevant folders
 2. Convert any new images to WebP with `cwebp -q 82 input.jpg -o output.webp`
 3. In Terminal:
 ```
 cd /Users/conr/Documents/website
-cp versions/index-5.html index.html
+cp versions/index-6.html index.html
 sed -i '' 's|\.\./||g' index.html
 git add .
 git commit -m "describe what you changed"
@@ -249,6 +249,8 @@ Note: the `sed` strips the `../` path prefix (versions/ subfolder uses ../ but r
 ---
 
 ## ⚠️ Pick up here next session
+- Confirm ack overlay button position on mobile looks correct after push
+- Identify and fix "text play box" appearing on mobile in normal mode (couldn't reproduce from code — need screenshot)
 - Add `workMeta` text for remaining works (source from RTF files in each Selected Works folder)
 - Performance button in Hyper Map section is a placeholder — add video when ready
 - Add photos/media to Rīgorabana public program when available
@@ -257,6 +259,59 @@ Note: the `sed` strips the `../` path prefix (versions/ subfolder uses ../ but r
 - Add photos/media to Rīgorabana public program when available
 - Add performance video to Hyper Map section when ready
 - The repo is named Connor-Evarts (not Connor-Evarts.github.io) — this is fine, GitHub Pages still works via Settings → Pages
+
+## What was done (this session — index-5 → index-6)
+
+**Colour update:**
+- Base red shifted from `#e83535` to `#e86030` (warm orange-red) across all CSS vars, hardcoded hex, rgba(), and SVG URL-encoded strings
+- `isRedish()` threshold still works (G=96 < 100)
+
+**High contrast mode rename:**
+- "Accessibility" button renamed to "High Contrast" / "Low Contrast" toggle
+- Ack overlay button also updated to "High Contrast"
+- Button has fixed `min-width: 9em` to prevent size jump on toggle
+
+**High contrast mode — typewriter a11y tree:**
+- Line-by-line reveal at 50ms/line (top-down, pre-rendered hidden then revealed)
+- Starts 300ms after fade-in completes; clears instantly on mode switch
+- Chars split into `<span>` inline during tick() so mouse repulsion works from the start
+
+**High contrast mode — char click colour effect:**
+- Clicking the directory tree progressively lights chars with random bright HSL colours + glow
+- Adaptive per-click count: `charSpans.length / 18` chars per click
+- When all lit: random colour cycling starts (some chars at a time, continuously)
+- Mouse repulsion: chars scatter from cursor (live `getBoundingClientRect()`, batched reads, `display:inline-block` on spans)
+- `overflow: visible` on `#a11y-structure` allows transforms to escape container
+- All resets on mode switch
+
+**Moon/sun toggle button:**
+- Fixed `☽` / `☀` button at `top: 14px; right: 18px; z-index: 510`
+- Always visible including on ack overlay (z-index 510 > ack overlay 500)
+- Normal mode: crescent moon in `var(--red)` with bloom on hover
+- High contrast mode: sun in dark grey, no bloom
+- Wired to same `toggleA11y()` as sidebar button
+- Fixes missing toggle on mobile (sidebar nav-bottom is hidden on mobile)
+
+**RGB profile-click sweep — overhaul:**
+- Per-character colour cycling (chars split to spans with `display:inline` to preserve spacing)
+- Global energy/target/phase state drives all chars together
+- Palette: `[-30, 0, 15, 30, 45, 60]` (hot pink → red → orange → amber → yellow), ping-pong traversal
+- Per-element offset seeded from screen position (`rect.top/innerHeight + rect.left/innerWidth`) so different elements show different colours simultaneously — no vertical colour columns
+- Chars within element spread over 30% of palette range from element base
+- DOM walk throttled to once per 400ms; renders every 3 frames
+- Skip elements with mixed content (text + child elements) to preserve layout
+- No additional glow — uses site's existing CSS text-shadow only
+- Fade-out: CSS `transition: color 0.5s ease` applied at cleanup, then `innerHTML` restored after 600ms
+- Guards: disabled in a11y mode; skips `.hm-btn-disabled`; `hasText &&` guard prevents decorative borders triggering
+
+**Normal mode bug fixes:**
+- RGB sweep no longer activates work item boxes or section dividers (`hasText &&` guard on `isRedish` check)
+- Title bar (`.work-label`) no longer flickers during slideshow crossfades — fixed with `z-index: 1`
+- Removed invert effect on heavy profile-photo clicking (removed `rgbInvertLevel` entirely)
+
+**Mobile fixes:**
+- Ack overlay button repositioned: desktop keeps `position: absolute; bottom: 36px; right: 36px`; mobile switches ack overlay to flex column with `!important` overrides so button flows between ack text and credits
+- `#a11y-structure` hidden on mobile in high contrast mode (`display: none !important`) — was covering half the screen
 
 ## What was done (this session — index-4 → index-5)
 

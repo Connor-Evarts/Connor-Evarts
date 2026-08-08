@@ -28,9 +28,9 @@
 * { margin: 0; padding: 0; box-sizing: border-box; }
 
     :root {
-      --red: #e83535;
-      --red-mid: rgba(232,53,53,0.45);
-      --red-dim: rgba(232,53,53,0.18);
+      --red: #e86030;
+      --red-mid: rgba(232,96,48,0.45);
+      --red-dim: rgba(232,96,48,0.18);
     }
 
     html, body { width: 100%; height: 100%; background: #000; overflow: hidden; }
@@ -174,7 +174,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #e83535;
+      color: #e86030;
       font-size: 0.75rem;
       letter-spacing: 0.18em;
       pointer-events: none;
@@ -523,7 +523,7 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      color: #e83535;
+      color: #e86030;
       font-size: 0.85rem;
       letter-spacing: 0.18em;
       pointer-events: none;
@@ -577,7 +577,7 @@
     .lb-bottom-row {
       margin-top: 18px;
       padding-top: 10px;
-      border-top: 1px solid rgba(232,53,53,0.18);
+      border-top: 1px solid rgba(232,96,48,0.18);
     }
     .lb-bottom-row::before {
       content: 'MATERIALS';
@@ -885,13 +885,23 @@
       .lb-arrow { padding: 20px 8px; }
       .lb-info-bar { display: none; }
       .lb-bottom-row { display: none !important; }
-      .ack-a11y-btn {
-        right: auto;
-        left: 50%;
-        transform: translateX(-50%);
-        bottom: 100px;
-        white-space: nowrap;
+      /* ack overlay: column flow on mobile */
+      #ack-overlay {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: flex-start;
+        padding: 72px 28px 40px;
+        gap: 20px;
+        overflow-y: auto;
       }
+      .ack-content  { position: static !important; transform: none !important; width: 100%; }
+      .ack-a11y-btn { position: static !important; }
+      .ack-credits  { position: static !important; transform: none !important; text-align: left; white-space: normal; }
+      .ack-flags    { position: static !important; }
+      .ack-hint     { position: static !important; transform: none !important; }
+      /* hide directory tree on mobile — sidebar has no space for it */
+      body.a11y #a11y-structure { display: none !important; }
     }
 
     /* ── Hyper Map section ───────────────────────────────────────── */
@@ -930,12 +940,12 @@
       text-align: center;
       line-height: 1.6;
     }
-    .hm-btn:hover { background: rgba(232,53,53,0.08); }
+    .hm-btn:hover { background: rgba(232,96,48,0.08); }
     .hm-btn-disabled {
       cursor: pointer;
       position: relative;
-      color: rgba(232,53,53,0.35);
-      border-color: rgba(232,53,53,0.2);
+      color: rgba(232,96,48,0.35);
+      border-color: rgba(232,96,48,0.2);
     }
     .hm-btn-disabled:hover { background: transparent; }
     .hm-btn-disabled::after {
@@ -997,7 +1007,7 @@
     }
     .text-lb-body p {
       font-family: 'Cormorant Garamond', serif;
-      color: #f04040;
+      color: #e86030;
       font-size: 1.05rem;
       line-height: 1.85;
       margin-bottom: 1.4em;
@@ -1023,7 +1033,7 @@
       text-decoration: none;
       background: transparent;
     }
-    .text-lb-download:hover { background: rgba(232,53,53,0.08); }
+    .text-lb-download:hover { background: rgba(232,96,48,0.08); }
     .text-lb-close {
       position: absolute;
       top: 12px;
@@ -1141,6 +1151,7 @@
       cursor: pointer;
       font-weight: 600;
       transition: background 0.15s;
+      white-space: nowrap;
     }
     .ack-a11y-btn:hover { background: #ddd; }
 
@@ -1167,6 +1178,30 @@
       color: #555 !important;
     }
     body.a11y .a11y-toggle:hover { border-color: #111 !important; color: #111 !important; }
+
+    /* ── Mode icon (moon/sun) — fixed top-right ──── */
+    #mode-icon-btn {
+      position: fixed;
+      top: 14px;
+      right: 18px;
+      z-index: 510;
+      background: none;
+      border: none;
+      padding: 4px 6px;
+      cursor: pointer;
+      font-size: 1.15rem;
+      line-height: 1;
+      color: var(--red);
+      opacity: 0.65;
+      transition: opacity 0.2s ease, color 0.7s ease;
+    }
+    #mode-icon-btn:hover { opacity: 1; filter: url(#bloom); }
+    body.a11y #mode-icon-btn {
+      color: #444;
+      filter: none !important;
+      opacity: 0.7;
+    }
+    body.a11y #mode-icon-btn:hover { color: #000; opacity: 1; }
 
     body.a11y {
       --red: #111111;
@@ -1314,6 +1349,7 @@
 
   <div id="mode-overlay"></div>
   <div id="mode-text"></div>
+  <button id="mode-icon-btn" aria-label="Toggle high contrast mode">☽</button>
 
   <!-- Acknowledgement Overlay -->
   <div id="ack-overlay">
@@ -1321,6 +1357,7 @@
     <div class="ack-content">
       <p class="ack-text">I acknowledge the Turrbal and Jagera peoples as the Traditional Custodians of the land on which this work was created, and pay my respects to their Elders past, present and emerging.</p>
     </div>
+    <button class="ack-a11y-btn" id="ack-a11y-btn">High Contrast</button>
     <p class="ack-credits">
       Original artwork by Connor Andree-Evarts<br>
       Site built with Claude Code
@@ -1331,7 +1368,6 @@
       <img src="Flags/Queer Trans.webp" alt="Queer &amp; Trans Flag">
     </div>
     <span class="ack-hint">Click anywhere to continue</span>
-    <button class="ack-a11y-btn" id="ack-a11y-btn">High Contrast</button>
   </div>
 
   <div id="bg-photo"></div>
@@ -2555,7 +2591,7 @@
       for (const imp of clickImprints) {
         const s = 8;
         const g = 3;
-        pctx.strokeStyle = '#e83535';
+        pctx.strokeStyle = '#e86030';
         pctx.lineWidth   = 1;
         pctx.globalAlpha = imp.opacity;
         pctx.beginPath();
@@ -2603,11 +2639,11 @@
     });
 
     const crosshairSVG = `<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24'>
-      <line x1='12' y1='0' x2='12' y2='10' stroke='%23e83535' stroke-width='1'/>
-      <line x1='12' y1='14' x2='12' y2='24' stroke='%23e83535' stroke-width='1'/>
-      <line x1='0' y1='12' x2='10' y2='12' stroke='%23e83535' stroke-width='1'/>
-      <line x1='14' y1='12' x2='24' y2='12' stroke='%23e83535' stroke-width='1'/>
-      <circle cx='12' cy='12' r='2' fill='none' stroke='%23e83535' stroke-width='1'/>
+      <line x1='12' y1='0' x2='12' y2='10' stroke='%23e86030' stroke-width='1'/>
+      <line x1='12' y1='14' x2='12' y2='24' stroke='%23e86030' stroke-width='1'/>
+      <line x1='0' y1='12' x2='10' y2='12' stroke='%23e86030' stroke-width='1'/>
+      <line x1='14' y1='12' x2='24' y2='12' stroke='%23e86030' stroke-width='1'/>
+      <circle cx='12' cy='12' r='2' fill='none' stroke='%23e86030' stroke-width='1'/>
     </svg>`;
     profileWrap.style.cursor = `url("data:image/svg+xml,${crosshairSVG.replace(/\s+/g,' ')}") 12 12, crosshair`;
 
@@ -2715,7 +2751,7 @@
       sliderContainer.style.cssText = 'position:relative;height:' + volTrackH + 'px;width:36px;cursor:default;overflow:hidden;';
 
       const volTrack = document.createElement('div');
-      volTrack.style.cssText = 'position:absolute;left:50%;top:0;height:' + volTrackH + 'px;width:1px;background:#e83535;transform:translateX(-50%);';
+      volTrack.style.cssText = 'position:absolute;left:50%;top:0;height:' + volTrackH + 'px;width:1px;background:#e86030;transform:translateX(-50%);';
 
       const volThumb = document.createElementNS('http://www.w3.org/2000/svg','svg');
       volThumb.setAttribute('width','20');
@@ -2726,7 +2762,7 @@
       // 4-point star: outer R=9, inner r=1.41, center (10,10), bottom point stretched to y=24
       // Rounded 4-point star: straight arms, small Q curve at each tip for soft rounding
       volStar.setAttribute('d','M 8.59,8.59 L 9.63,2.97 Q 10,1 10.37,2.97 L 11.41,8.59 L 17.03,9.63 Q 19,10 17.03,10.37 L 11.41,11.41 L 10.22,22.01 Q 10,24 9.78,22.01 L 8.59,11.41 L 2.97,10.37 Q 1,10 2.97,9.63 Z');
-      volStar.setAttribute('fill','#e83535');
+      volStar.setAttribute('fill','#e86030');
       volStar.setAttribute('stroke','none');
       volThumb.appendChild(volStar);
 
@@ -2758,15 +2794,15 @@
       setVolume(0);
 
       const svgSpeaker = `<svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-        <rect x="1" y="5" width="3" height="4" rx="0.4" fill="#e83535"/>
-        <polygon points="4,5 8.5,2 8.5,12 4,9" fill="#e83535"/>
-        <path d="M10 4.5 Q12.2 7 10 9.5" stroke="#e83535" stroke-width="1.2" fill="none" stroke-linecap="round"/>
+        <rect x="1" y="5" width="3" height="4" rx="0.4" fill="#e86030"/>
+        <polygon points="4,5 8.5,2 8.5,12 4,9" fill="#e86030"/>
+        <path d="M10 4.5 Q12.2 7 10 9.5" stroke="#e86030" stroke-width="1.2" fill="none" stroke-linecap="round"/>
       </svg>`;
       const svgMuted = `<svg width="14" height="14" viewBox="0 0 14 14" fill="none">
-        <rect x="1" y="5" width="3" height="4" rx="0.4" fill="#e83535"/>
-        <polygon points="4,5 8.5,2 8.5,12 4,9" fill="#e83535"/>
-        <line x1="10" y1="4.5" x2="13" y2="9.5" stroke="#e83535" stroke-width="1.2" stroke-linecap="round"/>
-        <line x1="10" y1="9.5" x2="13" y2="4.5" stroke="#e83535" stroke-width="1.2" stroke-linecap="round"/>
+        <rect x="1" y="5" width="3" height="4" rx="0.4" fill="#e86030"/>
+        <polygon points="4,5 8.5,2 8.5,12 4,9" fill="#e86030"/>
+        <line x1="10" y1="4.5" x2="13" y2="9.5" stroke="#e86030" stroke-width="1.2" stroke-linecap="round"/>
+        <line x1="10" y1="9.5" x2="13" y2="4.5" stroke="#e86030" stroke-width="1.2" stroke-linecap="round"/>
       </svg>`;
 
       const icon = document.createElement('div');
@@ -3026,8 +3062,8 @@
       const panel = document.createElement('div');
       panel.style.cssText = [
         'display:none','position:fixed','bottom:24px','right:24px','z-index:600',
-        'background:rgba(0,0,0,0.94)','border:1px solid rgba(232,53,53,0.5)',
-        'padding:18px 20px','font-family:Cormorant Garamond,serif','color:#e83535',
+        'background:rgba(0,0,0,0.94)','border:1px solid rgba(232,96,48,0.5)',
+        'padding:18px 20px','font-family:Cormorant Garamond,serif','color:#e86030',
         'font-size:0.88rem','letter-spacing:0.08em','min-width:200px',
         'max-height:70vh','overflow-y:auto','line-height:1.6'
       ].join(';');
@@ -3042,7 +3078,7 @@
         panel.innerHTML =
           '<div style="text-transform:uppercase;letter-spacing:0.16em;font-size:0.74rem;opacity:0.5;margin-bottom:10px">Reorder Mode</div>' +
           order.map((n, i) => `<div style="padding:2px 0">${i + 1}. ${n}</div>`).join('') +
-          '<button id="ro-copy" style="margin-top:14px;width:100%;background:none;border:1px solid rgba(232,53,53,0.45);color:#e83535;font-family:inherit;font-size:0.80rem;letter-spacing:0.12em;text-transform:uppercase;padding:8px;cursor:pointer">Copy Order</button>' +
+          '<button id="ro-copy" style="margin-top:14px;width:100%;background:none;border:1px solid rgba(232,96,48,0.45);color:#e86030;font-family:inherit;font-size:0.80rem;letter-spacing:0.12em;text-transform:uppercase;padding:8px;cursor:pointer">Copy Order</button>' +
           '<div style="margin-top:10px;font-size:0.70rem;opacity:0.35;letter-spacing:0.1em">Shift+D to exit</div>';
         document.getElementById('ro-copy').onclick = () => {
           navigator.clipboard.writeText(order.map((n, i) => `${i + 1}. ${n}`).join('\n'));
@@ -3070,7 +3106,7 @@
         [...grid.querySelectorAll('.work-item')].forEach(el => {
           el.draggable = true;
           el.style.cursor = 'grab';
-          el.style.outline = '1px dashed rgba(232,53,53,0.4)';
+          el.style.outline = '1px dashed rgba(232,96,48,0.4)';
           el.addEventListener('dragstart', onDragStart);
           el.addEventListener('dragover',  onDragOver);
           el.addEventListener('drop',      onDrop);
@@ -3110,101 +3146,119 @@
       return !!(m && +m[1] > 140 && +m[2] < 100 && +m[3] < 100);
     }
 
-    const rgbStates = new Map();
-    let rgbRAF = null;
-    let rgbLastClick = 0;
+    // Palette: hot pink → red → orange → amber → yellow (ping-pong so it
+    // never wraps through green/blue to return to pink)
+    const rgbPalette  = [-30, 0, 15, 30, 45, 60];
+    const rgbElData   = new Map(); // el → { original, chars: [{span, offset}] }
+    let   rgbEnergy   = 0;
+    let   rgbTarget   = 0;
+    let   rgbGPhase   = 0;
+    let   rgbRAF      = null;
+    let   rgbLastClick = 0;
 
-    // Palette: pure red → red-orange → orange → amber → yellow
-    // All at 100% saturation, 50% lightness = maximum vividness, never washes out
-    const rgbPalette = [0, 15, 30, 45, 60];
+    function rgbHueAt(phase, offset) {
+      const n   = rgbPalette.length - 1;
+      const raw = ((offset + phase / 360) * 2 * n) % (2 * n);
+      const pos = raw <= n ? raw : 2 * n - raw;
+      const lo  = Math.min(Math.floor(pos), n - 1);
+      return rgbPalette[lo] * (1 - (pos - lo)) + rgbPalette[lo + 1] * (pos - lo);
+    }
+
+    let rgbFrame = 0;
 
     function rgbRenderLoop() {
-      let anyActive = false;
+      rgbTarget *= 0.96;
+      rgbEnergy += (rgbTarget - rgbEnergy) * 0.06;
+      rgbGPhase  = (rgbGPhase + rgbEnergy * 2.5) % 360;
+      rgbFrame++;
 
-      for (const [el, s] of rgbStates) {
-        s.target *= 0.975;
-        s.energy += (s.target - s.energy) * 0.05;
-
-        if (s.energy < 0.04) {
-          el.style.transition = 'color 0.6s ease, border-color 0.6s ease';
-          if (s.redColor)  el.style.color       = '';
-          if (s.redBorder) el.style.borderColor = '';
-          setTimeout(() => { el.style.transition = ''; }, 700);
-          rgbStates.delete(el);
-          continue;
-        }
-        anyActive = true;
-        s.phase = (s.phase + s.energy * 2.5) % 360;
-        // Interpolate smoothly through the palette — colours can only be palette hues
-        // or a direct blend between two adjacent ones
-        const pos = ((s.baseHue / 50 + s.phase / 360) * rgbPalette.length) % rgbPalette.length;
-        const lo  = Math.floor(pos) % rgbPalette.length;
-        const hi  = (lo + 1) % rgbPalette.length;
-        const hue = rgbPalette[lo] * (1 - (pos % 1)) + rgbPalette[hi] * (pos % 1);
-        const col = `hsl(${hue}, 100%, 50%)`;
-        if (s.redColor)  el.style.color       = col;
-        if (s.redBorder) el.style.borderColor = col;
+      if (rgbEnergy < 0.04) {
+        rgbEnergy = 0; rgbTarget = 0;
+        const snap = new Map(rgbElData);
+        rgbElData.clear();
+        snap.forEach(({ chars, original }, el) => {
+          chars.forEach(({ span }) => {
+            span.style.transition = 'color 0.5s ease';
+            span.style.color      = '';
+          });
+          setTimeout(() => { if (el.isConnected) el.innerHTML = original; }, 600);
+        });
+        rgbRAF = null;
+        return;
       }
 
-      rgbRAF = anyActive ? requestAnimationFrame(rgbRenderLoop) : null;
+      // Throttle DOM writes to every 3 frames — CSS transitions smooth the gaps
+      if (rgbFrame % 3 === 0) {
+        rgbElData.forEach(({ chars }) => {
+          chars.forEach(({ span, offset }) => {
+            const hue = rgbHueAt(rgbGPhase, offset);
+            span.style.color = `hsl(${hue}, 100%, 62%)`;
+          });
+        });
+      }
+
+      rgbRAF = requestAnimationFrame(rgbRenderLoop);
     }
 
     function triggerRGBSweep() {
       if (document.body.classList.contains('a11y')) return;
-      const items = [];
 
-      function walk(el) {
-        const tag = el.tagName;
-        if (['IMG','VIDEO','CANVAS','SCRIPT','STYLE','SVG','DEFS'].includes(tag)) return;
-        if (el.classList.contains('hm-btn-disabled')) return;
-        const cs = window.getComputedStyle(el);
-        if (cs.display === 'none' || cs.visibility === 'hidden') return;
-        const rect = el.getBoundingClientRect();
-        if (rect.width === 0 && rect.height === 0) return;
-        let hasText = false;
-        for (const n of el.childNodes) {
-          if (n.nodeType === 3 && n.textContent.trim()) { hasText = true; break; }
-        }
-        const redColor  = hasText && isRedish(cs.color);
-        const redBorder = hasText && isRedish(cs.borderTopColor) && parseFloat(cs.borderTopWidth) > 0;
-        if (redColor || redBorder) {
-          items.push({ el, redColor, redBorder,
-            cx: rect.left + rect.width  / 2,
-            cy: rect.top  + rect.height / 2 });
-        }
-        for (const child of el.children) walk(child);
-      }
-
-      walk(document.body);
-      if (!items.length) return;
-
-      const vw = window.innerWidth, vh = window.innerHeight;
-      const rad = 33 * Math.PI / 180;
-      const gx = Math.sin(rad), gy = Math.cos(rad);
-      const projs = [[0,0],[vw,0],[0,vh],[vw,vh]].map(([x,y]) => (x/vw)*gx + (y/vh)*gy);
-      const minP = Math.min(...projs), maxP = Math.max(...projs);
-
-      // Boost scales with click speed: slow click ≈ 2, rapid spam ≈ 8
       const now = performance.now();
       const dt  = rgbLastClick > 0 ? now - rgbLastClick : 5000;
       rgbLastClick = now;
-      const boost = 4 + Math.min(1200 / Math.max(dt, 80), 10);
+      rgbTarget = Math.min(rgbTarget + 3 + Math.min(800 / Math.max(dt, 80), 7), 14);
 
-      items.forEach(item => {
-        const p = (item.cx / vw) * gx + (item.cy / vh) * gy;
-        const baseHue = ((p - minP) / (maxP - minP)) * 50;
-        const existing = rgbStates.get(item.el);
-        if (existing) {
-          existing.target = Math.min(existing.target + boost, 18);
-          item.el.style.transition = 'color 0.2s ease, border-color 0.2s ease';
-        } else {
-          rgbStates.set(item.el, {
-            energy: 0, target: boost, phase: 0,
-            baseHue, redColor: item.redColor, redBorder: item.redBorder
-          });
-          item.el.style.transition = 'color 0.2s ease, border-color 0.2s ease';
+      // Only re-walk the DOM every 400ms — rapid clicks just boost energy
+      if (now - (triggerRGBSweep._lastWalk || 0) > 400) {
+        triggerRGBSweep._lastWalk = now;
+
+        function walk(el) {
+          const tag = el.tagName;
+          if (['IMG','VIDEO','CANVAS','SCRIPT','STYLE','SVG','DEFS'].includes(tag)) return;
+          if (el.classList.contains('hm-btn-disabled')) return;
+          const cs = window.getComputedStyle(el);
+          if (cs.display === 'none' || cs.visibility === 'hidden') return;
+          const rect = el.getBoundingClientRect();
+          if (!rect.width) return;
+
+          let hasDirectText = false;
+          let hasChildEl    = false;
+          for (const node of el.childNodes) {
+            if (node.nodeType === 3 && node.textContent.trim()) hasDirectText = true;
+            if (node.nodeType === 1) hasChildEl = true;
+          }
+
+          // Skip elements with mixed content (text + child elements) — splitting
+          // would destroy the child elements and break layout
+          if (hasDirectText && !hasChildEl && isRedish(cs.color) && !rgbElData.has(el)) {
+            const original = el.innerHTML;
+            const text     = el.textContent;
+            el.innerHTML   = '';
+            const chars    = [];
+            let ci = 0;
+            const total = [...text].filter(c => c.trim()).length;
+            // seed per-element offset from screen position so different elements
+            // start at different palette positions (no vertical colour columns)
+            const elBase = ((rect.top / window.innerHeight) * 0.6 + (rect.left / window.innerWidth) * 0.4) % 1;
+            for (const ch of text) {
+              const span = document.createElement('span');
+              span.textContent = ch; // default inline — no display change, preserves spacing
+              if (ch.trim()) {
+                span.style.transition = 'color 0.25s ease';
+                chars.push({ span, offset: elBase + (ci / Math.max(total, 1)) * 0.3 });
+                ci++;
+              }
+              el.appendChild(span);
+            }
+            rgbElData.set(el, { original, chars });
+            return; // don't recurse into the char spans we just created
+          }
+
+          for (const child of el.children) walk(child);
         }
-      });
+
+        walk(document.body);
+      }
 
       if (!rgbRAF) rgbRAF = requestAnimationFrame(rgbRenderLoop);
     }
@@ -3381,7 +3435,7 @@
       modeText.style.fontFamily = enable
         ? "'Courier New', Courier, monospace"
         : "'Cinzel', serif";
-      modeText.style.color      = enable ? '#000000' : '#e83535';
+      modeText.style.color      = enable ? '#000000' : '#e86030';
       modeText.style.textShadow = enable
         ? '0 0 18px rgba(255,255,255,1), 0 0 6px rgba(255,255,255,0.8)'
         : '0 0 18px rgba(0,0,0,1), 0 0 6px rgba(0,0,0,0.8)';
@@ -3393,11 +3447,13 @@
           if (a11yPre) a11yPre.innerHTML = ''; // clear so it fades in empty
           document.body.classList.add('a11y');
           document.getElementById('a11y-toggle').textContent = 'Low Contrast';
+          document.getElementById('mode-icon-btn').textContent = '☀';
           try { if (typeof curAud !== 'undefined' && curAud) { curAud.pause(); } } catch(e) {}
           try { if (typeof nxtAud !== 'undefined' && nxtAud) { nxtAud.pause(); } } catch(e) {}
         } else {
           document.body.classList.remove('a11y');
           document.getElementById('a11y-toggle').textContent = 'High Contrast';
+          document.getElementById('mode-icon-btn').textContent = '☽';
         }
         if (callback) callback();
         requestAnimationFrame(() => requestAnimationFrame(() => {
@@ -3412,6 +3468,10 @@
     }
 
     document.getElementById('a11y-toggle').addEventListener('click', () => {
+      toggleA11y(!document.body.classList.contains('a11y'));
+    });
+
+    document.getElementById('mode-icon-btn').addEventListener('click', () => {
       toggleA11y(!document.body.classList.contains('a11y'));
     });
 
