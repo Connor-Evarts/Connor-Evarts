@@ -1,0 +1,77 @@
+website/
+├── index.html                        ← live site (copy of index-5.html, paths stripped of ../)
+├── PROJECT.md                        ← project notes (outdated — see this file for current structure)
+├── .gitignore
+├── .nojekyll                         ← disables Jekyll on GitHub Pages (required for _ filenames)
+├── docs/
+│   └── structure.txt                 ← this file
+├── versions/
+│   ├── index-1.html                  ← backup of original, do not touch (all paths use ../ prefix)
+│   ├── index-2.html
+│   ├── index-2-backup.html           ← snapshot, do not touch
+│   ├── index-3.html
+│   ├── index-4.html
+│   ├── index-4-webp.html
+│   └── index-5.html                  ← active version (currently live)
+├── Fonts/
+│   └── BAUNK FILE/
+│       ├── Baunk.otf
+│       ├── Baunk.ttf
+│       └── Baunk.woff                ← used in index-5 for site name only
+├── Audio/
+│   ├── Website Loop.m4a              ← easter egg ambient loop (NOT in git — too large)
+│   ├── Website Loop.aif              ← NOT in git
+│   └── Website Loop.wav              ← original (NOT in git)
+├── CV/
+│   └── Connor Andree-Evarts Artist CV.pdf
+├── Exhibitions/
+│   ├── BLISS/
+│   │   ├── BLISS Documentation/
+│   │   │   └── Live/                 ← 10 culled webps (signal assembly 5_4_25-38/44/46/50/55/58/63/65/66/69)
+│   │   └── Vis Files/
+│   │       └── Bliss.mp4             ← shown in lightbox (index 0), not autoplay on page
+│   ├── THEREMONIC/
+│   │   ├── Live/                     ← _66A9060.webp (hero) + 9 docs (.jpg), promo video
+│   │   └── THEREMONIC PROMO (Fin Video) v1.mp4
+│   ├── Sentient/
+│   │   └── Live/                     ← sentient-1.webp (hero), sentient-2.png, sentient-3.png
+│   └── Emergence III/
+│       └── Live/                     ← emergence3-hero.webp + 6 docs (_U5Axxxx.jpg)
+├── Flags/
+│   ├── First Nations.webp
+│   ├── Palestine.webp
+│   └── Queer Trans.webp
+├── Gifs/
+│   └── vein.gif                      ← Vein title card (4.6MB, 600×400, 12fps, t=13–17s)
+├── Hyper Map/
+│   ├── FaceScans/                    ← 3 webps, used in Performance lightbox
+│   │   ├── HM Facescan1.webp
+│   │   ├── 2.webp
+│   │   └── Untitled 3.webp
+│   ├── Images/
+│   │   ├── (raw JPGs — originals)
+│   │   └── LightRoom Edit/           ← 20 webps used in slideshow + lightbox (1–3, IMG_9126–9289, MasterMap-2)
+│   ├── Text/
+│   │   └── Hyper Map Exhibition Text FINAL.pdf
+│   └── Title/
+│       └── Hyper Map Title.png       ← not used (replaced by text)
+├── Profile Photo/
+│   ├── Vertical/                     ← sidebar profile photo slideshow (5 webps: Scan 2/4/23/25/33)
+│   └── Horizontal/                   ← background photos, crossfade by scroll section (4 webps: Scan/29/30/34)
+├── Public Programs/
+│   └── Tectonic Noise/               ← 33 webps (IMG_2747 = hero) + original .jpgs
+├── Selected Works/
+│   ├── Anti Shadow/                  ← 8 webps + ANTI SHADOW.rtf (workMeta: materials + blurb)
+│   ├── Aranea_Daemon/                ← 3 webps
+│   ├── Cthonic Mechanisim/           ← 2 webps + CthonicMechscreenCapture.mp4
+│   ├── encoded topography/           ← Encoded Topography.mp4
+│   ├── Fantasy Island/               ← ULTRA WIDE.mp4 (starts at 13s)
+│   ├── FarCry Simulation/            ← FC1/FC2/FC3.mp4 (trio layout) + MVI_3069.MOV (MVI_3062 unused)
+│   ├── Iris Agate/                   ← Iris Agate.mp4
+│   ├── Nyctophobia/                  ← Nyctophobia.mp4 (sound on in lightbox)
+│   ├── PlayPlace/                    ← CONNOR_AE_BAD_Poster_A2_LEFT.png (not yet added to site)
+│   ├── Touch Grass/                  ← MVI_1649.MOV + 3 webps (IMG_1651/1668/1669)
+│   └── Vein/
+│       ├── 1. Vein.mp4               ← compressed for web (sound on in lightbox) + Vein.rtf (workMeta: materials)
+│       └── 1. Vein_original.mp4      ← original full quality (NOT in git)
+└── ORIGINAL PHOTOS/                  ← full-res masters, DO NOT TOUCH, NOT in git
