@@ -3118,23 +3118,24 @@
       let anyActive = false;
 
       for (const [el, s] of rgbStates) {
-        s.target *= 0.97;
-        s.energy += (s.target - s.energy) * 0.07;
+        s.target *= 0.975;
+        s.energy += (s.target - s.energy) * 0.05;
 
-        if (s.energy < 0.05) {
-          // Ease back to original colour instead of snapping
-          el.style.transition = 'color 0.4s ease, border-color 0.4s ease';
+        if (s.energy < 0.04) {
+          // Transition is already on the element — extend it for a slow fade back
+          el.style.transition = 'color 0.6s ease, border-color 0.6s ease';
           if (s.redColor)  el.style.color       = '';
           if (s.redBorder) el.style.borderColor = '';
-          setTimeout(() => { el.style.transition = ''; }, 450);
+          setTimeout(() => { el.style.transition = ''; }, 700);
           rgbStates.delete(el);
           continue;
         }
         anyActive = true;
-        s.phase = (s.phase + s.energy * 1.5) % 360;
-        // Stay in red spectrum: hue 0–40 (red → orange-red)
-        const hue = (s.baseHue + s.phase * 0.12) % 40;
-        const l   = 48 + Math.min(s.energy * 2, 12);
+        s.phase = (s.phase + s.energy * 0.8) % 360;
+        // Pink-red → bright red → orange: hue 340–395 (wraps through 0)
+        // CSS hsl() accepts values >360, they wrap naturally
+        const hue = 340 + ((s.baseHue + s.phase * 0.15) % 55);
+        const l   = 55 + Math.min(s.energy * 2, 10); // 55–65%, stays vivid not brown
         const col = `hsl(${hue}, 100%, ${l}%)`;
         if (s.redColor)  el.style.color       = col;
         if (s.redBorder) el.style.borderColor = col;
@@ -3184,18 +3185,20 @@
       rgbLastClick = now;
       const boost = 2 + Math.min(800 / Math.max(dt, 80), 6);
 
-items.forEach(item => {
+      items.forEach(item => {
         const p = (item.cx / vw) * gx + (item.cy / vh) * gy;
-        const baseHue = ((p - minP) / (maxP - minP)) * 40;
+        const baseHue = ((p - minP) / (maxP - minP)) * 50;
         const existing = rgbStates.get(item.el);
         if (existing) {
           existing.target = Math.min(existing.target + boost, 10);
-          item.el.style.transition = ''; // cancel any fade-out transition on re-click
+          item.el.style.transition = 'color 0.35s ease, border-color 0.35s ease';
         } else {
           rgbStates.set(item.el, {
             energy: 0, target: boost, phase: 0,
             baseHue, redColor: item.redColor, redBorder: item.redBorder
           });
+          // Transition on entry so colour changes feel smooth, not clicky
+          item.el.style.transition = 'color 0.35s ease, border-color 0.35s ease';
         }
       });
 
