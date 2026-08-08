@@ -3113,7 +3113,6 @@
     const rgbStates = new Map();
     let rgbRAF = null;
     let rgbLastClick = 0;
-    let rgbInvertLevel = 0;
 
     function rgbRenderLoop() {
       let anyActive = false;
@@ -3138,14 +3137,7 @@
         if (s.redBorder) el.style.borderColor = col;
       }
 
-      // Invert effect on profile photo builds with heavy spam clicking
-      rgbInvertLevel *= 0.9925;
-      const inv = Math.max(0, Math.min(1, (rgbInvertLevel - 5) / 7));
-      const profileWrapEl = document.getElementById('profile-wrap');
-      if (profileWrapEl) profileWrapEl.style.filter = inv > 0.001 ? `invert(${inv.toFixed(3)})` : '';
-      if (inv > 0.001) anyActive = true;
-
-      rgbRAF = anyActive ? requestAnimationFrame(rgbRenderLoop) : null;
+rgbRAF = anyActive ? requestAnimationFrame(rgbRenderLoop) : null;
     }
 
     function triggerRGBSweep() {
@@ -3188,10 +3180,7 @@
       rgbLastClick = now;
       const boost = 2 + Math.min(800 / Math.max(dt, 80), 6);
 
-      // Invert level builds with clicking
-      rgbInvertLevel = Math.min(rgbInvertLevel + boost * 0.25, 14);
-
-      items.forEach(item => {
+items.forEach(item => {
         const p = (item.cx / vw) * gx + (item.cy / vh) * gy;
         const baseHue = ((p - minP) / (maxP - minP)) * 300;
         const existing = rgbStates.get(item.el);
