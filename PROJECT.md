@@ -250,12 +250,11 @@ Note: the first `sed` strips the `../` path prefix. The second strips the dev-on
 ---
 
 ## ⚠️ Pick up here next session
-- Port the new lightbox layout + Hyper Map section from `index-3.html` into `index-2.html` once approved
 - Add `workMeta` text for remaining works (source from RTF files in each Selected Works folder)
 - Do a visual pass of the live site — check all works in lightbox, exhibitions, and public programs for remaining image artifacts
 - JS console error on live site: `Cannot access 'bgDuckMul' before initialization` at duckBackground — investigate and fix
 - Performance button in Hyper Map section is a placeholder — add video when ready
-- Consider making the site mobile friendly
+- Consider making the site mobile friendly (medium effort — sidebar, lightbox, and profile canvas are the hard parts)
 
 ## Known future tasks
 - Add photos/media to Rīgorabana public program when available
@@ -263,7 +262,18 @@ Note: the first `sed` strips the `../` path prefix. The second strips the dev-on
 - The repo is named Connor-Evarts (not Connor-Evarts.github.io) — this is fine, GitHub Pages still works via Settings → Pages
 
 ## What was done (this session)
-All work in `versions/index-3.html`:
+All work in `versions/index-3.html`. index-3 is now live (promoted from index-2).
+
+**Intro scroll animation:**
+- On page load: content instantly snaps to `#works` so the static/works grid shows behind the acknowledgement blur
+- On acknowledgement dismiss: custom easeInOut smooth scroll sweeps up to `#hypermap` over 700ms (timed to land as the 550ms fade clears)
+
+**Hyper Map sizing:**
+- Slideshow height changed from `aspect-ratio: 3/2` to `height: calc(100vh - 260px)` — title, photo, and buttons all fit on screen at once
+- `#hypermap` gets `margin-top: -26px` to remove wasted space at top
+- Removed `IMG_9235.JPG` (photo 13) from lightbox — 20 images remain
+
+**Previous work in `versions/index-3.html`:
 
 **Materials fix:**
 - Materials bar now displays as comma-separated inline text (was incorrectly one item per line with `display:block` span)
