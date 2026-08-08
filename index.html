@@ -3114,6 +3114,10 @@
     let rgbRAF = null;
     let rgbLastClick = 0;
 
+    // Palette: pure red → red-orange → orange → amber → yellow
+    // All at 100% saturation, 50% lightness = maximum vividness, never washes out
+    const rgbPalette = [0, 15, 30, 45, 60];
+
     function rgbRenderLoop() {
       let anyActive = false;
 
@@ -3122,7 +3126,6 @@
         s.energy += (s.target - s.energy) * 0.05;
 
         if (s.energy < 0.04) {
-          // Transition is already on the element — extend it for a slow fade back
           el.style.transition = 'color 0.6s ease, border-color 0.6s ease';
           if (s.redColor)  el.style.color       = '';
           if (s.redBorder) el.style.borderColor = '';
@@ -3132,10 +3135,13 @@
         }
         anyActive = true;
         s.phase = (s.phase + s.energy * 2.5) % 360;
-        // Pink-red → bright red → orange: hue 340–395 (wraps through 0)
-        const hue = 340 + ((s.baseHue + s.phase * 0.18) % 55);
-        const l   = 55 + Math.min(s.energy * 3, 18); // 55–73%, punchy brightness
-        const col = `hsl(${hue}, 100%, ${l}%)`;
+        // Interpolate smoothly through the palette — colours can only be palette hues
+        // or a direct blend between two adjacent ones
+        const pos = ((s.baseHue / 50 + s.phase / 360) * rgbPalette.length) % rgbPalette.length;
+        const lo  = Math.floor(pos) % rgbPalette.length;
+        const hi  = (lo + 1) % rgbPalette.length;
+        const hue = rgbPalette[lo] * (1 - (pos % 1)) + rgbPalette[hi] * (pos % 1);
+        const col = `hsl(${hue}, 100%, 50%)`;
         if (s.redColor)  el.style.color       = col;
         if (s.redBorder) el.style.borderColor = col;
       }
