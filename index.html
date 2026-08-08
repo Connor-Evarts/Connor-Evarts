@@ -2877,13 +2877,14 @@
     const rgbStates = new Map();
     let rgbRAF = null;
     let rgbLastClick = 0;
+    let rgbInvertLevel = 0;
 
     function rgbRenderLoop() {
       let anyActive = false;
 
       for (const [el, s] of rgbStates) {
-        s.target *= 0.985;                          // target decays on its own
-        s.energy += (s.target - s.energy) * 0.04;  // energy lerps toward target
+        s.target *= 0.985;
+        s.energy += (s.target - s.energy) * 0.04;
 
         if (s.energy < 0.03) {
           if (s.redColor)  el.style.color       = '';
@@ -2893,13 +2894,20 @@
         }
         anyActive = true;
         s.phase = (s.phase + s.energy * 2) % 360;
-        const energyFade = Math.min(s.energy / 2, 1);          // 0→1 over energy 0–2
-        const hue = (s.baseHue + s.phase) * energyFade % 360;  // hue fades back to 0 (red) as energy drops
+        const energyFade = Math.min(s.energy / 2, 1);
+        const hue = (s.baseHue + s.phase) * energyFade % 360;
         const l   = 45 + Math.min(s.energy * 3, 18);
         const col = `hsl(${hue},100%,${l}%)`;
         if (s.redColor)  el.style.color       = col;
         if (s.redBorder) el.style.borderColor = col;
       }
+
+      // Invert effect on profile photo builds with heavy spam clicking
+      rgbInvertLevel *= 0.9925;
+      const inv = Math.max(0, Math.min(1, (rgbInvertLevel - 5) / 7));
+      const profileWrapEl = document.getElementById('profile-wrap');
+      if (profileWrapEl) profileWrapEl.style.filter = inv > 0.001 ? `invert(${inv.toFixed(3)})` : '';
+      if (inv > 0.001) anyActive = true;
 
       rgbRAF = anyActive ? requestAnimationFrame(rgbRenderLoop) : null;
     }
@@ -2942,6 +2950,9 @@
       const dt  = rgbLastClick > 0 ? now - rgbLastClick : 5000;
       rgbLastClick = now;
       const boost = 2 + Math.min(800 / Math.max(dt, 80), 6);
+
+      // Invert level builds with clicking
+      rgbInvertLevel = Math.min(rgbInvertLevel + boost * 0.25, 14);
 
       items.forEach(item => {
         const p = (item.cx / vw) * gx + (item.cy / vh) * gy;
