@@ -771,15 +771,22 @@
       line-height: 1.78;
       letter-spacing: 0.03em;
       filter: url(#bloom);
+      text-align: justify;
     }
     .ack-credits {
+      position: absolute;
+      bottom: 72px;
+      left: 50%;
+      transform: translateX(-50%);
       font-family: 'Cormorant Garamond', serif;
       color: var(--red);
-      font-size: 1.02rem;
+      font-size: 0.78rem;
       letter-spacing: 0.10em;
       text-transform: uppercase;
-      opacity: 0.82;
+      opacity: 0.55;
       line-height: 1.9;
+      text-align: center;
+      white-space: nowrap;
     }
     .ack-flags {
       position: absolute;
@@ -961,11 +968,11 @@
     <button class="ack-close" id="ack-close" aria-label="Close">×</button>
     <div class="ack-content">
       <p class="ack-text">I acknowledge the Turrbal and Jagera peoples as the Traditional Custodians of the land on which this work was created, and pay my respects to their Elders past, present and emerging.</p>
-      <p class="ack-credits">
-        Original artwork by Connor Andree-Evarts<br>
-        Site built with Claude Code
-      </p>
     </div>
+    <p class="ack-credits">
+      Original artwork by Connor Andree-Evarts<br>
+      Site built with Claude Code
+    </p>
     <div class="ack-flags">
       <img src="Flags/First Nations.png" alt="First Nations Flag">
       <img src="Flags/Palestine.png" alt="Palestine Flag">
@@ -1060,8 +1067,8 @@
       </div>
       <nav>
         <a href="#hypermap">Hyper Map</a>
-        <a href="#works" class="active">Selected Works</a>
         <a href="#exhibitions">Exhibitions</a>
+        <a href="#works" class="active">Selected Works</a>
         <a href="#program">Public Programs</a>
         <a href="#cv">CV</a>
         <div id="profile-wrap" style="width:100%;margin-top:auto;margin-bottom:auto;position:relative;line-height:0;border:1px solid var(--red-dim);">
@@ -1117,7 +1124,7 @@
         <div class="ex-meta">
           <span class="ex-year">2026</span>
           <h3 class="ex-title">Hyper Map</h3>
-          <p class="ex-venue">StetlaAri</p>
+          <p class="ex-venue">Stetlari</p>
           <p class="ex-role" style="font-style:normal;">Solo Exhibition</p>
         </div>
         <div class="hm-slideshow" id="hm-slideshow">
@@ -1127,65 +1134,6 @@
         <div class="hm-buttons">
           <button class="hm-btn" id="hm-text-btn">Exhibition Text<span class="hm-btn-sub">by Tess Bakharia</span></button>
           <button class="hm-btn hm-btn-disabled">Performance</button>
-        </div>
-      </section>
-
-      <!-- SELECTED WORKS -->
-      <section id="works" class="section">
-        <p class="section-label">Selected Works</p>
-        <div class="works-grid">
-
-          <div class="work-item" data-work="Anti Shadow">
-            <img src="Selected Works/Anti Shadow/anti-shadow-1.png" alt="Anti Shadow" loading="lazy">
-            <div class="work-label">Anti Shadow</div>
-          </div>
-
-          <div class="work-item" data-work="Vein">
-            <img src="Gifs/vein.gif" alt="Vein">
-            <div class="work-label">Vein</div>
-          </div>
-
-          <div class="work-item" data-work="touch grass">
-            <video src="Selected Works/Touch Grass/MVI_1649.MOV" muted loop autoplay playsinline></video>
-            <div class="work-label">touch grass</div>
-          </div>
-
-          <div class="work-item" data-work="Encoded Topography">
-            <video src="Selected Works/encoded topography/Encoded Topography.mp4" muted loop autoplay playsinline></video>
-            <div class="work-label">Encoded Topography</div>
-          </div>
-
-          <div class="work-item" data-work="Nyctophobia">
-            <video src="Selected Works/Nyctophobia/Nyctophobia.mp4" muted loop autoplay playsinline></video>
-            <div class="work-label">Nyctophobia</div>
-          </div>
-
-          <div class="work-item" data-work="FarCry Simulation">
-            <video src="Selected Works/FarCry Simulation/FC3.mp4" muted loop autoplay playsinline></video>
-            <div class="work-label">FarCry Simulation</div>
-          </div>
-
-          <div class="work-item" data-work="Fantasy Island">
-            <video src="Selected Works/Fantasy Island/ULTRA WIDE.mp4" muted loop autoplay playsinline onloadedmetadata="this.currentTime=13"></video>
-            <div class="work-label">Fantasy Island</div>
-          </div>
-
-          <div class="work-item" data-work="Iris Agate">
-            <video src="Selected Works/Iris Agate/Iris Agate.mp4" muted loop autoplay playsinline></video>
-            <div class="work-label">Iris Agate</div>
-          </div>
-
-          <div class="work-item" data-work="Cthonic Mechanism">
-            <img src="Selected Works/Cthonic Mechanisim/cthonic-1.png" alt="Cthonic Mechanism" loading="lazy">
-            <div class="work-label">Cthonic Mechanism</div>
-          </div>
-
-          <div class="work-item" data-work="Aranea Daemon">
-            <img src="Selected Works/Aranea_Daemon/aranea-1.png" alt="Aranea Daemon" loading="lazy">
-            <div class="work-label">Aranea Daemon</div>
-          </div>
-
-
         </div>
       </section>
 
@@ -1264,6 +1212,65 @@
           <div class="docs-grid" id="emergence3-docs"></div>
         </div>
 
+      </section>
+
+      <!-- SELECTED WORKS -->
+      <section id="works" class="section">
+        <p class="section-label">Selected Works</p>
+        <div class="works-grid">
+
+          <div class="work-item" data-work="Anti Shadow">
+            <img src="Selected Works/Anti Shadow/anti-shadow-1.png" alt="Anti Shadow" loading="lazy">
+            <div class="work-label">Anti Shadow</div>
+          </div>
+
+          <div class="work-item" data-work="Vein">
+            <img src="Gifs/vein.gif" alt="Vein">
+            <div class="work-label">Vein</div>
+          </div>
+
+          <div class="work-item" data-work="touch grass">
+            <video src="Selected Works/Touch Grass/MVI_1649.MOV" muted loop autoplay playsinline></video>
+            <div class="work-label">touch grass</div>
+          </div>
+
+          <div class="work-item" data-work="Encoded Topography">
+            <video src="Selected Works/encoded topography/Encoded Topography.mp4" muted loop autoplay playsinline></video>
+            <div class="work-label">Encoded Topography</div>
+          </div>
+
+          <div class="work-item" data-work="Nyctophobia">
+            <video src="Selected Works/Nyctophobia/Nyctophobia.mp4" muted loop autoplay playsinline></video>
+            <div class="work-label">Nyctophobia</div>
+          </div>
+
+          <div class="work-item" data-work="FarCry Simulation">
+            <video src="Selected Works/FarCry Simulation/FC3.mp4" muted loop autoplay playsinline></video>
+            <div class="work-label">FarCry Simulation</div>
+          </div>
+
+          <div class="work-item" data-work="Fantasy Island">
+            <video src="Selected Works/Fantasy Island/ULTRA WIDE.mp4" muted loop autoplay playsinline onloadedmetadata="this.currentTime=13"></video>
+            <div class="work-label">Fantasy Island</div>
+          </div>
+
+          <div class="work-item" data-work="Iris Agate">
+            <video src="Selected Works/Iris Agate/Iris Agate.mp4" muted loop autoplay playsinline></video>
+            <div class="work-label">Iris Agate</div>
+          </div>
+
+          <div class="work-item" data-work="Cthonic Mechanism">
+            <img src="Selected Works/Cthonic Mechanisim/cthonic-1.png" alt="Cthonic Mechanism" loading="lazy">
+            <div class="work-label">Cthonic Mechanism</div>
+          </div>
+
+          <div class="work-item" data-work="Aranea Daemon">
+            <img src="Selected Works/Aranea_Daemon/aranea-1.png" alt="Aranea Daemon" loading="lazy">
+            <div class="work-label">Aranea Daemon</div>
+          </div>
+
+
+        </div>
       </section>
 
       <!-- PUBLIC PROGRAM -->
@@ -2679,6 +2686,89 @@
 
   </script>
 
+  <!-- DEV-ONLY-START -->
+  <script>
+    // ── Drag-to-reorder works grid (dev only, Shift+D) ───────────────
+    (function () {
+      let active = false;
+      const grid = document.querySelector('.works-grid');
+
+      const panel = document.createElement('div');
+      panel.style.cssText = [
+        'display:none','position:fixed','bottom:24px','right:24px','z-index:600',
+        'background:rgba(0,0,0,0.94)','border:1px solid rgba(232,53,53,0.5)',
+        'padding:18px 20px','font-family:Cormorant Garamond,serif','color:#e83535',
+        'font-size:0.88rem','letter-spacing:0.08em','min-width:200px',
+        'max-height:70vh','overflow-y:auto','line-height:1.6'
+      ].join(';');
+      document.body.appendChild(panel);
+
+      function getOrder() {
+        return [...grid.querySelectorAll('.work-item')].map(el => el.dataset.work);
+      }
+
+      function updatePanel() {
+        const order = getOrder();
+        panel.innerHTML =
+          '<div style="text-transform:uppercase;letter-spacing:0.16em;font-size:0.74rem;opacity:0.5;margin-bottom:10px">Reorder Mode</div>' +
+          order.map((n, i) => `<div style="padding:2px 0">${i + 1}. ${n}</div>`).join('') +
+          '<button id="ro-copy" style="margin-top:14px;width:100%;background:none;border:1px solid rgba(232,53,53,0.45);color:#e83535;font-family:inherit;font-size:0.80rem;letter-spacing:0.12em;text-transform:uppercase;padding:8px;cursor:pointer">Copy Order</button>' +
+          '<div style="margin-top:10px;font-size:0.70rem;opacity:0.35;letter-spacing:0.1em">Shift+D to exit</div>';
+        document.getElementById('ro-copy').onclick = () => {
+          navigator.clipboard.writeText(order.map((n, i) => `${i + 1}. ${n}`).join('\n'));
+          document.getElementById('ro-copy').textContent = 'Copied!';
+          setTimeout(updatePanel, 1400);
+        };
+      }
+
+      let dragSrc = null;
+
+      function onDragStart() { dragSrc = this; this.style.opacity = '0.35'; }
+      function onDragOver(e) { e.preventDefault(); }
+      function onDrop(e) {
+        e.stopPropagation();
+        if (dragSrc && dragSrc !== this) {
+          const items = [...grid.querySelectorAll('.work-item')];
+          if (items.indexOf(dragSrc) < items.indexOf(this)) grid.insertBefore(dragSrc, this.nextSibling);
+          else grid.insertBefore(dragSrc, this);
+          updatePanel();
+        }
+      }
+      function onDragEnd() { [...grid.querySelectorAll('.work-item')].forEach(el => el.style.opacity = ''); }
+
+      function enable() {
+        [...grid.querySelectorAll('.work-item')].forEach(el => {
+          el.draggable = true;
+          el.style.cursor = 'grab';
+          el.style.outline = '1px dashed rgba(232,53,53,0.4)';
+          el.addEventListener('dragstart', onDragStart);
+          el.addEventListener('dragover',  onDragOver);
+          el.addEventListener('drop',      onDrop);
+          el.addEventListener('dragend',   onDragEnd);
+        });
+        panel.style.display = 'block';
+        updatePanel();
+      }
+
+      function disable() {
+        [...grid.querySelectorAll('.work-item')].forEach(el => {
+          el.draggable = false;
+          el.style.cursor = '';
+          el.style.outline = '';
+          el.removeEventListener('dragstart', onDragStart);
+          el.removeEventListener('dragover',  onDragOver);
+          el.removeEventListener('drop',      onDrop);
+          el.removeEventListener('dragend',   onDragEnd);
+        });
+        panel.style.display = 'none';
+      }
+
+      document.addEventListener('keydown', e => {
+        if (e.shiftKey && e.key === 'D') { active = !active; active ? enable() : disable(); }
+      });
+    })();
+  </script>
+  <!-- DEV-ONLY-END -->
 
   <script>
     // ── Acknowledgement overlay ──────────────────────
