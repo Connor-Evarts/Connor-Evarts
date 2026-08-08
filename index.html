@@ -859,15 +859,27 @@
       .sidebar {
         width: 100%; border-right: none;
         border-bottom: 1px solid var(--red-dim);
-        padding: 18px 20px 14px;
-        flex-direction: row; flex-wrap: wrap; align-items: baseline;
+        padding: 14px 16px 12px;
+        flex-direction: row; flex-wrap: wrap; align-items: center;
+        gap: 10px 20px;
       }
-      .site-name { margin-bottom: 12px; }
-      nav { flex-direction: row; flex-wrap: wrap; gap: 10px 18px; align-items: flex-start; }
-      nav a.external { margin-top: 0; }
-      .content { padding: 20px; }
+      .site-name {
+        margin-bottom: 0;
+        line-height: 1.2;
+      }
+      .site-name span { font-size: 0.95rem !important; }
+      .site-name br { display: none; }
+      #profile-wrap { display: none !important; }
+      .nav-bottom { display: none; }
+      nav { flex-direction: row; flex-wrap: wrap; gap: 8px 16px; align-items: center; flex: unset; }
+      nav a { font-size: 0.85rem; }
+      nav a:hover  { font-size: 0.85rem; }
+      nav a.active { font-size: 0.85rem; }
+      .content { padding: 18px 16px; }
       .vis-grid { grid-template-columns: 1fr; }
       .works-grid { grid-template-columns: 1fr; }
+      .group-ex-row { grid-template-columns: repeat(2, 1fr); }
+      .hm-slideshow { height: 52vw; min-height: 140px; }
       .lb-arrow { padding: 20px 8px; }
     }
 
