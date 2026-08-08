@@ -3118,26 +3118,29 @@
       let anyActive = false;
 
       for (const [el, s] of rgbStates) {
-        s.target *= 0.985;
-        s.energy += (s.target - s.energy) * 0.04;
+        s.target *= 0.97;
+        s.energy += (s.target - s.energy) * 0.07;
 
-        if (s.energy < 0.03) {
+        if (s.energy < 0.05) {
+          // Ease back to original colour instead of snapping
+          el.style.transition = 'color 0.4s ease, border-color 0.4s ease';
           if (s.redColor)  el.style.color       = '';
           if (s.redBorder) el.style.borderColor = '';
+          setTimeout(() => { el.style.transition = ''; }, 450);
           rgbStates.delete(el);
           continue;
         }
         anyActive = true;
-        s.phase = (s.phase + s.energy * 2) % 360;
-        const energyFade = Math.min(s.energy / 2, 1);
-        const hue = (s.baseHue + s.phase) * energyFade % 360;
-        const l   = 45 + Math.min(s.energy * 3, 18);
-        const col = `hsl(${hue},100%,${l}%)`;
+        s.phase = (s.phase + s.energy * 1.5) % 360;
+        // Stay in red spectrum: hue 0–40 (red → orange-red)
+        const hue = (s.baseHue + s.phase * 0.12) % 40;
+        const l   = 48 + Math.min(s.energy * 2, 12);
+        const col = `hsl(${hue}, 100%, ${l}%)`;
         if (s.redColor)  el.style.color       = col;
         if (s.redBorder) el.style.borderColor = col;
       }
 
-rgbRAF = anyActive ? requestAnimationFrame(rgbRenderLoop) : null;
+      rgbRAF = anyActive ? requestAnimationFrame(rgbRenderLoop) : null;
     }
 
     function triggerRGBSweep() {
@@ -3147,6 +3150,7 @@ rgbRAF = anyActive ? requestAnimationFrame(rgbRenderLoop) : null;
       function walk(el) {
         const tag = el.tagName;
         if (['IMG','VIDEO','CANVAS','SCRIPT','STYLE','SVG','DEFS'].includes(tag)) return;
+        if (el.classList.contains('hm-btn-disabled')) return;
         const cs = window.getComputedStyle(el);
         if (cs.display === 'none' || cs.visibility === 'hidden') return;
         const rect = el.getBoundingClientRect();
@@ -3182,10 +3186,11 @@ rgbRAF = anyActive ? requestAnimationFrame(rgbRenderLoop) : null;
 
 items.forEach(item => {
         const p = (item.cx / vw) * gx + (item.cy / vh) * gy;
-        const baseHue = ((p - minP) / (maxP - minP)) * 300;
+        const baseHue = ((p - minP) / (maxP - minP)) * 40;
         const existing = rgbStates.get(item.el);
         if (existing) {
           existing.target = Math.min(existing.target + boost, 10);
+          item.el.style.transition = ''; // cancel any fade-out transition on re-click
         } else {
           rgbStates.set(item.el, {
             energy: 0, target: boost, phase: 0,
