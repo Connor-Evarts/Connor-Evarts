@@ -3131,11 +3131,10 @@
           continue;
         }
         anyActive = true;
-        s.phase = (s.phase + s.energy * 0.8) % 360;
+        s.phase = (s.phase + s.energy * 2.5) % 360;
         // Pink-red → bright red → orange: hue 340–395 (wraps through 0)
-        // CSS hsl() accepts values >360, they wrap naturally
-        const hue = 340 + ((s.baseHue + s.phase * 0.15) % 55);
-        const l   = 55 + Math.min(s.energy * 2, 10); // 55–65%, stays vivid not brown
+        const hue = 340 + ((s.baseHue + s.phase * 0.18) % 55);
+        const l   = 55 + Math.min(s.energy * 3, 18); // 55–73%, punchy brightness
         const col = `hsl(${hue}, 100%, ${l}%)`;
         if (s.redColor)  el.style.color       = col;
         if (s.redBorder) el.style.borderColor = col;
@@ -3183,22 +3182,21 @@
       const now = performance.now();
       const dt  = rgbLastClick > 0 ? now - rgbLastClick : 5000;
       rgbLastClick = now;
-      const boost = 2 + Math.min(800 / Math.max(dt, 80), 6);
+      const boost = 4 + Math.min(1200 / Math.max(dt, 80), 10);
 
       items.forEach(item => {
         const p = (item.cx / vw) * gx + (item.cy / vh) * gy;
         const baseHue = ((p - minP) / (maxP - minP)) * 50;
         const existing = rgbStates.get(item.el);
         if (existing) {
-          existing.target = Math.min(existing.target + boost, 10);
-          item.el.style.transition = 'color 0.35s ease, border-color 0.35s ease';
+          existing.target = Math.min(existing.target + boost, 18);
+          item.el.style.transition = 'color 0.2s ease, border-color 0.2s ease';
         } else {
           rgbStates.set(item.el, {
             energy: 0, target: boost, phase: 0,
             baseHue, redColor: item.redColor, redBorder: item.redBorder
           });
-          // Transition on entry so colour changes feel smooth, not clicky
-          item.el.style.transition = 'color 0.35s ease, border-color 0.35s ease';
+          item.el.style.transition = 'color 0.2s ease, border-color 0.2s ease';
         }
       });
 
