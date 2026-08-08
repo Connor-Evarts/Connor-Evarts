@@ -1206,8 +1206,8 @@
         <span style="font-size:1.52rem">Evarts</span>
       </div>
       <nav>
-        <a href="#exhibitions">Exhibitions</a>
-        <a href="#works" class="active">Selected Works</a>
+        <a href="#exhibitions" class="active">Exhibitions</a>
+        <a href="#works">Selected Works</a>
         <a href="#program">Public Programs</a>
         <a href="#cv">CV</a>
         <div id="profile-wrap" style="width:100%;margin-top:auto;margin-bottom:auto;position:relative;line-height:0;border:1px solid var(--red-dim);">
@@ -2129,6 +2129,10 @@
         e.preventDefault();
         const target = document.querySelector(link.getAttribute('href'));
         if (!target) return;
+        if (target === sections[0]) {
+          content.scrollTo({ top: 0, behavior: 'smooth' });
+          return;
+        }
         const offset = target.getBoundingClientRect().top
                      - content.getBoundingClientRect().top
                      + content.scrollTop - 28;
@@ -2362,6 +2366,7 @@
       const cy = (e.clientY - rect.top)  * (profileCanvas.height / rect.height);
       clickImprints.push({ x: cx, y: cy, opacity: 1 });
       startProfileAnim();
+      triggerRGBSweep();
     });
 
     const crosshairSVG = `<svg xmlns='http://www.w3.org/2000/svg' width='24' height='24'>
@@ -2861,6 +2866,99 @@
 
   <script>
     // ── Acknowledgement overlay ──────────────────────
+
+    // ── RGB Sweep ─────────────────────────────────────────────────────
+
+    function isRedish(c) {
+      const m = c && c.match(/rgba?\((\d+),\s*(\d+),\s*(\d+)/);
+      return !!(m && +m[1] > 140 && +m[2] < 100 && +m[3] < 100);
+    }
+
+    const rgbStates = new Map();
+    let rgbRAF = null;
+    let rgbLastClick = 0;
+
+    function rgbRenderLoop() {
+      let anyActive = false;
+
+      for (const [el, s] of rgbStates) {
+        s.target *= 0.985;                          // target decays on its own
+        s.energy += (s.target - s.energy) * 0.04;  // energy lerps toward target
+
+        if (s.energy < 0.03) {
+          if (s.redColor)  el.style.color       = '';
+          if (s.redBorder) el.style.borderColor = '';
+          rgbStates.delete(el);
+          continue;
+        }
+        anyActive = true;
+        s.phase = (s.phase + s.energy * 2) % 360;
+        const energyFade = Math.min(s.energy / 2, 1);          // 0→1 over energy 0–2
+        const hue = (s.baseHue + s.phase) * energyFade % 360;  // hue fades back to 0 (red) as energy drops
+        const l   = 45 + Math.min(s.energy * 3, 18);
+        const col = `hsl(${hue},100%,${l}%)`;
+        if (s.redColor)  el.style.color       = col;
+        if (s.redBorder) el.style.borderColor = col;
+      }
+
+      rgbRAF = anyActive ? requestAnimationFrame(rgbRenderLoop) : null;
+    }
+
+    function triggerRGBSweep() {
+      const items = [];
+
+      function walk(el) {
+        const tag = el.tagName;
+        if (['IMG','VIDEO','CANVAS','SCRIPT','STYLE','SVG','DEFS'].includes(tag)) return;
+        const cs = window.getComputedStyle(el);
+        if (cs.display === 'none' || cs.visibility === 'hidden') return;
+        const rect = el.getBoundingClientRect();
+        if (rect.width === 0 && rect.height === 0) return;
+        let hasText = false;
+        for (const n of el.childNodes) {
+          if (n.nodeType === 3 && n.textContent.trim()) { hasText = true; break; }
+        }
+        const redColor  = hasText && isRedish(cs.color);
+        const redBorder = isRedish(cs.borderTopColor) && parseFloat(cs.borderTopWidth) > 0;
+        if (redColor || redBorder) {
+          items.push({ el, redColor, redBorder,
+            cx: rect.left + rect.width  / 2,
+            cy: rect.top  + rect.height / 2 });
+        }
+        for (const child of el.children) walk(child);
+      }
+
+      walk(document.body);
+      if (!items.length) return;
+
+      const vw = window.innerWidth, vh = window.innerHeight;
+      const rad = 33 * Math.PI / 180;
+      const gx = Math.sin(rad), gy = Math.cos(rad);
+      const projs = [[0,0],[vw,0],[0,vh],[vw,vh]].map(([x,y]) => (x/vw)*gx + (y/vh)*gy);
+      const minP = Math.min(...projs), maxP = Math.max(...projs);
+
+      // Boost scales with click speed: slow click ≈ 2, rapid spam ≈ 8
+      const now = performance.now();
+      const dt  = rgbLastClick > 0 ? now - rgbLastClick : 5000;
+      rgbLastClick = now;
+      const boost = 2 + Math.min(800 / Math.max(dt, 80), 6);
+
+      items.forEach(item => {
+        const p = (item.cx / vw) * gx + (item.cy / vh) * gy;
+        const baseHue = ((p - minP) / (maxP - minP)) * 300;
+        const existing = rgbStates.get(item.el);
+        if (existing) {
+          existing.target = Math.min(existing.target + boost, 10);
+        } else {
+          rgbStates.set(item.el, {
+            energy: 0, target: boost, phase: 0,
+            baseHue, redColor: item.redColor, redBorder: item.redBorder
+          });
+        }
+      });
+
+      if (!rgbRAF) rgbRAF = requestAnimationFrame(rgbRenderLoop);
+    }
 
     (function () {
       const overlay = document.getElementById('ack-overlay');
