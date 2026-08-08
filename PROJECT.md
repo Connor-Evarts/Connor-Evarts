@@ -9,7 +9,7 @@ Local files: /Users/conr/Documents/website/
 
 ## What's been built
 
-`index.html` (live) = index-3. Active development is on `versions/index-3.html`. (`index-2.html` kept as backup, do not touch.)
+`index.html` (live) = index-5. Active development is on `versions/index-5.html`. (`index-4.html` kept as backup.)
 
 **index-2 features:**
 - Animated TV static background (canvas-based, 15fps, brighter in content area)
@@ -210,19 +210,18 @@ cd "/path/to/folder" && for f in Screenshot*.png; do mv "$f" new-name.png; done
 
 ## How to update the site
 
-1. Edit `versions/index-2.html` or add files to relevant folders
-2. Compress any new images with sips (see above), rename screenshots to clean names
+1. Edit `versions/index-5.html` or add files to relevant folders
+2. Convert any new images to WebP with `cwebp -q 82 input.jpg -o output.webp`
 3. In Terminal:
 ```
 cd /Users/conr/Documents/website
-cp versions/index-2.html index.html
+cp versions/index-5.html index.html
 sed -i '' 's|\.\./||g' index.html
-sed -i '' '/<!-- DEV-ONLY-START -->/,/<!-- DEV-ONLY-END -->/d' index.html
 git add .
 git commit -m "describe what you changed"
 git push
 ```
-Note: the first `sed` strips the `../` path prefix. The second strips the dev-only reorder tool so it never appears on the live site.
+Note: the `sed` strips the `../` path prefix (versions/ subfolder uses ../ but root index.html does not).
 4. Site updates at https://connor-evarts.github.io/Connor-Evarts/ within 1–5 minutes
 
 ---
@@ -251,18 +250,59 @@ Note: the first `sed` strips the `../` path prefix. The second strips the dev-on
 
 ## ⚠️ Pick up here next session
 - Add `workMeta` text for remaining works (source from RTF files in each Selected Works folder)
-- Do a visual pass of the live site — check all works in lightbox, exhibitions, and public programs for remaining image artifacts
-- JS console error on live site: `Cannot access 'bgDuckMul' before initialization` at duckBackground — investigate and fix
 - Performance button in Hyper Map section is a placeholder — add video when ready
-- Consider making the site mobile friendly (medium effort — sidebar, lightbox, and profile canvas are the hard parts)
+- Add photos/media to Rīgorabana public program when available
 
 ## Known future tasks
 - Add photos/media to Rīgorabana public program when available
 - Add performance video to Hyper Map section when ready
 - The repo is named Connor-Evarts (not Connor-Evarts.github.io) — this is fine, GitHub Pages still works via Settings → Pages
 
-## What was done (this session)
-All work in `versions/index-3.html`. index-3 is now live (promoted from index-2).
+## What was done (this session — index-4 → index-5)
+
+**Performance / image loading:**
+- Converted all referenced images (PNG, JPG, JPEG) to WebP at quality 82 using `cwebp`
+- Hyper Map LightRoom Edit PNGs: 20–49MB → 424KB–2.7MB each; total savings ~300MB+
+- All HTML/JS references updated from original extensions to `.webp`
+- Remaining Public Programs images (33 Tectonic Noise files) also converted and committed
+
+**Mobile responsiveness (`@media max-width: 600px`):**
+- Sidebar becomes a horizontal top bar
+- Site name collapses to one line (hides `<br>`, shrinks font)
+- Profile photo hidden
+- Email/Instagram links hidden (`.nav-bottom`)
+- Nav links: horizontal row, smaller font, no size-on-hover
+- Group exhibitions: 3 columns → 2 columns
+- Hyper Map slideshow: `52vw` height instead of `calc(100vh - 295px)`
+- Lightbox text (title, materials) hidden on mobile
+- Corner-reveal background easter egg disabled on mobile (JS guard `window.innerWidth > 600`)
+- Audio autoplay disabled on mobile
+
+**Various fixes:**
+- `.prog-title` font changed from `'Baunk', 'Cinzel'` to `'Cinzel'` + bloom filter restored
+- Tess Bakharia lightbox text colour brightened to `#f04040` (only that text, not global)
+- Red custom property reverted to `#e83535` globally
+- Nav initial active state: moved `class="active"` from Selected Works → Exhibitions
+- Background crossfade changed from scroll-percentage quarters back to per-section (sectionIdx)
+- Instagram and Email links swapped in order
+
+**RGB sweep easter egg:**
+- Triggered by clicking the profile photo
+- Energy-based system: accumulates on spam clicks, decays smoothly
+- Hue sweeps at 33° across all red-coloured elements
+- Click speed interpolation: slow ≈ 2 boost, rapid spam ≈ 8
+- Profile photo inverts (negative) after heavy clicking
+- Fade-out: hue slides back toward red (via `energyFade` multiplier) rather than snapping
+
+**Accessibility mode (index-5):**
+- Toggle button ("Accessibility") in nav-bottom, always visible
+- Also appears on acknowledgement overlay (white button, black text)
+- Activates: white background, black text, system font, no background images, no noise, no RGB easter egg, no audio, profile photo hidden
+- Deactivates: back to normal
+- No localStorage persistence (resets on page load)
+
+## What was done (previous session — index-3)
+All work in `versions/index-3.html`. index-3 was promoted to live (index-4 succeeded it).
 
 **Intro scroll animation:**
 - On page load: content instantly snaps to `#works` so the static/works grid shows behind the acknowledgement blur
