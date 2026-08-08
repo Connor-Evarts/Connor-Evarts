@@ -1116,24 +1116,29 @@
     .facescan-close:hover { opacity: 1; filter: url(#bloom); }
 
     /* ── Accessibility Mode ─────────────────────────── */
-    .ack-a11y-btn {
-      position: absolute;
-      bottom: 36px;
-      right: 36px;
-      background: var(--red);
-      border: 2px solid var(--red);
-      color: #000;
+    .a11y-toggle {
       font-family: 'Cinzel', serif;
-      font-size: 0.82rem;
-      letter-spacing: 0.14em;
+      font-size: 0.72rem;
+      letter-spacing: 0.1em;
       text-transform: uppercase;
-      padding: 11px 22px;
+      background: transparent;
+      border: 1px solid var(--red);
+      color: var(--red);
+      padding: 6px 12px;
       cursor: pointer;
-      opacity: 1;
-      transition: background 0.15s, color 0.15s;
-      font-weight: 600;
+      opacity: 0.65;
+      transition: opacity 0.15s;
+      white-space: nowrap;
     }
-    .ack-a11y-btn:hover { background: #fff; color: var(--red); }
+    .a11y-toggle:hover { opacity: 1; filter: url(#bloom); }
+    body.a11y .a11y-toggle {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif !important;
+      filter: none !important;
+      border-color: #aaa !important;
+      color: #555 !important;
+      opacity: 1;
+    }
+    body.a11y .a11y-toggle:hover { border-color: #111 !important; color: #111 !important; }
 
     body.a11y {
       --red: #111111;
@@ -1188,23 +1193,7 @@
     body.a11y .text-lb-body p { color: #111111 !important; }
     body.a11y #ack-overlay { background: #ffffff !important; }
 
-    .a11y-exit {
-      display: none;
-      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
-      font-size: 0.72rem;
-      background: transparent;
-      border: 1px solid #aaa;
-      color: #555;
-      padding: 5px 12px;
-      cursor: pointer;
-      letter-spacing: 0.05em;
-      margin-top: 4px;
-      transition: border-color 0.15s, color 0.15s;
-    }
-    .a11y-exit:hover { border-color: #333; color: #111; }
-    body.a11y .a11y-exit { display: inline-block; }
     body.a11y .nav-bottom { display: flex !important; }
-
     @media (max-width: 600px) {
       body.a11y .nav-bottom { display: flex !important; }
     }
@@ -1228,7 +1217,6 @@
       <img src="Flags/Queer Trans.webp" alt="Queer &amp; Trans Flag">
     </div>
     <span class="ack-hint">Click anywhere to continue</span>
-    <button class="ack-a11y-btn" id="ack-a11y-btn" aria-label="Enable accessibility mode">Accessibility Mode</button>
   </div>
 
   <div id="bg-photo"></div>
@@ -1327,7 +1315,7 @@
         <div class="nav-bottom">
           <a href="mailto:connor.andree.evarts@gmail.com" class="external" id="email-link">Email ↗</a>
           <a href="https://www.instagram.com/fleshchrist666/" target="_blank" class="external">Instagram ↗</a>
-          <button class="a11y-exit" id="a11y-exit" aria-label="Exit accessibility mode">Exit Accessibility</button>
+          <button class="a11y-toggle" id="a11y-toggle" aria-label="Toggle accessibility mode">Accessibility</button>
         </div>
       </nav>
     </aside>
@@ -3100,23 +3088,16 @@
     // Apply on load if previously set
     if (localStorage.getItem('a11y') === '1') enableA11y();
 
-    document.getElementById('a11y-exit').addEventListener('click', disableA11y);
+    document.getElementById('a11y-toggle').addEventListener('click', () => {
+      document.body.classList.contains('a11y') ? disableA11y() : enableA11y();
+    });
 
     (function () {
       const overlay = document.getElementById('ack-overlay');
-      const a11yBtn = document.getElementById('ack-a11y-btn');
-
       function dismiss() {
         overlay.classList.add('dismissed');
         overlay.addEventListener('transitionend', () => overlay.remove(), { once: true });
       }
-
-      a11yBtn.addEventListener('click', e => {
-        e.stopPropagation();
-        enableA11y();
-        dismiss();
-      });
-
       overlay.addEventListener('click', dismiss);
     })();
   </script>
