@@ -128,8 +128,8 @@
     }
     .content::-webkit-scrollbar { display: none; }
 
-    .section { margin-bottom: 90px; }
-    #hypermap { margin-top: -26px; }
+    .section { margin-bottom: 36px; }
+    .section + .section { border-top: 1px solid var(--red-dim); padding-top: 54px; }
     .section:last-child { padding-bottom: 60px; margin-bottom: 0; }
 
     .section-label {
@@ -198,6 +198,43 @@
     /* ── Exhibitions ───────────────────────────────── */
     .ex-entry { margin-bottom: 60px; }
     .ex-entry:last-child { margin-bottom: 0; }
+    .ex-entry-click { cursor: pointer; }
+    .ex-entry-click:hover .ex-title { filter: url(#bloom); }
+
+    .ex-divider {
+      border: none;
+      border-top: 1px solid var(--red-dim);
+      margin: 48px 0 36px;
+    }
+    .ex-group-label {
+      font-family: 'Cinzel', serif;
+      color: var(--red);
+      font-size: 0.84rem;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      opacity: 0.88;
+      margin-bottom: 22px;
+    }
+    .group-ex-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 18px;
+    }
+    .group-ex-item {
+      cursor: pointer;
+    }
+    .group-ex-item:hover .ex-title { filter: url(#bloom); }
+    .group-ex-img {
+      width: 100%;
+      aspect-ratio: 3/2;
+      object-fit: cover;
+      border: 1px solid var(--red-dim);
+      display: block;
+      margin-bottom: 10px;
+    }
+    .group-ex-item .ex-title { font-size: 0.78rem; }
+    .group-ex-item .ex-venue { font-size: 0.78rem; }
+    .group-ex-item .ex-role  { font-size: 0.78rem; }
 
     .ex-meta {
       display: block;
@@ -295,7 +332,7 @@
     /* ── Public Program ────────────────────────────── */
     .prog-list { list-style: none; }
 
-    .prog-item { padding: 22px 0; border-bottom: 1px solid var(--red-dim); }
+    .prog-item { padding: 22px 0; }
     .prog-item:first-child { padding-top: 0; }
 
     .prog-date {
@@ -868,16 +905,36 @@
       text-transform: uppercase;
       padding: 10px 16px;
       cursor: pointer;
-      text-align: left;
+      text-align: center;
       line-height: 1.6;
     }
     .hm-btn:hover { background: rgba(232,53,53,0.08); }
-    .hm-btn-disabled { opacity: 0.4; cursor: default; }
+    .hm-btn-disabled {
+      cursor: default;
+      position: relative;
+      color: rgba(232,53,53,0.35);
+      border-color: rgba(232,53,53,0.2);
+    }
     .hm-btn-disabled:hover { background: transparent; }
+    .hm-btn-disabled::after {
+      content: 'Coming Soon';
+      position: absolute;
+      left: 50%;
+      top: 50%;
+      transform: translate(-50%, -50%) rotate(-15deg);
+      font-family: 'Cinzel', serif;
+      font-size: 0.72rem;
+      letter-spacing: 0.14em;
+      color: var(--red);
+      opacity: 1;
+      white-space: nowrap;
+      pointer-events: none;
+      filter: url(#bloom);
+    }
     .hm-btn-sub {
       display: block;
-      font-size: 0.52rem;
-      opacity: 0.65;
+      font-size: 0.62rem;
+      opacity: 0.88;
       letter-spacing: 0.18em;
     }
 
@@ -1066,7 +1123,6 @@
         <span style="font-size:1.52rem">Evarts</span>
       </div>
       <nav>
-        <a href="#hypermap">Hyper Map</a>
         <a href="#exhibitions">Exhibitions</a>
         <a href="#works" class="active">Selected Works</a>
         <a href="#program">Public Programs</a>
@@ -1119,97 +1175,77 @@
 
     <main class="content" id="content">
 
-      <!-- HYPER MAP -->
-      <section id="hypermap" class="section">
-        <div class="ex-meta">
-          <span class="ex-year">2026</span>
-          <h3 class="ex-title">Hyper Map</h3>
-          <p class="ex-venue">Stetlari</p>
-          <p class="ex-role" style="font-style:normal;">Solo Exhibition</p>
-        </div>
-        <div class="hm-slideshow" id="hm-slideshow">
-          <img class="hm-slide" id="hm-slide-a" src="Hyper Map/Images/1.JPG" alt="">
-          <img class="hm-slide" id="hm-slide-b" src="Hyper Map/Images/2.JPG" alt="" style="opacity:0;">
-        </div>
-        <div class="hm-buttons">
-          <button class="hm-btn" id="hm-text-btn">Exhibition Text<span class="hm-btn-sub">by Tess Bakharia</span></button>
-          <button class="hm-btn hm-btn-disabled">Performance</button>
-        </div>
-      </section>
-
       <!-- EXHIBITIONS -->
       <section id="exhibitions" class="section">
         <p class="section-label">Exhibitions</p>
 
+        <!-- Hyper Map -->
+        <div class="ex-entry" id="hypermap">
+          <div class="ex-meta">
+            <span class="ex-year">2026</span>
+            <h3 class="ex-title">Hyper Map</h3>
+            <p class="ex-venue">Stetlari</p>
+            <p class="ex-role" style="font-style:normal;">Solo Exhibition</p>
+          </div>
+          <div class="hm-slideshow" id="hm-slideshow">
+            <img class="hm-slide" id="hm-slide-a" src="Hyper Map/Images/LightRoom Edit/1.png" alt="">
+            <img class="hm-slide" id="hm-slide-b" src="Hyper Map/Images/LightRoom Edit/2.png" alt="" style="opacity:0;">
+          </div>
+          <div class="hm-buttons">
+            <button class="hm-btn" id="hm-text-btn">Exhibition Text<span class="hm-btn-sub">by Tess Bakharia</span></button>
+            <button class="hm-btn hm-btn-disabled">Performance</button>
+          </div>
+        </div>
+
         <!-- BLISS — solo, with media -->
-        <div class="ex-entry">
+        <div class="ex-entry" id="bliss-entry">
           <div class="ex-meta">
             <span class="ex-year">2025</span>
             <h3 class="ex-title">BLISS</h3>
             <p class="ex-venue">Echo &amp; Bounce, Woolloongabba</p>
             <p class="ex-role" style="font-style:normal;">Solo Exhibition</p>
           </div>
-
-          <div class="vis-grid">
-            <video id="bliss-video" src="Exhibitions/BLISS/Vis Files/Bliss.mp4" autoplay muted playsinline loop></video>
+          <div class="hm-slideshow" id="bliss-slideshow">
+            <img class="hm-slide" id="bliss-slide-a" src="" alt="">
+            <img class="hm-slide" id="bliss-slide-b" src="" alt="" style="opacity:0;">
           </div>
-
-          <p class="docs-header">Installation Documentation</p>
-          <button class="show-more" id="bliss-show-more"></button>
-          <div class="docs-grid" id="bliss-docs"></div>
         </div>
 
-        <!-- Theremonic -->
-        <div class="ex-entry">
-          <div class="ex-meta">
-            <span class="ex-year">2023</span>
-            <h3 class="ex-title">Theremonic</h3>
-            <p class="ex-venue">Emergence Collective | Vent Space, Southbank</p>
-            <p class="ex-role">Organiser, installer & AV technician</p>
+        <!-- Group Exhibitions -->
+        <hr class="ex-divider">
+        <p class="ex-group-label">Group Exhibitions</p>
+        <div class="group-ex-row">
+
+          <div class="group-ex-item" id="theremonic-entry">
+            <img class="group-ex-img" src="Exhibitions/THEREMONIC/Live/_66A9060.jpg" alt="Theremonic" loading="lazy">
+            <div class="ex-meta">
+              <span class="ex-year">2023</span>
+              <h3 class="ex-title">Theremonic</h3>
+              <p class="ex-venue">Emergence Collective | Vent Space, Southbank</p>
+              <p class="ex-role">Organiser, installer & AV technician</p>
+            </div>
           </div>
 
-          <div class="vis-grid">
-            <img id="theremonic-hero" src="Exhibitions/THEREMONIC/Live/_66A9060.jpg" alt="Theremonic" style="width:100%;aspect-ratio:3/2;object-fit:cover;border:1px solid var(--red-dim);">
+          <div class="group-ex-item" id="sentient-entry">
+            <img class="group-ex-img" src="Exhibitions/Sentient/Live/sentient-1.png" alt="Sentient" loading="lazy">
+            <div class="ex-meta">
+              <span class="ex-year">2023</span>
+              <h3 class="ex-title">Sentient</h3>
+              <p class="ex-venue">Emergence Collective | Vent Space, Southbank</p>
+              <p class="ex-role">Organiser, installer & AV technician</p>
+            </div>
           </div>
 
-          <p class="docs-header">Installation Documentation</p>
-          <button class="show-more" id="theremonic-show-more"></button>
-          <div class="docs-grid" id="theremonic-docs"></div>
-        </div>
-
-        <!-- Sentient -->
-        <div class="ex-entry">
-          <div class="ex-meta">
-            <span class="ex-year">2023</span>
-            <h3 class="ex-title">Sentient</h3>
-            <p class="ex-venue">Emergence Collective | Vent Space, Southbank</p>
-            <p class="ex-role">Organiser, installer & AV technician</p>
+          <div class="group-ex-item" id="emergence3-entry">
+            <img class="group-ex-img" src="Exhibitions/Emergence III/Live/emergence3-hero.png" alt="Emergence III" loading="lazy">
+            <div class="ex-meta">
+              <span class="ex-year">2022</span>
+              <h3 class="ex-title">Emergence III</h3>
+              <p class="ex-venue">Emergence Collective | Vent Space, Southbank</p>
+              <p class="ex-role">Organiser, installer & AV technician</p>
+            </div>
           </div>
 
-          <div class="vis-grid">
-            <img id="sentient-hero" src="Exhibitions/Sentient/Live/sentient-1.png" alt="Sentient" style="width:100%;aspect-ratio:3/2;object-fit:cover;border:1px solid var(--red-dim);">
-          </div>
-
-          <p class="docs-header">Documentation</p>
-          <div class="docs-grid" id="sentient-docs"></div>
-        </div>
-
-        <!-- Emergence III -->
-        <div class="ex-entry">
-          <div class="ex-meta">
-            <span class="ex-year">2022</span>
-            <h3 class="ex-title">Emergence III</h3>
-            <p class="ex-venue">Emergence Collective | Vent Space, Southbank</p>
-            <p class="ex-role">Organiser, installer & AV technician</p>
-          </div>
-
-          <div class="vis-grid">
-            <img id="emergence3-hero-img" src="Exhibitions/Emergence III/Live/emergence3-hero.png" alt="Emergence III" style="width:100%;aspect-ratio:3/2;object-fit:cover;border:1px solid var(--red-dim);">
-          </div>
-
-          <p class="docs-header">Installation Documentation</p>
-          <button class="show-more" id="emergence3-show-more"></button>
-          <div class="docs-grid" id="emergence3-docs"></div>
         </div>
 
       </section>
@@ -1441,26 +1477,27 @@
     // ── Hyper Map slideshow ─────────────────────────────────────────
     // Chronological order (date created) — used for lightbox
     const hmImages = [
-      'Hyper Map/Images/1.JPG',
-      'Hyper Map/Images/2.JPG',
-      'Hyper Map/Images/3.JPG',
-      'Hyper Map/Images/IMG_9126.JPG',
-      'Hyper Map/Images/IMG_9158.JPG',
-      'Hyper Map/Images/IMG_9175.JPG',
-      'Hyper Map/Images/IMG_9178.JPG',
-      'Hyper Map/Images/_MG_9180.JPG',
-      'Hyper Map/Images/_MG_9198.JPG',
-      'Hyper Map/Images/_MG_9202.JPG',
-      'Hyper Map/Images/IMG_9224.JPG',
-      'Hyper Map/Images/IMG_9233.JPG',
-      'Hyper Map/Images/IMG_9253.JPG',
-      'Hyper Map/Images/IMG_9256.JPG',
-      'Hyper Map/Images/IMG_9261.JPG',
-      'Hyper Map/Images/IMG_9274.JPG',
-      'Hyper Map/Images/IMG_9279.JPG',
-      'Hyper Map/Images/IMG_9287.JPG',
-      'Hyper Map/Images/IMG_9289.JPG',
-      'Hyper Map/Images/MasterMap.png',
+      'Hyper Map/Images/LightRoom Edit/1.png',
+      'Hyper Map/Images/LightRoom Edit/2.png',
+      'Hyper Map/Images/LightRoom Edit/3.png',
+      'Hyper Map/Images/LightRoom Edit/IMG_9126.png',
+      'Hyper Map/Images/LightRoom Edit/IMG_9158.png',
+      'Hyper Map/Images/LightRoom Edit/IMG_9175.png',
+      'Hyper Map/Images/LightRoom Edit/IMG_9178.png',
+      'Hyper Map/Images/LightRoom Edit/_MG_9180.png',
+      'Hyper Map/Images/LightRoom Edit/_MG_9198.png',
+      'Hyper Map/Images/LightRoom Edit/_MG_9202.png',
+      'Hyper Map/Images/LightRoom Edit/IMG_9224.png',
+      'Hyper Map/Images/LightRoom Edit/IMG_9233.png',
+      'Hyper Map/Images/LightRoom Edit/IMG_9235.png',
+      'Hyper Map/Images/LightRoom Edit/IMG_9253.png',
+      'Hyper Map/Images/LightRoom Edit/IMG_9256.png',
+      'Hyper Map/Images/LightRoom Edit/IMG_9261.png',
+      'Hyper Map/Images/LightRoom Edit/IMG_9274.png',
+      'Hyper Map/Images/LightRoom Edit/IMG_9279.png',
+      'Hyper Map/Images/LightRoom Edit/IMG_9287.png',
+      'Hyper Map/Images/LightRoom Edit/IMG_9289.png',
+      'Hyper Map/Images/LightRoom Edit/MasterMap-2.png',
     ];
     // Shuffled copy for the homepage slideshow
     const hmSlideshow = [...hmImages].sort(() => Math.random() - 0.5);
@@ -1552,48 +1589,28 @@
       { type: 'video', src: 'Exhibitions/BLISS/Vis Files/Bliss.mp4' },
       ...blissPaths.map(src => ({ type: 'img', src }))
     ];
-
-    const docsGrid    = document.getElementById('bliss-docs');
-    const showMoreBtn = document.getElementById('bliss-show-more');
-    const INITIAL     = 8;
-    let docsExpanded  = false;
-
-    function addDocImg(src, idx) {
-      const img        = document.createElement('img');
-      img.src          = src;
-      img.loading      = 'lazy';
-      img.alt          = 'BLISS documentation';
-      img.dataset.idx  = idx;
-      docsGrid.appendChild(img);
-    }
-
-    blissPaths.slice(0, INITIAL).forEach((src, i) => addDocImg(src, i));
-    showMoreBtn.textContent = `+ ${blissPaths.length - INITIAL} more`;
-    if (blissPaths.length <= INITIAL) showMoreBtn.style.display = 'none';
-    requestAnimationFrame(() => clampOneRow(docsGrid));
-
-    showMoreBtn.addEventListener('click', () => {
-      if (!docsExpanded) {
-        blissPaths.slice(INITIAL).forEach((src, i) => addDocImg(src, INITIAL + i));
-        showMoreBtn.textContent = '— show less';
-        docsExpanded = true;
-        docsGrid.classList.add('expanded');
-        releaseRows(docsGrid);
+    const blissSlideshow = [...blissPaths].sort(() => Math.random() - 0.5);
+    const blissSlideA = document.getElementById('bliss-slide-a');
+    const blissSlideB = document.getElementById('bliss-slide-b');
+    blissSlideA.src = blissSlideshow[0];
+    blissSlideB.src = blissSlideshow[1];
+    let blissSlideshowIndex = 0;
+    let blissActive = 'a';
+    setInterval(() => {
+      blissSlideshowIndex = (blissSlideshowIndex + 1) % blissSlideshow.length;
+      if (blissActive === 'a') {
+        blissSlideB.src = blissSlideshow[blissSlideshowIndex];
+        blissSlideB.style.opacity = '1';
+        blissSlideA.style.opacity = '0';
+        blissActive = 'b';
       } else {
-        [...docsGrid.querySelectorAll('img')].slice(INITIAL).forEach(img => img.remove());
-        showMoreBtn.textContent = `+ ${blissPaths.length - INITIAL} more`;
-        docsExpanded = false;
-        docsGrid.classList.remove('expanded');
-        requestAnimationFrame(() => clampOneRow(docsGrid));
+        blissSlideA.src = blissSlideshow[blissSlideshowIndex];
+        blissSlideA.style.opacity = '1';
+        blissSlideB.style.opacity = '0';
+        blissActive = 'a';
       }
-    });
-
-    // Click docs photo → lightbox
-    docsGrid.addEventListener('click', e => {
-      const img = e.target.closest('img');
-      if (!img) return;
-      openLightbox(blissItems, parseInt(img.dataset.idx) + 1, 'BLISS');
-    });
+    }, 3000);
+    document.getElementById('bliss-slideshow').addEventListener('click', () => openLightbox(blissItems, 0, 'BLISS'));
 
     // ── Theremonic documentation ─────────────────────────────────────
     const theremonicFiles = [
@@ -1606,48 +1623,10 @@
       ...theremonicPaths.map(src => ({ type: 'img', src })),
       { type: 'video', src: 'Exhibitions/THEREMONIC/THEREMONIC PROMO (Fin Video) v1.mp4', sound: true }
     ];
-
-    const theremonicGrid    = document.getElementById('theremonic-docs');
-    const theremonicMoreBtn = document.getElementById('theremonic-show-more');
-    let theremonicExpanded  = false;
-
-    function addTheremonicImg(src, idx) {
-      const img       = document.createElement('img');
-      img.src         = src;
-      img.loading     = 'lazy';
-      img.alt         = 'Theremonic documentation';
-      img.dataset.idx = idx;
-      theremonicGrid.appendChild(img);
-    }
-
-    theremonicPaths.slice(0, INITIAL).forEach((src, i) => addTheremonicImg(src, i));
-    theremonicMoreBtn.textContent = `+ ${theremonicPaths.length - INITIAL} more`;
-    if (theremonicPaths.length <= INITIAL) theremonicMoreBtn.style.display = 'none';
-    requestAnimationFrame(() => clampOneRow(theremonicGrid));
-
-    theremonicMoreBtn.addEventListener('click', () => {
-      if (!theremonicExpanded) {
-        theremonicPaths.slice(INITIAL).forEach((src, i) => addTheremonicImg(src, INITIAL + i));
-        theremonicMoreBtn.textContent = '— show less';
-        theremonicExpanded = true;
-        theremonicGrid.classList.add('expanded');
-        releaseRows(theremonicGrid);
-      } else {
-        [...theremonicGrid.querySelectorAll('img')].slice(INITIAL).forEach(img => img.remove());
-        theremonicMoreBtn.textContent = `+ ${theremonicPaths.length - INITIAL} more`;
-        theremonicExpanded = false;
-        theremonicGrid.classList.remove('expanded');
-        requestAnimationFrame(() => clampOneRow(theremonicGrid));
-      }
-    });
-
-    theremonicGrid.addEventListener('click', e => {
-      const img = e.target.closest('img');
-      if (!img) return;
-      openLightbox(theremonicItems, parseInt(img.dataset.idx) + 1, 'Theremonic');
-    });
+    document.getElementById('theremonic-entry').addEventListener('click', () => openLightbox(theremonicItems, 0, 'Theremonic'));
 
     // ── Tectonic Noise docs grid ─────────────────────────────────────
+    const INITIAL = 8;
     const tectonicFiles = [
       'IMG_2291.jpg','IMG_2298.jpg','IMG_2403.jpg','IMG_2438.jpg','IMG_2479.jpg',
       'IMG_2487.jpg','IMG_2746.jpg','IMG_2760.jpg','IMG_2777.jpg','IMG_2782.jpg',
@@ -1710,23 +1689,7 @@
       { type: 'img', src: sentientHeroSrc },
       ...sentientDocPaths.map(src => ({ type: 'img', src }))
     ];
-    const sentientGrid  = document.getElementById('sentient-docs');
-
-    sentientDocPaths.forEach((src, i) => {
-      const img       = document.createElement('img');
-      img.src         = src;
-      img.loading     = 'lazy';
-      img.alt         = 'Sentient documentation';
-      img.dataset.idx = i;
-      sentientGrid.appendChild(img);
-    });
-    requestAnimationFrame(() => clampOneRow(sentientGrid));
-
-    sentientGrid.addEventListener('click', e => {
-      const img = e.target.closest('img');
-      if (!img) return;
-      openLightbox(sentientItems, parseInt(img.dataset.idx) + 1, 'Sentient');
-    });
+    document.getElementById('sentient-entry').addEventListener('click', () => openLightbox(sentientItems, 0, 'Sentient'));
 
     // ── Emergence III documentation ──────────────────────────────────
     const emergence3Files = [
@@ -1739,50 +1702,7 @@
       { type: 'img', src: emergence3HeroSrc },
       ...emergence3Paths.map(src => ({ type: 'img', src }))
     ];
-    const emergence3Grid    = document.getElementById('emergence3-docs');
-    const emergence3MoreBtn = document.getElementById('emergence3-show-more');
-    let emergence3Expanded  = false;
-
-    function addEmergence3Img(src, idx) {
-      const img       = document.createElement('img');
-      img.src         = src;
-      img.loading     = 'lazy';
-      img.alt         = 'Emergence III documentation';
-      img.dataset.idx = idx;
-      emergence3Grid.appendChild(img);
-    }
-
-    emergence3Paths.slice(0, INITIAL).forEach((src, i) => addEmergence3Img(src, i));
-    emergence3MoreBtn.textContent = `+ ${emergence3Paths.length - INITIAL} more`;
-    if (emergence3Paths.length <= INITIAL) emergence3MoreBtn.style.display = 'none';
-    requestAnimationFrame(() => clampOneRow(emergence3Grid));
-
-    emergence3MoreBtn.addEventListener('click', () => {
-      if (!emergence3Expanded) {
-        emergence3Paths.slice(INITIAL).forEach((src, i) => addEmergence3Img(src, INITIAL + i));
-        emergence3MoreBtn.textContent = '— show less';
-        emergence3Expanded = true;
-        emergence3Grid.classList.add('expanded');
-        releaseRows(emergence3Grid);
-      } else {
-        [...emergence3Grid.querySelectorAll('img')].slice(INITIAL).forEach(img => img.remove());
-        emergence3MoreBtn.textContent = `+ ${emergence3Paths.length - INITIAL} more`;
-        emergence3Expanded = false;
-        emergence3Grid.classList.remove('expanded');
-        requestAnimationFrame(() => clampOneRow(emergence3Grid));
-      }
-    });
-
-    emergence3Grid.addEventListener('click', e => {
-      const img = e.target.closest('img');
-      if (!img) return;
-      openLightbox(emergence3Items, parseInt(img.dataset.idx) + 1, 'Emergence III');
-    });
-
-    // ── Hero click → lightbox at index 0 ────────────────────────────
-    document.getElementById('theremonic-hero').addEventListener('click', () => openLightbox(theremonicItems, 0, 'Theremonic'));
-    document.getElementById('sentient-hero').addEventListener('click', () => openLightbox(sentientItems, 0, 'Sentient'));
-    document.getElementById('emergence3-hero-img').addEventListener('click', () => openLightbox(emergence3Items, 0, 'Emergence III'));
+    document.getElementById('emergence3-entry').addEventListener('click', () => openLightbox(emergence3Items, 0, 'Emergence III'));
 
     // ── Lightbox ────────────────────────────────────────────────────
     const workMeta = {
@@ -2028,9 +1948,7 @@
       }, { once: true });
     });
 
-    // ── BLISS video click → open lightbox at first doc ──────────────
-    const blissVideo = document.getElementById('bliss-video');
-    blissVideo.addEventListener('click', () => openLightbox(blissItems, 0, 'BLISS'));
+
 
     // ── Navigation + scroll spy ─────────────────────────────────────
     const navLinks = document.querySelectorAll('nav a[href^="#"]');
@@ -2776,28 +2694,8 @@
     (function () {
       const overlay = document.getElementById('ack-overlay');
 
-      // On load: jump to works so the static/works grid shows behind the blur
-      setTimeout(() => {
-        content.scrollTop = document.getElementById('works').offsetTop;
-      }, 0);
-
-      // Smooth scroll helper with easeInOut
-      function smoothScrollTo(target, duration) {
-        const start = content.scrollTop;
-        const distance = target - start;
-        const startTime = performance.now();
-        function ease(t) { return t < 0.5 ? 2*t*t : -1+(4-2*t)*t; }
-        function step(now) {
-          const t = Math.min((now - startTime) / duration, 1);
-          content.scrollTop = start + distance * ease(t);
-          if (t < 1) requestAnimationFrame(step);
-        }
-        requestAnimationFrame(step);
-      }
-
       function dismiss() {
         overlay.classList.add('dismissed');
-        smoothScrollTo(0, 700);
         overlay.addEventListener('transitionend', () => overlay.remove(), { once: true });
       }
       overlay.addEventListener('click', dismiss);

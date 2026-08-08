@@ -129,7 +129,6 @@
     .content::-webkit-scrollbar { display: none; }
 
     .section { margin-bottom: 90px; }
-    #hypermap { margin-top: -26px; }
     .section:last-child { padding-bottom: 60px; margin-bottom: 0; }
 
     .section-label {
@@ -1066,7 +1065,6 @@
         <span style="font-size:1.52rem">Evarts</span>
       </div>
       <nav>
-        <a href="#hypermap">Hyper Map</a>
         <a href="#exhibitions">Exhibitions</a>
         <a href="#works" class="active">Selected Works</a>
         <a href="#program">Public Programs</a>
@@ -1119,27 +1117,27 @@
 
     <main class="content" id="content">
 
-      <!-- HYPER MAP -->
-      <section id="hypermap" class="section">
-        <div class="ex-meta">
-          <span class="ex-year">2026</span>
-          <h3 class="ex-title">Hyper Map</h3>
-          <p class="ex-venue">Stetlari</p>
-          <p class="ex-role" style="font-style:normal;">Solo Exhibition</p>
-        </div>
-        <div class="hm-slideshow" id="hm-slideshow">
-          <img class="hm-slide" id="hm-slide-a" src="../Hyper Map/Images/1.JPG" alt="">
-          <img class="hm-slide" id="hm-slide-b" src="../Hyper Map/Images/2.JPG" alt="" style="opacity:0;">
-        </div>
-        <div class="hm-buttons">
-          <button class="hm-btn" id="hm-text-btn">Exhibition Text<span class="hm-btn-sub">by Tess Bakharia</span></button>
-          <button class="hm-btn hm-btn-disabled">Performance</button>
-        </div>
-      </section>
-
       <!-- EXHIBITIONS -->
       <section id="exhibitions" class="section">
         <p class="section-label">Exhibitions</p>
+
+        <!-- Hyper Map -->
+        <div class="ex-entry" id="hypermap">
+          <div class="ex-meta">
+            <span class="ex-year">2026</span>
+            <h3 class="ex-title">Hyper Map</h3>
+            <p class="ex-venue">Stetlari</p>
+            <p class="ex-role" style="font-style:normal;">Solo Exhibition</p>
+          </div>
+          <div class="hm-slideshow" id="hm-slideshow">
+            <img class="hm-slide" id="hm-slide-a" src="../Hyper Map/Images/LightRoom Edit/1.png" alt="">
+            <img class="hm-slide" id="hm-slide-b" src="../Hyper Map/Images/LightRoom Edit/2.png" alt="" style="opacity:0;">
+          </div>
+          <div class="hm-buttons">
+            <button class="hm-btn" id="hm-text-btn">Exhibition Text<span class="hm-btn-sub">by Tess Bakharia</span></button>
+            <button class="hm-btn hm-btn-disabled">Performance</button>
+          </div>
+        </div>
 
         <!-- BLISS — solo, with media -->
         <div class="ex-entry">
@@ -1441,26 +1439,27 @@
     // ── Hyper Map slideshow ─────────────────────────────────────────
     // Chronological order (date created) — used for lightbox
     const hmImages = [
-      '../Hyper Map/Images/1.JPG',
-      '../Hyper Map/Images/2.JPG',
-      '../Hyper Map/Images/3.JPG',
-      '../Hyper Map/Images/IMG_9126.JPG',
-      '../Hyper Map/Images/IMG_9158.JPG',
-      '../Hyper Map/Images/IMG_9175.JPG',
-      '../Hyper Map/Images/IMG_9178.JPG',
-      '../Hyper Map/Images/_MG_9180.JPG',
-      '../Hyper Map/Images/_MG_9198.JPG',
-      '../Hyper Map/Images/_MG_9202.JPG',
-      '../Hyper Map/Images/IMG_9224.JPG',
-      '../Hyper Map/Images/IMG_9233.JPG',
-      '../Hyper Map/Images/IMG_9253.JPG',
-      '../Hyper Map/Images/IMG_9256.JPG',
-      '../Hyper Map/Images/IMG_9261.JPG',
-      '../Hyper Map/Images/IMG_9274.JPG',
-      '../Hyper Map/Images/IMG_9279.JPG',
-      '../Hyper Map/Images/IMG_9287.JPG',
-      '../Hyper Map/Images/IMG_9289.JPG',
-      '../Hyper Map/Images/MasterMap.png',
+      '../Hyper Map/Images/LightRoom Edit/1.png',
+      '../Hyper Map/Images/LightRoom Edit/2.png',
+      '../Hyper Map/Images/LightRoom Edit/3.png',
+      '../Hyper Map/Images/LightRoom Edit/IMG_9126.png',
+      '../Hyper Map/Images/LightRoom Edit/IMG_9158.png',
+      '../Hyper Map/Images/LightRoom Edit/IMG_9175.png',
+      '../Hyper Map/Images/LightRoom Edit/IMG_9178.png',
+      '../Hyper Map/Images/LightRoom Edit/_MG_9180.png',
+      '../Hyper Map/Images/LightRoom Edit/_MG_9198.png',
+      '../Hyper Map/Images/LightRoom Edit/_MG_9202.png',
+      '../Hyper Map/Images/LightRoom Edit/IMG_9224.png',
+      '../Hyper Map/Images/LightRoom Edit/IMG_9233.png',
+      '../Hyper Map/Images/LightRoom Edit/IMG_9235.png',
+      '../Hyper Map/Images/LightRoom Edit/IMG_9253.png',
+      '../Hyper Map/Images/LightRoom Edit/IMG_9256.png',
+      '../Hyper Map/Images/LightRoom Edit/IMG_9261.png',
+      '../Hyper Map/Images/LightRoom Edit/IMG_9274.png',
+      '../Hyper Map/Images/LightRoom Edit/IMG_9279.png',
+      '../Hyper Map/Images/LightRoom Edit/IMG_9287.png',
+      '../Hyper Map/Images/LightRoom Edit/IMG_9289.png',
+      '../Hyper Map/Images/LightRoom Edit/MasterMap-2.png',
     ];
     // Shuffled copy for the homepage slideshow
     const hmSlideshow = [...hmImages].sort(() => Math.random() - 0.5);
