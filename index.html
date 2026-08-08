@@ -71,6 +71,7 @@
       flex-direction: column;
       align-items: flex-start;
       border-right: 1px solid var(--red-dim);
+      position: relative;
     }
 
     .site-name {
@@ -635,7 +636,7 @@
       top: 0; left: 0;
       width: 275px;
       z-index: 15;
-      background: transparent;
+      background: #000;
       border-right: 1px solid var(--red-dim);
       border-bottom: 1px solid var(--red-dim);
       display: flex;
@@ -1136,8 +1137,11 @@
     }
     .ack-a11y-btn:hover { background: #ddd; }
 
-    /* Button in nav sidebar */
+    /* Button pinned to bottom of sidebar — never moves */
     .a11y-toggle {
+      position: absolute;
+      bottom: 22px;
+      left: 22px;
       font-family: 'Cinzel', serif;
       font-size: 0.72rem;
       letter-spacing: 0.1em;
@@ -1150,6 +1154,7 @@
       opacity: 1;
       transition: filter 0.12s;
       white-space: nowrap;
+      z-index: 5;
     }
     .a11y-toggle:hover { filter: url(#bloom); }
     body.a11y .a11y-toggle {
@@ -1159,6 +1164,7 @@
       color: #555 !important;
     }
     body.a11y .a11y-toggle:hover { border-color: #111 !important; color: #111 !important; }
+    body.a11y .contact-panel { background: #fff; }
 
     body.a11y {
       --red: #111111;
@@ -1213,9 +1219,8 @@
     body.a11y .text-lb-body p { color: #111111 !important; }
     body.a11y #ack-overlay { background: #ffffff !important; }
 
-    body.a11y .nav-bottom { display: flex !important; margin-top: auto; }
     @media (max-width: 600px) {
-      body.a11y .nav-bottom { display: flex !important; margin-top: 0; }
+      body.a11y .a11y-toggle { bottom: 14px; left: 16px; }
     }
   </style>
 </head>
@@ -1336,9 +1341,9 @@
         <div class="nav-bottom">
           <a href="https://www.instagram.com/fleshchrist666/" target="_blank" class="external">Instagram ↗</a>
           <a href="mailto:connor.andree.evarts@gmail.com" class="external" id="email-link">Email ↗</a>
-          <button class="a11y-toggle" id="a11y-toggle" aria-label="Toggle accessibility mode">Accessibility</button>
         </div>
       </nav>
+      <button class="a11y-toggle" id="a11y-toggle" aria-label="Toggle accessibility mode">Accessibility</button>
     </aside>
 
     <!-- Exhibition Text Lightbox -->
